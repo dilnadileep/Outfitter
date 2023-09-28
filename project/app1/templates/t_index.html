@@ -66,7 +66,7 @@
                     <a class="nav-link" href="{% static 'index.html' %}">Home <span class="sr-only">(current)</span></a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="{% static 'about.html' %}">About </a>
+                    <a class="nav-link" href="{% static 'about.html' %}">Add garment </a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="{% static 'service.html' %}">Services </a>
@@ -74,9 +74,21 @@
                   {% comment %} <li class="nav-item">
                     <a class="nav-link" href="{% url 'signup' %}">Register</a>
                   </li> {% endcomment %}
+                  {% if user.is_authenticated %}
+                  <li class="nav-item">
+                    <a class="nav-link"> Welcome  {{ user.first_name }}</a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'loggout' %}" class="nav-link">Logout</a>
+                  </li>
+                  {% else %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'signup' %}">Register</a>
+                  </li>
                   <li class="nav-item">
                     <a class="nav-link" href="{% url 'signin' %}">Login</a>
                   </li>
+                   {% endif %}
                 </ul>
                 <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0" method="POST" action="">
                       {% csrf_token %}

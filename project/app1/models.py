@@ -12,7 +12,6 @@
 #         (ADMIN,'Admin'),
 #         (TAILOR,'tailor')
 #     )
-   
 #     username = None
 #     USERNAME_FIELD  = 'email'
 #     first_name = models.CharField(max_length=100, default='')
@@ -71,6 +70,7 @@ from django.db import models
 
 #     def __str__(self):
 #         return self.first_name
+
 class CustomUser(AbstractUser):
     
     USERNAME_FIELD = 'email'

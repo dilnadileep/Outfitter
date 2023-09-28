@@ -9,8 +9,8 @@ from django.urls import reverse
 
 # Create your views here.
 def index(request):
-     return render(request, "index.html")
- 
+    return render(request, "index.html")
+
 def t_index(request):
     
     return render(request, "t_index.html")
@@ -33,7 +33,7 @@ def t_signup(request):
             return render(request, "signin.html")
         else:
             user = CustomUser.objects.create_user(
-                 username=username,
+                username=username,
                 first_name=fname,
                 last_name=lname,
                 email=email,
@@ -52,16 +52,16 @@ def signin(request):
     if request.user.is_authenticated:
         if request.user.is_customer:
             # Redirect to the migrant dashboard or your desired URL for migrants
-            return redirect('index')  # Replace with your URL name
+            return redirect("index")  # Replace with your URL name
         elif request.user.is_tailor:
             # Redirect to the institute dashboard or your desired URL for institutes
-            return redirect('t_index')  # Replace with your URL name
+            return redirect("t_index")  # Replace with your URL name
         # elif request.user.is_landlord:
         #     # Redirect to the landlord dashboard or your desired URL for landlords
         #     return redirect('landlord_dashboard')  # Replace with your URL name
         else:
             # Redirect to a generic home page or your desired URL
-            return redirect('index')  # Replace with your URL name
+            return redirect("index")  # Replace with your URL name
 
     if request.method == "POST":
         email = request.POST.get("email")
@@ -74,16 +74,16 @@ def signin(request):
                 auth_login(request, user)
                 if user.is_customer:
                     # Redirect to the migrant dashboard or your desired URL for migrants
-                    return redirect('index')  # Replace with your URL name
+                    return redirect("index")  # Replace with your URL name
                 elif user.is_tailor:
                     # Redirect to the institute dashboard or your desired URL for institutes
-                    return redirect('t_index')  # Replace with your URL name
+                    return redirect("t_index")  # Replace with your URL name
                 # elif user.is_landlord:
                 #     # Redirect to the landlord dashboard or your desired URL for landlords
                 #     return redirect('landlord_dashboard')  # Replace with your URL name
                 else:
                     # Redirect to a generic home page or your desired URL
-                    return redirect('index')  # Replace with your URL name
+                    return redirect("index")  # Replace with your URL name
             else:
                 error_message = "Invalid login credentials."
                 return render(request, "signin.html", {"error_message": error_message})
@@ -98,9 +98,8 @@ from django.contrib.auth import logout
 
 def loggout(request):
     logout(request)
-    return redirect('index')  # Redirect to the home page after logout
+    return redirect("index")  # Redirect to the home page after logout
 def signup(request):
- 
     
     if request.method == "POST":
         username = request.POST.get("email")
@@ -134,7 +133,7 @@ def signup(request):
     
     
     
-       # if request.method == 'POST':
+    # if request.method == 'POST':
     #     fname = request.POST.get('fname')
     #     lname = request.POST.get('lname')
     #     email = request.POST.get('email')

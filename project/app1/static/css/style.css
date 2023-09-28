@@ -421,6 +421,12 @@ a:focus {
 .service_section .service_container .box img {
   width: 100%;
 }
+.dropdown-menu {
+  background-color: #f8f9fa;
+}
+.dropdown-item:hover {
+  color: #007bff; /* Blue color */
+}
 
 .service_section .service_container .box .visible_heading {
   position: absolute;
