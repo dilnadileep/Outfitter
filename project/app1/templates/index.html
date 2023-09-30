@@ -12,7 +12,7 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
 
-  <title>Fitness</title>
+  <title>OUTFITTER</title>
 
   <!-- slider stylesheet -->
   <link rel="stylesheet" type="text/css"
@@ -84,14 +84,13 @@
                   </li>
                   {% else %}
                   <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Register
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="{% static 'signup.html' %}">As customer</a>
-                      <a class="dropdown-item" href="{% static 't_signup.html' %}">As Tailor</a>
-                    </div>
-                  </li>
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Register</a>
+                    <div class="dropdown-menu">
+                        <a href="{% url "signup" %}" class="dropdown-item">As Customer</a>                    
+                        <a href="{% url 't_signup' %}" class="dropdown-item">As </a>
+                                            
+                        </div>
+                      </li>
                   <li class="nav-item">
                     <a class="nav-link" href="{% url 'signin' %}">Login</a>
                   </li>

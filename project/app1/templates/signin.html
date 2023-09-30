@@ -19,7 +19,7 @@
                       <div class="card" style="border-radius: 1rem;">
                         <div class="row g-0">
                           <div class="col-md-6 col-lg-5 d-none d-md-block">
-                            <img src="{% static "images\login.jpg" %}"
+                            <img src="{% static "images/reg.jpg" %}"
                               alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
                           </div>
                           <div class="col-md-6 col-lg-7 d-flex align-items-center">
@@ -120,7 +120,7 @@
                       const email = $("#email").val();
                       const $emailSpan = $("#emailspan");
                       if (email.trim() === "") {
-                          $emailSpan.html("Enter the  username").css("color", "#FF0000");
+                          $emailSpan.html("Enter the  email").css("color", "#FF0000");
                       } else {
                           $emailSpan.html(""); // Clear the error message
                       }

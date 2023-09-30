@@ -108,7 +108,7 @@ def signup(request):
         lname = request.POST.get("lname")
         password = request.POST.get("password")
         cpassword = request.POST.get("cpassword")
-        print(fname)
+        
         if (
             CustomUser.objects.filter(username=username).exists()
             or CustomUser.objects.filter(email=email).exists()
@@ -133,28 +133,4 @@ def signup(request):
     
     
     
-    # if request.method == 'POST':
-    #     fname = request.POST.get('fname')
-    #     lname = request.POST.get('lname')
-    #     email = request.POST.get('email')
-    #     password = request.POST.get('password')
-    #     confirm_password=request.POST.get('confirm_password')
-
-    #     #role = request.POST.get('role', 1)
-    #     if CustomUser.objects.filter(email=email).exists():
-    #         messages.error(request,"email already exits")
-    #     elif password!=confirm_password:
-    #         messages.error(request,"password not match")
-    #     elif fname and  lname and  email and password:
-    #         # if CustomUser.objects.filter(email=email).exists():
-    #         #     messages.error(request, "Email already exists")
-    #         #     return redirect('seller_register')
-            
-    #         user = CustomUser( first_name=fname,last_name=lname,email=email)
-    #         user.set_password(password)
-    #         user.is_customer= True
-    #         # if role == 'seller':
-    #         #     user.is_seller = True
-    #         user.save()
-    #         messages.success(request, "Registered as a seller successfully")
-    #         return redirect('/signin')
+    

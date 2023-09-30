@@ -37,7 +37,7 @@
     
     
 #     #after table create
-# #cmd  -- python manage.py makemigrations
+# #cmd   python manage.py makemigrations
 # #        python manage.py migrate
 
 
@@ -80,3 +80,6 @@ class CustomUser(AbstractUser):
     is_tailor=models.BooleanField('is_tailor',default=False,null=True)
     REQUIRED_FIELDS = []
     
+    
+     #cmd   python manage.py makemigrations
+    #       python manage.py migrate

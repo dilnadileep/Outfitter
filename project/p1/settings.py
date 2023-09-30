@@ -140,3 +140,5 @@ LOGIN_URL = 'signin'
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_URL ='logout'
 LOGOUT_REDIRECT_URL = 'index'
+
+
