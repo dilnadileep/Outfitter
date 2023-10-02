@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate ,login as auth_login,logout
 from django.urls import reverse
 
-# Create your views here.
+
 def index(request):
     return render(request, "index.html")
 
@@ -15,36 +15,6 @@ def t_index(request):
     
     return render(request, "t_index.html")
 
-
-def t_signup(request):
-    if request.method == "POST":
-        username = request.POST.get("email")
-        fname =request.POST.get("fname")
-        lname =request.POST.get("lname")
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        cpassword = request.POST.get("cpassword")
-
-        if (
-            CustomUser.objects.filter(username=username).exists()
-            or CustomUser.objects.filter(email=email).exists()
-        ):
-            messages.error(request, "Email Already Registered")
-            return render(request, "signin.html")
-        else:
-            user = CustomUser.objects.create_user(
-                username=username,
-                first_name=fname,
-                last_name=lname,
-                email=email,
-                password=password,
-                is_tailor=True,
-            )
-            user.save()
-
-            return redirect("signin")
-    else:
-        return render(request, "t_signup.html")
 
 
 def signin(request):
@@ -99,6 +69,38 @@ from django.contrib.auth import logout
 def loggout(request):
     logout(request)
     return redirect("index")  # Redirect to the home page after logout
+
+def t_signup(request):
+    if request.method == "POST":
+        username = request.POST.get("email")
+        fname =request.POST.get("fname")
+        lname =request.POST.get("lname")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        cpassword = request.POST.get("cpassword")
+
+        if (
+            CustomUser.objects.filter(username=username).exists()
+            or CustomUser.objects.filter(email=email).exists()
+        ):
+            messages.error(request, "Email Already Registered")
+            return render(request, "signin.html")
+        else:
+            user = CustomUser.objects.create_user(
+                username=username,
+                first_name=fname,
+                last_name=lname,
+                email=email,
+                password=password,
+                is_tailor=True,
+            )
+            user.save()
+
+            return redirect("signin")
+    else:
+        return render(request, "t_signup.html")
+
+
 def signup(request):
     
     if request.method == "POST":
@@ -129,8 +131,25 @@ def signup(request):
     else:
         return render(request, "signup.html")
 
-        
+
+def admindashboard(request):
+    return render(request, "admindashboard.html")          
+
+  
+def t_dashboard(request):
+    return render(request, "t_dashboard.html")
+
+from django.shortcuts import render, get_object_or_404
+from .models import CustomUser  # Import your CustomUser model
+
+def c_dashboard(request):
+    # Fetch the customer object using the primary key
+    customer = get_object_or_404(CustomUser, pk=pk, is_customer=True)
     
+    context = {
+        'customer': customer,
+    }
     
-    
+    return render(request, 'c_dashboard.html', context)
+
     

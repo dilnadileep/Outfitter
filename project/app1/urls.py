@@ -16,5 +16,8 @@ urlpatterns = [
    path('t_index/', views.t_index, name="t_index"),
    path('loggout/', auth_views.LogoutView.as_view(), name="loggout"),
    path('t_index/', views.t_index, name="t_index"),  # Add this URL pattern for the 'index' view
-   #path('admindashboard/', views.admindashboard, name="admindashboard"),  # Add this URL pattern for the 'admindashboard' view
+   path('admindashboard/', views.admindashboard, name="admindashboard"),  # Add this URL pattern for the 'admindashboard' view
+   path('t_dashboard/', views.t_dashboard, name="t_dashboard"),
+   path('c_dashboard/<int:pk>/', views.c_dashboard, name='c_dashboard'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
