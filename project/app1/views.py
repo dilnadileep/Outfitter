@@ -38,7 +38,7 @@ def signin(request):
         password = request.POST.get("password")
 
         if email and password:
-            user = authenticate(request, email=email, password=password)
+            user = authenticate(request, username=email, password=password)
 
             if user is not None:
                 auth_login(request, user)
@@ -72,26 +72,24 @@ def loggout(request):
 
 def t_signup(request):
     if request.method == "POST":
-        username = request.POST.get("email")
-        fname =request.POST.get("fname")
-        lname =request.POST.get("lname")
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        cpassword = request.POST.get("cpassword")
+        tusername = request.POST.get("temail")
+        tfname =request.POST.get("tfname")
+        tlname =request.POST.get("tlname")
+        temail = request.POST.get("temail")
+        tpassword = request.POST.get("tpassword")
 
         if (
-            CustomUser.objects.filter(username=username).exists()
-            or CustomUser.objects.filter(email=email).exists()
+            CustomUser.objects.filter(email=temail).exists()
         ):
             messages.error(request, "Email Already Registered")
             return render(request, "signin.html")
         else:
             user = CustomUser.objects.create_user(
-                username=username,
-                first_name=fname,
-                last_name=lname,
-                email=email,
-                password=password,
+                username=tusername,
+                first_name=tfname,
+                last_name=tlname,
+                email=temail,
+                password=tpassword,
                 is_tailor=True,
             )
             user.save()
@@ -104,16 +102,14 @@ def t_signup(request):
 def signup(request):
     
     if request.method == "POST":
-        username = request.POST.get("email")
-        email = request.POST.get("email")
-        fname = request.POST.get("fname")
-        lname = request.POST.get("lname")
-        password = request.POST.get("password")
-        cpassword = request.POST.get("cpassword")
+        username = request.POST.get('email')
+        email = request.POST.get('email')
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
+        password = request.POST.get('password')
         
         if (
-            CustomUser.objects.filter(username=username).exists()
-            or CustomUser.objects.filter(email=email).exists()
+            CustomUser.objects.filter(email=email).exists()
         ):
             messages.error(request, "Email or Username Already Exists")
             return render(request, "signin.html")
@@ -126,6 +122,7 @@ def signup(request):
                 password=password,
                 is_customer=True,
             )
+            print(user)
             user.save()
             return redirect('signin')
     else:
