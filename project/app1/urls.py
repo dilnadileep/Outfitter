@@ -18,6 +18,11 @@ urlpatterns = [
    path('t_index/', views.t_index, name="t_index"),  # Add this URL pattern for the 'index' view
    path('admindashboard/', views.admindashboard, name="admindashboard"),  # Add this URL pattern for the 'admindashboard' view
    path('t_dashboard/', views.t_dashboard, name="t_dashboard"),
-   path('c_dashboard/<int:pk>/', views.c_dashboard, name='c_dashboard'),
-
+   path('c_dashboard/', views.c_dashboard, name='c_dashboard'),
+   
+   
+   path('password_reset/',auth_views.PasswordResetView.as_view(),name='password_reset'),
+   path('password_reset/done/',auth_views.PasswordResetDoneView.as_view(),name='password_reset_done'),
+   path('reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(),name='password_reset_confirm'),
+   path('reset/done/',auth_views.PasswordResetCompleteView.as_view(),name='password_reset_complete'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

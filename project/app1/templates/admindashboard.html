@@ -113,11 +113,11 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                {% comment %} <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                     aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>Pages</span>
-                </a>
+                </a> {% endcomment %}
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Login Screens:</h6>
@@ -372,9 +372,24 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div id="content-container" class="container-fluid"></div>
-
+                <div id="content-container" class="container-fluid">
+                    <ul>
+                        {% for user in users %}
+                            <li>
+                                {{ user.username }} - {{ user.first_name }} - {{ user.last_name }} - {{ user.email }}
+                                {% if user.is_tailor %}
+                                    Tailor
+                                {% elif user.is_customer %}
+                                    Customer
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    
+                    </ul>
                 </div>
+
+                
                 <!-- /.container-fluid -->
 
             </div>
