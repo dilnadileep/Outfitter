@@ -135,9 +135,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'mailtoshowvalidationok@gmail.com'  
-EMAIL_HOST_PASSWORD = 'qtwpnirvgsxzhtdo'  
-DEFAULT_FROM_EMAIL = 'mailtoshowvalidationok@gmail.com'
+EMAIL_HOST_USER = 'dilnadileep2024a@mca.ajce.in'  
+EMAIL_HOST_PASSWORD = 'Dilna@14272'  
+#DEFAULT_FROM_EMAIL = 'mailtoshowvalidationok@gmail.com'
 
 
 # Default primary key field type
