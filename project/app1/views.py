@@ -26,9 +26,9 @@ def signin(request):
         elif request.user.is_tailor:
             # Redirect to the institute dashboard or your desired URL for institutes
             return redirect("t_index")  # Replace with your URL name
-        # elif request.user.is_landlord:
+        elif request.user.is_superuser:
         #     # Redirect to the landlord dashboard or your desired URL for landlords
-        #     return redirect('landlord_dashboard')  # Replace with your URL name
+             return redirect('admindashboard')  # Replace with your URL name
         else:
             # Redirect to a generic home page or your desired URL
             return redirect("index")  # Replace with your URL name
@@ -48,9 +48,9 @@ def signin(request):
                 elif user.is_tailor:
                     # Redirect to the institute dashboard or your desired URL for institutes
                     return redirect("t_index")  # Replace with your URL name
-                # elif user.is_landlord:
+                elif user.is_superuser:
                 #     # Redirect to the landlord dashboard or your desired URL for landlords
-                #     return redirect('landlord_dashboard')  # Replace with your URL name
+                     return redirect('admindashboard')  # Replace with your URL name
                 else:
                     # Redirect to a generic home page or your desired URL
                     return redirect("index")  # Replace with your URL name
@@ -82,7 +82,7 @@ def t_signup(request):
             CustomUser.objects.filter(email=temail).exists()
         ):
             messages.error(request, "Email Already Registered")
-            return render(request, "signin.html")
+            return render(request, "t_signup.html")
         else:
             user = CustomUser.objects.create_user(
                 username=tusername,
@@ -112,7 +112,7 @@ def signup(request):
             CustomUser.objects.filter(email=email).exists()
         ):
             messages.error(request, "Email or Username Already Exists")
-            return render(request, "signin.html")
+            return render(request, "signup.html")
         else:
             user = CustomUser.objects.create_user(
                 username=username,
@@ -142,7 +142,7 @@ def admindashboard(request):
     'users': users ,
         
     }
-    return render(request, "admindashboard.html", context)          
+    return render(request, "admindashboard.html",context)          
 
   
 def t_dashboard(request):
