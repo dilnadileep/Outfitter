@@ -42,6 +42,24 @@
     color: red; /* Red for "No" */
 }
 
+    /* Style the logout button as a box */
+    .logout-button {
+        background-color: #ff5252; /* Your desired background color */
+        color: #fff; /* Text color */
+        border: none; /* Remove the default button border */
+        padding: 10px 20px; /* Add padding to increase the button size */
+        border-radius: 5px; /* Add rounded corners */
+        cursor: pointer; /* Show a pointer cursor on hover */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+        transition: background-color 0.3s ease; /* Smooth background color transition */
+    }
+
+    /* Change button color on hover */
+    .logout-button:hover {
+        background-color: #ff0000; /* New background color on hover */
+    }
+
+
 </style>
         <!-- Custom fonts for this template-->
         <link href="{% static "vendor/fontawesome-free/css/all.min.css" %}"
@@ -278,80 +296,13 @@
                                     </form>
                                 </div>
                             </li>
-
-                            <!-- Nav Item - Alerts -->
-                            <li class="nav-item dropdown no-arrow mx-1">
-                                <a class="nav-link dropdown-toggle" href="#"
-                                    id="alertsDropdown" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    <i class="fas fa-bell fa-fw"></i>
-                                    <!-- Counter - Alerts -->
-                                    <span
-                                        class="badge badge-danger badge-counter">3+</span>
+                            {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a href="{% url 'loggout' %}" class="nav-link">
+                                    <button class="btn btn-danger btn-sm logout-button">Logout</button>
                                 </a>
-                                <!-- Dropdown - Alerts -->
-                                <div
-                                    class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                    aria-labelledby="alertsDropdown">
-                                    <h6 class="dropdown-header">
-                                        Alerts Center
-                                    </h6>
-                                    <a
-                                        class="dropdown-item d-flex align-items-center"
-                                        href="#">
-                                        <div class="mr-3">
-                                            <div class="icon-circle bg-primary">
-                                                <i
-                                                    class="fas fa-file-alt text-white"></i>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="small text-gray-500">December
-                                                12, 2019</div>
-                                            <span class="font-weight-bold">A new
-                                                monthly report is ready to
-                                                download!</span>
-                                        </div>
-                                    </a>
-                                    <a
-                                        class="dropdown-item d-flex align-items-center"
-                                        href="#">
-                                        <div class="mr-3">
-                                            <div class="icon-circle bg-success">
-                                                <i
-                                                    class="fas fa-donate text-white"></i>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="small text-gray-500">December
-                                                7, 2019</div>
-                                            $290.29 has been deposited into your
-                                            account!
-                                        </div>
-                                    </a>
-                                    <a
-                                        class="dropdown-item d-flex align-items-center"
-                                        href="#">
-                                        <div class="mr-3">
-                                            <div class="icon-circle bg-warning">
-                                                <i
-                                                    class="fas fa-exclamation-triangle text-white"></i>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="small text-gray-500">December
-                                                2, 2019</div>
-                                            Spending Alert: We've noticed
-                                            unusually high spending for your
-                                            account.
-                                        </div>
-                                    </a>
-                                    <a
-                                        class="dropdown-item text-center small text-gray-500"
-                                        href="#">Show All Alerts</a>
-                                </div>
                             </li>
+                              {% endif %}
 
                             <!-- Nav Item - Messages -->
                             <li class="nav-item dropdown no-arrow mx-1">
@@ -520,7 +471,8 @@
                                     <th>Email</th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
-                                    <th>User</th>
+                                    <th>User Type</th>
+                                    <th>Action</th>
                                     
                                 </tr>
                             </thead>
@@ -533,14 +485,17 @@
                                     <td>{{ user.last_name }}</td>
                                     <td>{% if user.is_customer %}
                                         Customer
-                                        
-                                    {% elif user.is_tailor %}
+                                        {% endif %}
+                                    {% if user.is_tailor %}
                                         Tailor
-                                    {% else %}
-                                    Admin
                                         {% endif %}</td>
-
-                                </tr>
+                                <td>
+                                    <form method="POST" action="{% url 'delete_user' user.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
                                 {% endfor %}
                                 <!-- Add more rows for other users here -->
                             </tbody>
@@ -573,39 +528,6 @@
             <i class="fas fa-angle-up"></i>
         </a>
 
-        <!-- Logout Modal-->
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ready to
-                            Leave?</h5>
-                        <button class="close" type="button" data-dismiss="modal"
-                            aria-label="Close">
-                            <span aria-hidden="true"></span>
-                        </button>
-                    </div>
-                    <div class="modal-body">Select "Logout" below if you are
-                        ready to end your current session.</div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button"
-                            data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" href="{% url "signin" %}">Logout</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- <script>
-        document.getElementById("customer-dashboard-link").addEventListener("click", function (event) {
-            event.preventDefault();
-            var dummyContent = "<h2>Customer Dashboard</h2><p>This is the customer dashboard content.</p>";
-
-        document.getElementById("content-container").innerHTML = dummyContent;
-    });
-</script> -->
-        <!-- Bootstrap core JavaScript-->
         <script src="vendor/jquery/jquery.min.js"></script>
         <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 

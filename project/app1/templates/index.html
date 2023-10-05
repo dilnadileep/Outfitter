@@ -56,6 +56,7 @@
         </div>
 
       </header>
+      
       <!-- end header section -->
       <!-- slider section -->
       <section class=" slider_section position-relative">
@@ -94,29 +95,30 @@
                     <li class="nav-item">
                       <a href="{% url 'loggout' %}" class="nav-link">Logout</a>
                     </li>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'profile' %}" class="nav-link">Profile</a>
+                  </li>
+                    
                     {% else %}
-                    <div class="nav-item dropdown"
-                      style="position: relative; z-index: 1000;">
-                      <a href="#" class="nav-link dropdown-toggle"
-                        data-toggle="dropdown">Register</a>
-                      <div class="dropdown-menu">
-                        <a href="{% url "signup" %}" class="dropdown-item">As
-                          Customer</a>
-                        <a href="{% url 't_signup' %}" class="dropdown-item">As
-                          Something Else</a>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="registerDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Register
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="registerDropdown">
+                        <a class="dropdown-item" href="{% url 'signup' %}">As Customer</a>
+                        <a class="dropdown-item" href="{% url 't_signup' %}">As Something Else</a>
+                        <!-- Add more options as needed -->
                       </div>
-                    </div>
+                    </li>
+                    
                     <li class="nav-item">
                       <a class="nav-link" href="{% url 'signin' %}">Login</a>
                     </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="{% url 'admindashboard' %}">Admin Dashboard</a>
-                    </li>
+                    
                     {% endif %}
                   </ul>
-                  <form
-                    class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0"
-                    method="POST" action>
+                  <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0"  method="POST" action>
                     {% csrf_token %}
                     <button class="btn  my-2 my-sm-0 nav_search-btn"
                       type="submit"></button>
@@ -171,27 +173,27 @@
         </div>
         <div class="service_container">
           <div class="box">
-            <img src="{% static 'images/back1.jpg' %}" alt>
+            <img src="{% static 'images/customise2.jpg' %}" alt>
             <h6 class="visible_heading">
-              Lining Materials
+              Customise
             </h6>
             <div class="link_box">
               <a href>
-                <img src="{% static 'images/back1.jpg' %}" alt>
+                <img src="{% static 'images/customise2.jpg' %}" alt>
               </a>
               <h6>
-                Lining Materials
+                Customise
               </h6>
             </div>
           </div>
           <div class="box">
-            <img src="{% static 'images/alter.jpg' %}" alt>
+            <img src="{% static 'images/r_celebrity.jpg' %}" alt>
             <h6 class="visible_heading">
               Celebrity Couture 
             </h6>
             <div class="link_box">
               <a href>
-                <img src="{% static 'images/alter.jpg' %}" alt>
+                <img src="{% static 'images/r_celebrity.jpg' %}" alt>
               </a>
               <h6>
                 Celebrity Couture 

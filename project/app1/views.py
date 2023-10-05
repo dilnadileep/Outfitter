@@ -6,6 +6,8 @@ from .models import CustomUser
 from django.contrib import messages
 from django.contrib.auth import authenticate ,login as auth_login,logout
 from django.urls import reverse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.models import User
 
 
 def index(request):
@@ -134,7 +136,7 @@ def admindashboard(request):
     # Fetch data for the admin dashboard here (e.g., user information, orders, statistics)
     # You can use Django's ORM to query the database for this data
     # Example:
-    users = CustomUser.objects.all()
+    users = CustomUser.objects.filter(is_superuser=False)
     #  username = Order.objects.all()
     
     context = {
@@ -152,7 +154,6 @@ from django.shortcuts import render, get_object_or_404
 from .models import CustomUser  # Import your CustomUser model
 
 def c_dashboard(request):  
-    
     return render(request, "c_dashboard.html")
 
 from django.contrib.auth import views as auth_views
@@ -175,4 +176,16 @@ class CustomPasswordResetCompleteView(auth_views.PasswordResetCompleteView):
     template_name = 'registration/password_reset_complete.html'
 
 
-    
+def profile(request):  
+    return render(request, "profile.html")
+
+
+def delete_user(request, user_id):
+    if request.method == 'POST':
+        user = get_object_or_404(CustomUser, id=user_id)
+        # Ensure that you have appropriate authorization checks here,
+        # e.g., checking if the user is an admin and has permission to delete users.
+        if request.user.is_authenticated and request.user.is_staff:
+            user.delete()
+    return redirect('admindashboard')
+
