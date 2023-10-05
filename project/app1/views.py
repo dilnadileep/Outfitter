@@ -8,6 +8,8 @@ from django.contrib.auth import authenticate ,login as auth_login,logout
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+
 
 
 def index(request):
@@ -130,18 +132,21 @@ def signup(request):
     else:
         return render(request, "signup.html")
 
-
 def admindashboard(request):
     
     # Fetch data for the admin dashboard here (e.g., user information, orders, statistics)
     # You can use Django's ORM to query the database for this data
     # Example:
     users = CustomUser.objects.filter(is_superuser=False)
-    #  username = Order.objects.all()
+    tailors = CustomUser.objects.filter(is_tailor=True)
+    customers = CustomUser.objects.filter(is_customer=True)
+
     
     context = {
         # Pass the fetched data to the template context
     'users': users ,
+    'tailors': tailors,
+    'customers':customers,
         
     }
     return render(request, "admindashboard.html",context)          
@@ -180,12 +185,30 @@ def profile(request):
     return render(request, "profile.html")
 
 
-def delete_user(request, user_id):
-    if request.method == 'POST':
-        user = get_object_or_404(CustomUser, id=user_id)
-        # Ensure that you have appropriate authorization checks here,
-        # e.g., checking if the user is an admin and has permission to delete users.
-        if request.user.is_authenticated and request.user.is_staff:
-            user.delete()
-    return redirect('admindashboard')
+# def delete_user(request, user_id):
+#     if request.method == 'POST':
+#         user = get_object_or_404(CustomUser, id=user_id)
+#         # Ensure that you have appropriate authorization checks here,
+#         # e.g., checking if the user is an admin and has permission to delete users.
+#         if request.user.is_authenticated and request.user.is_staff:
+#             user.delete()
+#     return redirect('admindashboard')
 
+# views.py
+
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from .models import CustomUser
+
+from django.http import JsonResponse
+from .models import CustomUser
+
+def toggle_user_status(request, user_id):
+    try:
+        user = CustomUser.objects.get(pk=user_id)
+        user.is_active = not user.is_active  # Toggle the status
+        user.save()
+        new_status = 'active' if user.is_active else 'inactive'
+        return JsonResponse({'status': new_status})
+    except CustomUser.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)

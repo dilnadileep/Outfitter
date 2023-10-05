@@ -101,7 +101,7 @@
                   </li>
                     
                     {% else %}
-                    <li class="nav-item dropdown">
+                    {% comment %} <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle" href="#" id="registerDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Register
                       </a>
@@ -110,7 +110,7 @@
                         <a class="dropdown-item" href="{% url 't_signup' %}">As Something Else</a>
                         <!-- Add more options as needed -->
                       </div>
-                    </li>
+                    </li> {% endcomment %}
                     
                     <li class="nav-item">
                       <a class="nav-link" href="{% url 'signin' %}">Login</a>
@@ -201,13 +201,13 @@
             </div>
           </div>
           <div class="box">
-            <img src="images/s-3.jpg" alt>
+            <img src="{% static 'images/fabrics.jpg' %}" alt>
             <h6 class="visible_heading">
               Fabrics   
             </h6>
             <div class="link_box">
               <a href>
-                <img src="images/link.png" alt>
+                <img src="{% static 'images/fabrics.jpg' %}" alt>
               </a>
               <h6>
                 Fabrics
