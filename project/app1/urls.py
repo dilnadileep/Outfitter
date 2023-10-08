@@ -17,15 +17,12 @@ urlpatterns = [
    path('loggout/', auth_views.LogoutView.as_view(), name="loggout"),
    path('t_index/', views.t_index, name="t_index"),  # Add this URL pattern for the 'index' view
    path('admindashboard/', views.admindashboard, name="admindashboard"),  # Add this URL pattern for the 'admindashboard' view
-   path('t_dashboard/', views.t_dashboard, name="t_dashboard"),
-   path('c_dashboard/', views.c_dashboard, name='c_dashboard'),
    path('profile/', views.profile, name='profile'),
     
     
     
     
    path('toggle_user_status/<int:user_id>/', views.toggle_user_status, name='toggle_user_status'),
-   # path('delete_user/<int:user_id>/', views.delete_user, name='delete_user'),
    path('password_reset/',auth_views.PasswordResetView.as_view(),name='password_reset'),
    path('password_reset/done/',auth_views.PasswordResetDoneView.as_view(),name='password_reset_done'),
    path('reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(),name='password_reset_confirm'),

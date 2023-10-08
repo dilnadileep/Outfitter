@@ -28,7 +28,7 @@
 }
 
 .user-table th {
-    background-color: #e7b4b4;
+    background-color: #9b95f3;
 }
 
 /* Style for "Yes" and "No" values in Is Customer and Is Tailor columns */
@@ -205,11 +205,12 @@ Addons
 
                             {% if user.is_authenticated %}
                             <li class="nav-item">
-                                <a href="{% url 'loggout' %}" class="nav-link">
-                                    <button
-                                        class="btn btn-danger btn-sm logout-button">Logout</button>
-                                </a>
+                              <a class="nav-link"> Welcome, {{ user.username }}</a>
                             </li>
+                            <li class="nav-item">
+                              <a href="{% url 'loggout' %}" class="nav-link">Logout</a>
+                            </li>
+                          </li>
 
                             {% endif %}
 
@@ -230,51 +231,81 @@ Addons
 
                         </li>
 
-                        <table class="user-table">
-                            <thead>
-
-                                <tr>
-                                    <th>Username</th>
-                                    <th>Email</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>User Type</th>
-                                    <th>Status</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for user in users %}
-                                <tr>
-                                    <td>{{ user.username }}</td>
-                                    <td>{{ user.email }}</td>
-                                    <td>{{ user.first_name }}</td>
-                                    <td>{{ user.last_name }}</td>
-                                    <td>{% if user.is_customer %}
-                                        Customer
-                                        {% endif %}
-                                        {% if user.is_tailor %}
-                                        Tailor
-                                        {% endif %}</td>
-                                    <td>
-                                        <a href="#"
-                                            class="status-toggle"
-                                            data-user-id="{{ user.id }}"
-                                            data-status="{% if user.is_active %}active{% else %}inactive{% endif %}">
-                                            {% if user.is_active %}
-                                            <button
-                                                class="btn btn-danger btn-sm logout-button">Active</button>
-                                            {% else %}
-                                            <button
-                                                class="btn btn-danger btn-sm logout-button">Inactive</button>
-                                            {% endif %}
-                                        </a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                                <!-- Add more rows for other users here -->
-                            </tbody>
-                        </table>
+                        <section class="user_details" id="tailors-section"> <!-- Add id attribute -->
+                            <p><h4>Registered Tailors</h4></p>
+                
+                            <table class="tailor-table user-table">
+                                <thead>
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for tailor in tailors %}
+                                    <tr>
+                                        <td>{{ tailor.username }}</td>
+                                        <td>{{ tailor.email }}</td>
+                                        <td>{{ tailor.first_name }}</td>
+                                        <td>{{ tailor.last_name }}</td>
+                                        <td>
+                                            <a href="#"
+                                                class="status-toggle"
+                                                data-user-id="{{ tailor.id }}"
+                                                data-status="{% if tailor.is_active %}active{% else %}inactive{% endif %}">
+                                                {% if tailor.is_active %}
+                                                <button class="btn btn-danger btn-sm logout-button">Active</button>
+                                                {% else %}
+                                                <button class="btn btn-danger btn-sm logout-button">Inactive</button>
+                                                {% endif %}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    <!-- Add more rows as needed -->
+                                </tbody>
+                            </table>
+                        </section>
+                        <section class="user_details" id="customers-section"> <!-- Add id attribute -->
+                            <p><h4>Registered Customers</h4></p>
+                            <table class="customer-table user-table">
+                                <thead>
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for customer in customers %}
+                                    <tr>
+                                        <td>{{ customer.username }}</td>
+                                        <td>{{ customer.email }}</td>
+                                        <td>{{ customer.first_name }}</td>
+                                        <td>{{ customer.last_name }}</td>
+                                        <td>
+                                            <a href="#"
+                                                class="status-toggle"
+                                                data-user-id="{{ customer.id }}"
+                                                data-status="{% if customer.is_active %}active{% else %}inactive{% endif %}">
+                                                {% if customer.is_active %}
+                                                <button class="btn btn-danger btn-sm logout-button">Active</button>
+                                                {% else %}
+                                                <button class="btn btn-danger btn-sm logout-button">Inactive</button>
+                                                {% endif %}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    <!-- Add more rows as needed -->
+                                </tbody>
+                            </table>
+                        </section>
                     </div>
 
                     <!-- /.container-fluid -->
@@ -299,81 +330,8 @@ Addons
 
         </div>
     <div>
-        <section class="user_details" id="tailors-section"> <!-- Add id attribute -->
-            <p><h3>Registered Customers</h3></p>
-
-            <table class="tailor-table user-table">
-                <thead>
-                    <tr>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for tailor in tailors %}
-                    <tr>
-                        <td>{{ tailor.username }}</td>
-                        <td>{{ tailor.email }}</td>
-                        <td>{{ tailor.first_name }}</td>
-                        <td>{{ tailor.last_name }}</td>
-                        <td>
-                            <a href="#"
-                                class="status-toggle"
-                                data-user-id="{{ tailor.id }}"
-                                data-status="{% if tailor.is_active %}active{% else %}inactive{% endif %}">
-                                {% if tailor.is_active %}
-                                <button class="btn btn-danger btn-sm logout-button">Active</button>
-                                {% else %}
-                                <button class="btn btn-danger btn-sm logout-button">Inactive</button>
-                                {% endif %}
-                            </a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    <!-- Add more rows as needed -->
-                </tbody>
-            </table>
-        </section>
-        <section class="user_details" id="customers-section"> <!-- Add id attribute -->
-            <p><h3>Registered Customers</h3></p>
-            <table class="customer-table user-table">
-                <thead>
-                    <tr>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for customer in customers %}
-                    <tr>
-                        <td>{{ customer.username }}</td>
-                        <td>{{ customer.email }}</td>
-                        <td>{{ customer.first_name }}</td>
-                        <td>{{ customer.last_name }}</td>
-                        <td>
-                            <a href="#"
-                                class="status-toggle"
-                                data-user-id="{{ customer.id }}"
-                                data-status="{% if customer.is_active %}active{% else %}inactive{% endif %}">
-                                {% if customer.is_active %}
-                                <button class="btn btn-danger btn-sm logout-button">Active</button>
-                                {% else %}
-                                <button class="btn btn-danger btn-sm logout-button">Inactive</button>
-                                {% endif %}
-                            </a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    <!-- Add more rows as needed -->
-                </tbody>
-            </table>
-        </section>
+       
+        
         
     </div>
         <script>

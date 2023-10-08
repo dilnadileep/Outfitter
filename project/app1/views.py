@@ -9,6 +9,7 @@ from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from .models import UserProfile
 
 
 
@@ -96,6 +97,8 @@ def t_signup(request):
                 password=tpassword,
                 is_tailor=True,
             )
+            UserProfile.objects.create(user=user)
+
             user.save()
 
             return redirect("signin")
@@ -126,40 +129,44 @@ def signup(request):
                 password=password,
                 is_customer=True,
             )
-            print(user)
+            UserProfile.objects.create(user=user)
+
             user.save()
+
             return redirect('signin')
     else:
         return render(request, "signup.html")
 
 def admindashboard(request):
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            tailors = CustomUser.objects.filter(is_tailor=True)
+            customers = CustomUser.objects.filter(is_customer=True)
+
+    
+            context = {
+                # Pass the fetched data to the template context
+            'tailors': tailors,
+            'customers':customers,
+                
+            }
+            return render(request, "admindashboard.html",context) 
+    else:
+        return render(request, "index.html")
+            
     
     # Fetch data for the admin dashboard here (e.g., user information, orders, statistics)
     # You can use Django's ORM to query the database for this data
     # Example:
-    users = CustomUser.objects.filter(is_superuser=False)
-    tailors = CustomUser.objects.filter(is_tailor=True)
-    customers = CustomUser.objects.filter(is_customer=True)
-
-    
-    context = {
-        # Pass the fetched data to the template context
-    'users': users ,
-    'tailors': tailors,
-    'customers':customers,
-        
-    }
-    return render(request, "admindashboard.html",context)          
+             
 
   
-def t_dashboard(request):
-    return render(request, "t_dashboard.html")
+
 
 from django.shortcuts import render, get_object_or_404
 from .models import CustomUser  # Import your CustomUser model
 
-def c_dashboard(request):  
-    return render(request, "c_dashboard.html")
+
 
 from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
@@ -181,20 +188,6 @@ class CustomPasswordResetCompleteView(auth_views.PasswordResetCompleteView):
     template_name = 'registration/password_reset_complete.html'
 
 
-def profile(request):  
-    return render(request, "profile.html")
-
-
-# def delete_user(request, user_id):
-#     if request.method == 'POST':
-#         user = get_object_or_404(CustomUser, id=user_id)
-#         # Ensure that you have appropriate authorization checks here,
-#         # e.g., checking if the user is an admin and has permission to delete users.
-#         if request.user.is_authenticated and request.user.is_staff:
-#             user.delete()
-#     return redirect('admindashboard')
-
-# views.py
 
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
@@ -212,3 +205,36 @@ def toggle_user_status(request, user_id):
         return JsonResponse({'status': new_status})
     except CustomUser.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
+
+
+
+
+from django.shortcuts import render, redirect
+
+from django.contrib.auth.decorators import login_required
+
+# views.py
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import CustomUser, UserProfile
+
+@login_required
+def profile(request):
+    # Fetch the user's profile
+    user_profile = UserProfile.objects.get(user=request.user)
+
+    if request.method == "POST":
+        # Update the user's profile with the submitted data
+        user_profile.phone_number = request.POST.get("num")
+        user_profile.state = request.POST.get("st")
+        user_profile.district = request.POST.get("dts")
+        user_profile.gender = request.POST.get("gender")
+        user_profile.age = request.POST.get("age")
+        user_profile.save()
+        # Redirect to the profile page after updating
+        return redirect("profile")
+
+    return render(request, "profile.html", {"user_profile": user_profile})
+
+
