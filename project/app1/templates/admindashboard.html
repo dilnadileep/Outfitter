@@ -335,8 +335,8 @@ Addons
         
     </div>
         <script>
-        // JavaScript code to handle status toggling
-        document.querySelectorAll('.status-toggle').forEach(function (element) {
+              // JavaScript code to handle status toggling
+            document.querySelectorAll('.status-toggle').forEach(function (element) {
             element.addEventListener('click', function (event) {
                 event.preventDefault();
                 const userId = element.getAttribute('data-user-id');
@@ -361,7 +361,7 @@ Addons
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                });
+               });
             });
         });
     </script>

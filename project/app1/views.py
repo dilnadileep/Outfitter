@@ -137,24 +137,7 @@ def signup(request):
     else:
         return render(request, "signup.html")
 
-def admindashboard(request):
-    if request.user.is_authenticated:
-        if request.user.is_superuser:
-            tailors = CustomUser.objects.filter(is_tailor=True)
-            customers = CustomUser.objects.filter(is_customer=True)
 
-    
-            context = {
-                # Pass the fetched data to the template context
-            'tailors': tailors,
-            'customers':customers,
-                
-            }
-            return render(request, "admindashboard.html",context) 
-    else:
-        return render(request, "index.html")
-            
-    
     # Fetch data for the admin dashboard here (e.g., user information, orders, statistics)
     # You can use Django's ORM to query the database for this data
     # Example:
@@ -193,6 +176,26 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from .models import CustomUser
 
+
+def admindashboard(request):
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            tailors = CustomUser.objects.filter(is_tailor=True)
+            customers = CustomUser.objects.filter(is_customer=True)
+    
+    
+            context = {
+                # Pass the fetched data to the template context
+            'tailors': tailors,
+            'customers':customers,
+                
+            }
+            return render(request, "admindashboard.html",context) 
+    else:
+        return render(request, "index.html")
+            
+    
+
 from django.http import JsonResponse
 from .models import CustomUser
 
@@ -225,10 +228,11 @@ def profile(request):
     user_profile = UserProfile.objects.get(user=request.user)
 
     if request.method == "POST":
+       
         # Update the user's profile with the submitted data
         user_profile.phone_number = request.POST.get("num")
-        user_profile.state = request.POST.get("st")
-        user_profile.district = request.POST.get("dts")
+        user_profile.state = request.POST.get("state")
+        user_profile.district = request.POST.get("district")
         user_profile.gender = request.POST.get("gender")
         user_profile.age = request.POST.get("age")
         user_profile.save()
