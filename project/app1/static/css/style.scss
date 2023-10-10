@@ -466,7 +466,8 @@ a:focus {
                 position: absolute;
                 left: 0;
                 top: 0;
-                background-color: rgba($color: #43117d, $alpha: .9);
+                background-color: rgb(37 37 37 / 76%);
+
             }
 
             &:hover {
@@ -491,7 +492,8 @@ a:focus {
 // us section
 
 .us_section {
-    background-color: #3c0e78;
+    background-color: rgb(37 37 37 / 76%);
+    ;
     color: $white;
 
     .us_container {

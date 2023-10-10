@@ -18,10 +18,12 @@ urlpatterns = [
    path('t_index/', views.t_index, name="t_index"),  # Add this URL pattern for the 'index' view
    path('admindashboard/', views.admindashboard, name="admindashboard"),  # Add this URL pattern for the 'admindashboard' view
    path('profile/', views.profile, name='profile'),
+   
     
     
-    
-    
+   
+   
+   
    path('toggle_user_status/<int:user_id>/', views.toggle_user_status, name='toggle_user_status'),
    path('password_reset/',auth_views.PasswordResetView.as_view(),name='password_reset'),
    path('password_reset/done/',auth_views.PasswordResetDoneView.as_view(),name='password_reset_done'),

@@ -17,7 +17,6 @@ def index(request):
     return render(request, "index.html")
 
 def t_index(request):
-    
     return render(request, "t_index.html")
 
 
@@ -240,5 +239,4 @@ def profile(request):
         return redirect("profile")
 
     return render(request, "profile.html", {"user_profile": user_profile})
-
 
