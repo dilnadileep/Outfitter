@@ -240,3 +240,23 @@ def profile(request):
 
     return render(request, "profile.html", {"user_profile": user_profile})
 
+# def add_garment(request):
+#     return render(request, "add_garment.html")
+
+
+
+from .models import Garment
+from .forms import GarmentForm
+
+def add_garment(request):
+    if request.method == 'POST':
+        form = GarmentForm(request.POST, request.FILES)  # Include request.FILES
+        if form.is_valid():
+            garment = form.save(commit=False)
+            garment.tailor = request.user
+            garment.save()
+            return redirect('garment_list')
+    else:
+        form = GarmentForm()
+    
+    return render(request, 'add_garment.html', {'form': form})

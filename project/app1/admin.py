@@ -6,5 +6,9 @@ from .models import CustomUser,UserProfile
 admin.site.register(CustomUser)
 admin.site.register(UserProfile)
 
+from .models import Garment
 
+class GarmentAdmin(admin.ModelAdmin):
+    list_display = ('title', 'price', 'tailor', 'description', 'image')  # Add 'image' to the list_display
 
+admin.site.register(Garment, GarmentAdmin)
