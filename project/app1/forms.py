@@ -1,8 +1,8 @@
+# forms.py
 from django import forms
 from .models import Product
-
 
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['title', 'description', 'price', 'image']  # Include 'image' field
+        fields = ['name', 'category', 'description', 'image', 'price']

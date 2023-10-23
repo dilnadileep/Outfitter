@@ -240,23 +240,32 @@ def profile(request):
 
     return render(request, "profile.html", {"user_profile": user_profile})
 
+
+
+
+
 # def add_garment(request):
 #     return render(request, "add_garment.html")
 
 
 
-from .models import Garment
-from .forms import GarmentForm
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from .forms import ProductForm  # Import the ProductForm
 
+@login_required
 def add_garment(request):
-    if request.method == 'POST':
-        form = GarmentForm(request.POST, request.FILES)  # Include request.FILES
+    if request.method == "POST":
+        form = ProductForm(request.POST, request.FILES)  # Bind form data
+
         if form.is_valid():
-            garment = form.save(commit=False)
-            garment.tailor = request.user
-            garment.save()
-            return redirect('garment_list')
+            product = form.save(commit=False)
+            product.user = request.user  # Associate the product with the logged-in user
+            product.save()  # Save the product object with the user
+
+            # Redirect to a success page or wherever you want
+            return redirect('add_garment')  # Replace 'success_page' with the desired URL name
     else:
-        form = GarmentForm()
-    
-    return render(request, 'add_garment.html', {'form': form})
+        form = ProductForm()
+
+    return render(request, "add_garment.html", {'form': form})

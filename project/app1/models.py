@@ -25,18 +25,18 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
-
-from django.db import models
+   
 from django.contrib.auth.models import User
+from django.db import models
 
-class Garment(models.Model):
-    tailor = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=100)
+class Product(models.Model):
+    name = models.CharField(max_length=255)
+    category = models.CharField(max_length=50, choices=[('male', 'Male'), ('female', 'Female'), ('others', 'Others')])
     description = models.TextField()
+    image = models.ImageField(upload_to='product_images/')
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    image = models.ImageField(upload_to='garment_images/')  # Image field
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.title
-
+        return self.name
    
