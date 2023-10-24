@@ -248,24 +248,44 @@ def profile(request):
 #     return render(request, "add_garment.html")
 
 
+from django.shortcuts import render, redirect, get_object_or_404
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from .forms import ProductForm  # Import the ProductForm
+from .models import Product
 
-@login_required
 def add_garment(request):
+    products = Product.objects.all()
+
     if request.method == "POST":
-        form = ProductForm(request.POST, request.FILES)  # Bind form data
+        name = request.POST.get("name")
+        category1 = request.POST.get("category")
+        description = request.POST.get("description")
+        image = request.FILES.get("image")
+        price = request.POST.get("price")
+        
+        # Get the currently logged-in user
+        user = request.user
 
-        if form.is_valid():
-            product = form.save(commit=False)
-            product.user = request.user  # Associate the product with the logged-in user
-            product.save()  # Save the product object with the user
+        # Create and save the product
+        product = Product(name=name,pro_category=category1,description=description,image=image,price=price,user=user)
+        product.save()
 
-            # Redirect to a success page or wherever you want
-            return redirect('add_garment')  # Replace 'success_page' with the desired URL name
-    else:
-        form = ProductForm()
+        return redirect('add_garment')  # Redirect to a success page or any other page you prefer
 
-    return render(request, "add_garment.html", {'form': form})
+    return render(request, 'add_garment.html', {'products': products})
+
+
+
+def edit_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    # Handle editing the product here
+    # You can use a similar form as in your add_garment view
+    # Update the product instance and save it
+    
+    return redirect('add_garment')  # Redirect back to the product list page
+
+def delete_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    # Handle deleting the product here
+    # Delete the product instance
+    
+    return redirect('add_garment')  

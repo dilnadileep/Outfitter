@@ -46,7 +46,47 @@
                 
             </div>
             <button class="green-button" data-bs-toggle="modal" data-bs-target="#addProductModal">Add New</button>
+                
 
+
+
+
+            
+            <section>
+                <!-- Your form for adding products (as you've shown in your previous code) -->
+            
+                <hr>
+                <h2>Product List</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            <th>Image</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                        <tr>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.pro_category }}</td>
+                            <td>{{ product.description }}</td>
+                            <td>{{ product.price }}</td>
+                            <td><img src="{{ product.image.url }}" width="100" height="100" alt="{{ product.name }}" /></td>
+                
+                            <td>
+                                <a href="{% url 'edit_product' product.id %}">Edit</a> |
+                                <a href="{% url 'delete_product' product.id %}">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+            </section>
           </section>
           <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
             <div  class="modal-dialog modal-lg">
@@ -106,11 +146,11 @@
 
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <p class="mb-0" for="range">Price</p>
+                                            <p class="mb-0" for="price">Price</p>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" id="range" class="form-control form-control-lg" name="range" />
-                                            <span id="rangespan" style="font-size: 12px;"></span>
+                                            <input type="text" id="price" class="form-control form-control-lg" name="price" />
+                                            <span id="pricespan" style="font-size: 12px;"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -131,6 +171,7 @@
                     </div>
                 </div>
             </div>
+            
         </div>
     
     
