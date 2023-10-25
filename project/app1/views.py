@@ -275,13 +275,13 @@ def add_garment(request):
 
 
 
-def edit_product(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    # Handle editing the product here
-    # You can use a similar form as in your add_garment view
-    # Update the product instance and save it
+# def edit_product(request, product_id):
+#     product = get_object_or_404(Product, id=product_id)
+#     # Handle editing the product here
+#     # You can use a similar form as in your add_garment view
+#     # Update the product instance and save it
     
-    return redirect('add_garment')  # Redirect back to the product list page
+#     return redirect('add_garment')  # Redirect back to the product list page
 
 def delete_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
@@ -289,3 +289,24 @@ def delete_product(request, product_id):
     # Delete the product instance
     
     return redirect('add_garment')  
+
+
+from django.http import JsonResponse
+from app1.models import Product  # Import the model here
+
+
+
+def get_product_details(request, product_id):
+    try:
+        product = Product.objects.get(id=product_id)  # Replace with your actual model
+        data = {
+            'name': product.name,
+            'category': product.category,
+            'description': product.description,
+            'price': product.price,
+            'image': product.image,
+            # Add more fields if needed
+        }
+        return JsonResponse(data)
+    except Product.DoesNotExist:  # Handle the case where the product does not exist
+        return JsonResponse({'error': 'Product not found'}, status=404)

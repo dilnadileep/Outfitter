@@ -47,11 +47,6 @@
             </div>
             <button class="green-button" data-bs-toggle="modal" data-bs-target="#addProductModal">Add New</button>
                 
-
-
-
-
-            
             <section>
                 <!-- Your form for adding products (as you've shown in your previous code) -->
             
@@ -78,7 +73,7 @@
                             <td><img src="{{ product.image.url }}" width="100" height="100" alt="{{ product.name }}" /></td>
                 
                             <td>
-                                <a href="{% url 'edit_product' product.id %}">Edit</a> |
+                                <button class="green-button" data-bs-toggle="modal" data-bs-target="#editProductModal" onclick="openEditModal({{ product.id }})">Edit</button>
                                 <a href="{% url 'delete_product' product.id %}">Delete</a>
                             </td>
                         </tr>
@@ -173,9 +168,120 @@
             </div>
             
         </div>
+
+
+      {% comment %} edit product modal {% endcomment %}
+      <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <center><h5 class="modal-title" id="editProductModalLabel">Edit Product</h5></center>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <section>
+                        <form method="POST" enctype="multipart/form-data" action="" id="edit-form">
+                            {% csrf_token %}
+                            <div class="card-body">
+                                {% for product in products %}
+
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="mb-0" for="name">Name</label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="name" class="form-control form-control-lg" name="name" value="{{ product.name }}" />
+                                        <span id="namespan" style="font-size: 12px;"></span>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0" for="category">Category</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <select id="category" class="form-control form-control-lg" name="category">
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="others">Others</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0" for="description">Product Description</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="description" class="form-control form-control-lg" name="description" size="50" value="{{ product.description }}" />
+                                        <span id="descriptionspan" style="font-size: 12px;"></span>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0" for="image">Product Image</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <!-- Display the current product image -->
+                                        <img src="{{ product.image.url }}" width="100" height="100" alt="{{ product.name }}" />
+                                        <!-- Allow users to upload a new image if needed -->
+                                        <input type="file" id="new_image" class="form-control form-control-lg" name="new_image" accept="image/*" />
+                                        <span id="imagespan" style="font-size: 12px;"></span>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0" for="price">Price</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="price" class="form-control form-control-lg" name="price" value="{{ product.price }}" />
+                                        <span id="pricespan" style="font-size: 12px;"></span>
+                                    </div>
+                                </div>
+                                   {% endfor %}
+
+                            </div>
+                            <hr>
+                            <br>
+                    </section>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="saveChangesBtn" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+
+            </div>
+        </div>
+    </div>
     
     
-        
+    
+    
+    <script>
+        function openEditModal(productId) {
+            console.log('Edit button clicked with product ID: ' + productId);
+            // Rest of the function
+            $.ajax({
+                url: '/get_product_details/' + productId + '/',
+                type: 'GET',
+                success: function (data) {
+                    // Update the edit modal with product details
+                    $('#editProductModal').modal('show');
+                    // Fill the fields in the modal with the received data
+                    $('#name').val(data.name);
+                    $('#category').val(data.category);
+                    $('#description').val(data.description);
+                    $('#price').val(data.price);
+                    $('#image').val(data.image);
+                    // You can handle the image display as needed
+                }
+            });
+        }
+    </script>
+    
         
 
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
