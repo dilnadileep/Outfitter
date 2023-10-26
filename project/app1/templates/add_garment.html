@@ -20,7 +20,8 @@
             }
         </style>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-         
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
     </head>
     <body>
         <section style="background-color: #e1c9c9;">
@@ -70,11 +71,19 @@
                             <td>{{ product.pro_category }}</td>
                             <td>{{ product.description }}</td>
                             <td>{{ product.price }}</td>
-                            <td><img src="{{ product.image.url }}" width="100" height="100" alt="{{ product.name }}" /></td>
-                
                             <td>
-                                <button class="green-button" data-bs-toggle="modal" data-bs-target="#editProductModal" onclick="openEditModal({{ product.id }})">Edit</button>
-                                <a href="{% url 'delete_product' product.id %}">Delete</a>
+                                {% if product.image %}
+                                    <img src="{{ product.image.url }}" width="100" height="100" alt="{{ product.name }}" />
+                                {% else %}
+                                    Image not available
+                                {% endif %}
+                            </td>
+                                            
+                            <td>
+                                <button class="green-button" data-bs-toggle="modal" data-bs-target="#editProductModal" data-product-id="{{ product.id }}">Edit</button>
+                                <button class="red-button"> 
+                                    <a href="{% url 'delete_product' product.id %}">Delete</a>
+                                </button> 
                             </td>
                         </tr>
                         {% endfor %}
@@ -183,7 +192,6 @@
                         <form method="POST" enctype="multipart/form-data" action="" id="edit-form">
                             {% csrf_token %}
                             <div class="card-body">
-                                {% for product in products %}
 
                                 <div class="row">
                                     <div class="col-sm-3">
@@ -220,11 +228,16 @@
                                 <hr>
                                 <div class="row">
                                     <div class="col-sm-3">
-                                        <p class="mb-0" for="image">Product Image</p>
+                                        <p class="mb-0" for="new_image">Product Image</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <!-- Display the current product image -->
-                                        <img src="{{ product.image.url }}" width="100" height="100" alt="{{ product.name }}" />
+                                        <!-- Check if the product has an image -->
+                                        {% if product.image %}
+                                            <img src="{{ product.image.url }}" width="100" height="100" alt="{{ product.name }}" />
+                                        {% else %}
+                                            <!-- Display a message if no image is available -->
+                                            Image not available
+                                        {% endif %}
                                         <!-- Allow users to upload a new image if needed -->
                                         <input type="file" id="new_image" class="form-control form-control-lg" name="new_image" accept="image/*" />
                                         <span id="imagespan" style="font-size: 12px;"></span>
@@ -240,7 +253,6 @@
                                         <span id="pricespan" style="font-size: 12px;"></span>
                                     </div>
                                 </div>
-                                   {% endfor %}
 
                             </div>
                             <hr>
@@ -249,7 +261,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" id="saveChangesBtn" class="btn btn-primary">Save Changes</button>
+                    <button type="submit" id="saveChangesBtn" class="btn btn-primary">Save Changes</button>
                 </div>
             </form>
 
@@ -258,42 +270,75 @@
     </div>
     
     
+    <!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+
+
     
     
-    <script>
-        function openEditModal(productId) {
-            console.log('Edit button clicked with product ID: ' + productId);
-            // Rest of the function
-            $.ajax({
-                url: '/get_product_details/' + productId + '/',
-                type: 'GET',
-                success: function (data) {
-                    // Update the edit modal with product details
-                    $('#editProductModal').modal('show');
-                    // Fill the fields in the modal with the received data
-                    $('#name').val(data.name);
-                    $('#category').val(data.category);
-                    $('#description').val(data.description);
-                    $('#price').val(data.price);
-                    $('#image').val(data.image);
-                    // You can handle the image display as needed
-                }
-            });
-        }
-    </script>
+    
     
         
 
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
        
    
         
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>        <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
-
+            <script>
+                $(document).ready(function() {
+                    // Function to open the edit modal
+                    function openEditModal(productId) {
+                        $.ajax({
+                            url: `/edit_product/${productId}/`,
+                            type: 'GET',
+                            success: function (data) {
+                                $('#editProductModal #name').val(data.name);
+                                $('#editProductModal #category').val(data.category);
+                                $('#editProductModal #description').val(data.description);
+                                $('#editProductModal #price').val(data.price);
+                                if (data.image_url) {
+                                    $('#editProductModal #image').attr('src', data.image_url);
+                                } else {
+                                    $('#editProductModal #image').attr('src', '');
+                                }
+            
+                                // Set the product_id as a data attribute on the form
+                                $('#edit-form').data('product-id', productId);
+            
+                                $('#editProductModal').modal('show');
+                            }
+                        });
+                    }
+            
+                    // Handle form submission within the edit modal
+                    $('#edit-form').on('submit', function (e) {
+                        e.preventDefault();
+                        // Get the productId from the form's data attribute
+                        var productId = $(this).data('product-id');
+                        $.ajax({
+                            url: `/edit_product/${productId}/`,
+                            type: 'POST',
+                            data: $(this).serialize(),
+                            success: function (response) {
+                                alert(response.message);
+                                $('#editProductModal').modal('hide');
+                            }
+                        });
+                    });
+            
+                    // Add a click event to trigger the edit modal
+                    $('.green-button[data-bs-target="#editProductModal"]').click(function() {
+                        var productId = $(this).data('product-id');
+                        openEditModal(productId);
+                    });
+                });
+            </script>
+            
+            
     </body>
 </html>

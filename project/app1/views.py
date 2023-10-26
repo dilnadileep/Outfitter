@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .models import UserProfile
+from django.http import JsonResponse
 
 
 
@@ -171,7 +172,6 @@ class CustomPasswordResetCompleteView(auth_views.PasswordResetCompleteView):
 
 
 
-from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from .models import CustomUser
 
@@ -195,7 +195,6 @@ def admindashboard(request):
             
     
 
-from django.http import JsonResponse
 from .models import CustomUser
 
 def toggle_user_status(request, user_id):
@@ -241,13 +240,6 @@ def profile(request):
     return render(request, "profile.html", {"user_profile": user_profile})
 
 
-
-
-
-# def add_garment(request):
-#     return render(request, "add_garment.html")
-
-
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Product
@@ -273,40 +265,47 @@ def add_garment(request):
 
     return render(request, 'add_garment.html', {'products': products})
 
+from django.shortcuts import redirect, get_object_or_404
 
-
-# def edit_product(request, product_id):
-#     product = get_object_or_404(Product, id=product_id)
-#     # Handle editing the product here
-#     # You can use a similar form as in your add_garment view
-#     # Update the product instance and save it
-    
-#     return redirect('add_garment')  # Redirect back to the product list page
 
 def delete_product(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    # Handle deleting the product here
-    # Delete the product instance
+    product = get_object_or_404(Product, pk=product_id)
+    product.delete()
+    return redirect('add_garment')  # Redirect to the product list page (change 'product_list' to your actual URL name)
+
+
+
+
+
+def edit_product(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+
+    if request.method == "POST":
+        name = request.POST.get("name")
+        category1 = request.POST.get("category")
+        description = request.POST.get("description")
+        image = request.FILES.get("new_image")
+        price = request.POST.get("price")
+
+        # Update the product's details
+        product.name = name
+        product.pro_category = category1
+        product.description = description
+        if image:
+            product.image = image
+        product.price = price
+        product.save()
+
+        return JsonResponse({'message': 'Product updated successfully'})
     
-    return redirect('add_garment')  
+    # For GET requests, return product details as JSON
+    product_data = {
+        'name': product.name,
+        'category': product.pro_category,
+        'description': product.description,
+        'price': product.price,
+        'image_url': product.image.url if product.image else None,
+    }
 
+    return JsonResponse(product_data)
 
-from django.http import JsonResponse
-from app1.models import Product  # Import the model here
-
-
-
-def get_product_details(request, product_id):
-    try:
-        product = Product.objects.get(id=product_id)  # Replace with your actual model
-        data = {
-            'name': product.name,
-            'category': product.category,
-            'description': product.description,
-            'price': product.price,
-            'image': product.image,
-            # Add more fields if needed
-        }
-        return JsonResponse(data)
-    except Product.DoesNotExist:  # Handle the case where the product does not exist
-        return JsonResponse({'error': 'Product not found'}, status=404)
