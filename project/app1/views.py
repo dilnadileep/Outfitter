@@ -244,26 +244,30 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Product
 
+from django.shortcuts import render, redirect, get_object_or_404
+
 def add_garment(request):
-    products = Product.objects.all()
+    if request.user.is_authenticated:
+        # Filter products by the currently logged-in user
+        products = Product.objects.filter(user=request.user)
 
-    if request.method == "POST":
-        name = request.POST.get("name")
-        category1 = request.POST.get("category")
-        description = request.POST.get("description")
-        image = request.FILES.get("image")
-        price = request.POST.get("price")
-        
-        # Get the currently logged-in user
-        user = request.user
+        if request.method == "POST":
+            name = request.POST.get("name")
+            category1 = request.POST.get("category")
+            description = request.POST.get("description")
+            image = request.FILES.get("image")
+            price = request.POST.get("price")
 
-        # Create and save the product
-        product = Product(name=name,pro_category=category1,description=description,image=image,price=price,user=user)
-        product.save()
+            # Create and save the product with the currently logged-in user
+            product = Product(name=name, pro_category=category1, description=description, image=image, price=price, user=request.user)
+            product.save()
 
-        return redirect('add_garment')  # Redirect to a success page or any other page you prefer
+            return redirect('add_garment')  # Redirect to the product list page
 
-    return render(request, 'add_garment.html', {'products': products})
+        return render(request, 'add_garment.html', {'products': products})
+
+    else:
+        return redirect('signin')  # Redirect to the sign-in page if the user is not authenticated
 
 from django.shortcuts import redirect, get_object_or_404
 
@@ -308,4 +312,5 @@ def edit_product(request, product_id):
     }
 
     return JsonResponse(product_data)
+
 

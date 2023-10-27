@@ -231,13 +231,11 @@
                                         <p class="mb-0" for="new_image">Product Image</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <!-- Check if the product has an image -->
+                                        <!-- Display the current product image -->
                                         {% if product.image %}
-                                            <img src="{{ product.image.url }}" width="100" height="100" alt="{{ product.name }}" />
-                                        {% else %}
-                                            <!-- Display a message if no image is available -->
-                                            Image not available
-                                        {% endif %}
+                                        <img src="{{ product.image.url }}" width="100" height="100" alt="{{ product.name }}" />
+                                   
+                                    {% endif %}
                                         <!-- Allow users to upload a new image if needed -->
                                         <input type="file" id="new_image" class="form-control form-control-lg" name="new_image" accept="image/*" />
                                         <span id="imagespan" style="font-size: 12px;"></span>
@@ -273,13 +271,6 @@
     <!-- Include jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
-
-
-    
-    
-    
-    
-        
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
        
@@ -330,15 +321,28 @@
                             }
                         });
                     });
+                    if (data.image_url) {
+                        $('#editProductModal #image').attr('src', data.image_url);
+                    } else {
+                        $('#editProductModal #image').attr('src', '');
+                    }
+                    
             
                     // Add a click event to trigger the edit modal
                     $('.green-button[data-bs-target="#editProductModal"]').click(function() {
                         var productId = $(this).data('product-id');
                         openEditModal(productId);
                     });
+
+                   
                 });
+               
+                
+                
             </script>
             
+          <script>
             
+          </script>  
     </body>
 </html>
