@@ -20,7 +20,7 @@ class UserProfile(models.Model):
     state = models.CharField(max_length=255, null=True, blank=True)
     district = models.CharField(max_length=100, blank=True, null=True)
     gender = models.CharField(max_length=10, blank=True)
-    age = models.IntegerField(blank=True, null=True)
+    age = models.DateField(blank=True, null=True) 
     
     def __str__(self):
         return self.user.username

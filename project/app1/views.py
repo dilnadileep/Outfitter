@@ -240,7 +240,6 @@ def profile(request):
     return render(request, "profile.html", {"user_profile": user_profile})
 
 
-from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Product
 
@@ -269,7 +268,6 @@ def add_garment(request):
     else:
         return redirect('signin')  # Redirect to the sign-in page if the user is not authenticated
 
-from django.shortcuts import redirect, get_object_or_404
 
 
 def delete_product(request, product_id):
@@ -288,20 +286,26 @@ def edit_product(request, product_id):
         name = request.POST.get("name")
         category1 = request.POST.get("category")
         description = request.POST.get("description")
-        image = request.FILES.get("new_image")
+        new_image = request.FILES.get("new_image")
+        current_image_url = request.POST.get("current_image")  # Get the URL of the current image
         price = request.POST.get("price")
 
         # Update the product's details
         product.name = name
         product.pro_category = category1
         product.description = description
-        if image:
-            product.image = image
         product.price = price
+
+        if new_image:
+            if product.image:
+                # Delete the old image to save space
+                product.image.delete()
+            product.image = new_image
+
         product.save()
 
         return JsonResponse({'message': 'Product updated successfully'})
-    
+
     # For GET requests, return product details as JSON
     product_data = {
         'name': product.name,
@@ -313,4 +317,9 @@ def edit_product(request, product_id):
 
     return JsonResponse(product_data)
 
+def productview(request):
+    products = Product.objects.all()
 
+    return render(request, "productview.html", {"products": products})
+
+    

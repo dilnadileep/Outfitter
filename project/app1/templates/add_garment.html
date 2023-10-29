@@ -228,18 +228,17 @@
                                 <hr>
                                 <div class="row">
                                     <div class="col-sm-3">
-                                        <p class="mb-0" for="new_image">Product Image</p>
+                                        <p class="mb-0" for="new_image"><label for="new_image">Product Image</label></p>
                                     </div>
                                     <div class="col-sm-9">
                                         <!-- Display the current product image -->
-                                        {% if product.image %}
                                         <img src="{{ product.image.url }}" width="100" height="100" alt="{{ product.name }}" />
-                                   
-                                    {% endif %}
+                                        <input type="hidden" name="current_image" value="{{ product.image.url }}">
                                         <!-- Allow users to upload a new image if needed -->
-                                        <input type="file" id="new_image" class="form-control form-control-lg" name="new_image" accept="image/*" />
-                                        <span id="imagespan" style="font-size: 12px;"></span>
+                                        <input type="file" id="new_image" class="form-control" name="new_image" accept="image/*">
+                                        <span id="new_imagespan" style="font-size: 12px;"></span>
                                     </div>
+
                                 </div>
                                 <hr>
                                 <div class="row">
@@ -293,9 +292,9 @@
                                 $('#editProductModal #description').val(data.description);
                                 $('#editProductModal #price').val(data.price);
                                 if (data.image_url) {
-                                    $('#editProductModal #image').attr('src', data.image_url);
+                                    $('#editProductModal img').attr('src', data.image_url); // Update the image source
                                 } else {
-                                    $('#editProductModal #image').attr('src', '');
+                                    $('#editProductModal img').attr('src', '');
                                 }
             
                                 // Set the product_id as a data attribute on the form
@@ -321,12 +320,7 @@
                             }
                         });
                     });
-                    if (data.image_url) {
-                        $('#editProductModal #image').attr('src', data.image_url);
-                    } else {
-                        $('#editProductModal #image').attr('src', '');
-                    }
-                    
+                   
             
                     // Add a click event to trigger the edit modal
                     $('.green-button[data-bs-target="#editProductModal"]').click(function() {
