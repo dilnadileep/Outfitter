@@ -23,10 +23,8 @@ def t_index(request):
 
 
 def signin(request):
-    # Check if the user is already authenticated
     if request.user.is_authenticated:
         if request.user.is_customer:
-            # Redirect to the migrant dashboard or your desired URL for migrants
             return redirect("index")  # Replace with your URL name
         elif request.user.is_tailor:
             # Redirect to the institute dashboard or your desired URL for institutes
@@ -193,7 +191,8 @@ def admindashboard(request):
     else:
         return render(request, "index.html")
             
-    
+   
+
 
 from .models import CustomUser
 
@@ -278,15 +277,16 @@ def delete_product(request, product_id):
 
 
 
+from django.http import JsonResponse
+
 def edit_product(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
 
     if request.method == "POST":
         category1 = request.POST.get("category")
         description = request.POST.get("description")
-        new_image = request.FILES.get("new_image")
-        current_image_url = request.POST.get("current_image")  # Get the URL of the current image
         price = request.POST.get("price")
+        new_image = request.FILES.get("new_image")
 
         # Update the product's details
         product.pro_category = category1
@@ -319,3 +319,12 @@ def productview(request):
     return render(request, "productview.html", {"products": products})
 
     
+
+from django.shortcuts import render, get_object_or_404
+from .models import Product
+
+def product_detail(request, product_id):
+    # Retrieve the product from the database using its ID
+    product = get_object_or_404(Product, id=product_id)
+
+    return render(request, "product_detail.html", {"product": product})

@@ -32,6 +32,8 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/', blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    # tailor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='tailored_products')
+
 
     def __str__(self):
         return self.name

@@ -34,8 +34,13 @@
                                 <li class="breadcrumb-item">
                                     {% if user.is_customer %}
                                     <a href="{% url "index" %}">Home</a></li>
+
                                     {% elif user.is_tailor %}
                                     <a href="{% url "t_index" %}">Home</a></li>
+                                    <li class="breadcrumb-item">
+
+                                    <a href="{% url "profile" %}">Profile</a></li>
+
                                     {% endif %}
                                 <li class="breadcrumb-item active"
                                     aria-current="page">Add Garment</li>
@@ -105,6 +110,7 @@
                                     <div class="row">
                                    
                                     <hr>
+
                                     <div class="row">
                                         <div class="col-sm-3">
                                             <p class="mb-0" for="category">Category</p>
@@ -116,9 +122,12 @@
                                                 <option value="Blouse">Blouse</option>
                                                 <option value="Kurti">Kurti</option>
                                             </select>
+                                            <br>
                                         </div>
                                     </div>
                                     <hr>
+                                   
+
                                     <div class="row">
                                         <div class="col-sm-3">
                                             <p class="mb-0" for="description">Product Description</p>
@@ -126,9 +135,11 @@
                                         <div class="col-sm-9">
                                             <input type="text" id="description" class="form-control form-control-lg" name="description" size="50"/>
                                             <span id="descriptionspan" style="font-size: 12px;"></span>
+                                            <br>
                                         </div>
                                     </div>
                                     <hr>
+
                                     <div class="row">
                                         <div class="col-sm-3">
                                             <p class="mb-0" for="image">Product Image</p>
@@ -136,6 +147,7 @@
                                         <div class="col-sm-9">
                                             <input type="file" id="image" class="form-control form-control-lg" name="image" accept="image/*" />
                                             <span id="imagespan" style="font-size: 12px;"></span>
+                                            <br>
                                         </div>
                                     </div>
                                     <hr>
@@ -152,18 +164,14 @@
                                     
                                 </div>
                                 <hr>
-
                                  <br>
-
-                            
-                            
                         </section>
                         <!-- Add your product input fields here -->
                         <!-- For example, you can add text input fields for product name, description, etc. -->
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save Product</button>
+                        <button type="submit" class="btn btn-primary" id="savebtn" name="savebtn">Save Product</button>
                     </form>
                     </div>
                 </div>
@@ -222,8 +230,8 @@
                                         <img src="{{ product.image.url }}" width="100" height="100" alt="{{ product.name }}" />
                                         <input type="hidden" name="current_image" value="{{ product.image.url }}">
                                         <!-- Allow users to upload a new image if needed -->
-                                        <input type="file" id="new_image" class="form-control" name="new_image" accept="image/*">
-                                        <span id="new_imagespan" style="font-size: 12px;"></span>
+                                        <input type="file" id="new_image" class="form-control" name="new_image" accept="image/*">                                   
+                                             <span id="new_imagespan" style="font-size: 12px;"></span>
                                     </div>
 
                                 </div>
@@ -245,7 +253,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" id="saveChangesBtn" class="btn btn-primary">Save Changes</button>
+                    <button type="submit" id="savebtn-edit" name="savebtn-edit" class="btn btn-primary">Save Changes</button>
                 </div>
             </form>
 
@@ -253,7 +261,8 @@
         </div>
     </div>
     
-    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <!-- Include jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
@@ -322,8 +331,182 @@
                 
             </script>
             
-          <script>
+            <script>
+                $(document).ready(function () {
+                    const fields = [
+                        { id: "#category", validate: validateCategory },
+                        { id: "#description", validate: validateDescription },
+                        { id: "#image", validate: validateImage },
+                        { id: "#price", validate: validatePrice },
+                    ];
             
-          </script>  
+                    fields.forEach(field => {
+                        $(field.id).blur(function () {
+                            field.validate();
+                        });
+                    });
+            
+                    function checkFormValidity() {
+                        const isValid = fields.every(field => {
+                            const $field = $(field.id);
+                            const $errorSpan = $(`${field.id}span`);
+                            return $field.val().trim() !== "" && $errorSpan.text() === "";
+                        });
+            
+                        $("#savebtn").prop("disabled", !isValid);
+                    }
+            
+                    // Form submission
+                    $("#form").submit(function (event) {
+                        if (!$("#savebtn").prop("disabled")) {
+                            // Form is valid, allow submission
+                            return true;
+                        } else {
+                            // Form is not valid, prevent submission
+                            event.preventDefault();
+                            return false;
+                        }
+                    });
+            
+                    // Initial check for form validity
+                    checkFormValidity();
+            
+                    function validateCategory() {
+                        const categoryInput = $("#category");
+                        const categorySpan = $("#categoryspan");
+            
+                        if (categoryInput.val().trim() === "") {
+                            categorySpan.text('Category is required.');
+                        } else {
+                            categorySpan.text('');
+                        }
+                    }
+            
+                    function validateDescription() {
+                        const descriptionInput = $("#description");
+                        const descriptionSpan = $("#descriptionspan");
+            
+                        if (descriptionInput.val().trim() === "") {
+                            descriptionSpan.text('Description is required.');
+                        } else {
+                            descriptionSpan.text('');
+                        }
+                    }
+            
+                    function validateImage() {
+                        const imageInput = $("#image");
+                        const imageSpan = $("#imagespan");
+            
+                        if (imageInput.val() === "") {
+                            imageSpan.text('Image is required.');
+                        } else {
+                            imageSpan.text('');
+                        }
+                    }
+            
+                    function validatePrice() {
+                        const priceInput = $("#price");
+                        const priceSpan = $("#pricespan");
+            
+                        if (priceInput.val().trim() === "") {
+                            priceSpan.text('Price is required.');
+                        } else {
+                            priceSpan.text('');
+                        }
+                    }
+                });
+            </script>
+            
+{% comment %} <script>
+    $(document).ready(function () {
+        const editFields = [
+            { id: "#category", validate: validateCategoryEdit },
+            { id: "#description", validate: validateDescriptionEdit },
+            { id: "#new_image", validate: validateImageEdit },
+            { id: "#price", validate: validatePriceEdit },
+        ];
+
+        initializeValidation(editFields);
+
+        function initializeValidation(fields) {
+            fields.forEach(field => {
+                $(field.id).on("input", function () {
+                    field.validate();
+                    checkFormValidity();
+                });
+            });
+        }
+
+        function checkFormValidity() {
+            const isValidEdit = editFields.every(field => {
+                const $field = $(field.id);
+                const $errorSpan = $(`${field.id}span`);
+                return $field.val().trim() !== "" && $errorSpan.text() === "";
+            });
+
+            $("#savebtn-edit").prop("disabled", !isValidEdit);
+        }
+
+        $("#edit-form").submit(function (event) {
+            // Check form validity once more before submission
+            checkFormValidity();
+            if (!$("#savebtn-edit").prop("disabled")) {
+                return true; // Form is valid, allow submission
+            } else {
+                event.preventDefault();
+                return false; // Form is not valid, prevent submission
+            }
+        });
+
+        checkFormValidity();
+
+        function validateCategoryEdit() {
+            const categoryInput = $("#category");
+            const categorySpan = $("#categoryspan");
+
+            if (categoryInput.val().trim() === "") {
+                categorySpan.text('Category is required.');
+            } else {
+                categorySpan.text('');
+            }
+        }
+
+        function validateDescriptionEdit() {
+            const descriptionInput = $("#description");
+            const descriptionSpan = $("#descriptionspan");
+
+            if (descriptionInput.val().trim() === "") {
+                descriptionSpan.text('Description is required.');
+            } else {
+                descriptionSpan.text('');
+            }
+        }
+
+        function validateImageEdit() {
+            const imageInput = $("#new_image");
+            const imageSpan = $("#new_imagespan");
+
+            if (imageInput.val() === "" && !imageInput[0].files[0]) {
+                imageSpan.text('Image is required.');
+            } else {
+                imageSpan.text('');
+            }
+        }
+
+        function validatePriceEdit() {
+            const priceInput = $("#price");
+            const priceSpan = $("#pricespan");
+
+            if (priceInput.val().trim() === "") {
+                priceSpan.text('Price is required.');
+            } else {
+                priceSpan.text('');
+            }
+        }
+    });
+</script> {% endcomment %}
+
+            
+            
     </body>
 </html>

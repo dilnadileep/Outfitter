@@ -28,13 +28,24 @@
                 <div class="col">
                     <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
                         <ol class="breadcrumb mb-0">
+                            {% if user.is_customer %}
+
                             <li class="breadcrumb-item">
                                 <a href="{% url "index" %}">Home</a>
                             </li>
+                            {% elif user.is_tailor %}
+                            <li class="breadcrumb-item">
+                                <a href="{% url "index" %}">Home</a>
+                            </li>
+                            {% endif %}
                             <li class="breadcrumb-item">
                                 <a href="{% url "profile" %}">Profile</a>
                             </li>
+                            {% if user.is_customer %}
+
                             <li class="breadcrumb-item active" aria-current="page">Product List</li>
+                            {% endif %}
+
                         </ol>
                     </nav>
                 </div>
@@ -47,7 +58,7 @@
                             <h5 class="card-title">{{ product.pro_category }}</h5>
                             <p class="card-text">{{ product.description }}</p>
                             <p class="card-text">Price: ${{ product.price }}</p>
-                            {% comment %} <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a> {% endcomment %}
+                            <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a> 
                             <button class="btn-add-to-cart">Add to Cart</button>
 
                         </div>
