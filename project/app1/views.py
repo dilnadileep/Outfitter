@@ -251,14 +251,13 @@ def add_garment(request):
         products = Product.objects.filter(user=request.user)
 
         if request.method == "POST":
-            name = request.POST.get("name")
             category1 = request.POST.get("category")
             description = request.POST.get("description")
             image = request.FILES.get("image")
             price = request.POST.get("price")
 
             # Create and save the product with the currently logged-in user
-            product = Product(name=name, pro_category=category1, description=description, image=image, price=price, user=request.user)
+            product = Product(pro_category=category1, description=description, image=image, price=price, user=request.user)
             product.save()
 
             return redirect('add_garment')  # Redirect to the product list page
@@ -283,7 +282,6 @@ def edit_product(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
 
     if request.method == "POST":
-        name = request.POST.get("name")
         category1 = request.POST.get("category")
         description = request.POST.get("description")
         new_image = request.FILES.get("new_image")
@@ -291,7 +289,6 @@ def edit_product(request, product_id):
         price = request.POST.get("price")
 
         # Update the product's details
-        product.name = name
         product.pro_category = category1
         product.description = description
         product.price = price
@@ -308,7 +305,6 @@ def edit_product(request, product_id):
 
     # For GET requests, return product details as JSON
     product_data = {
-        'name': product.name,
         'category': product.pro_category,
         'description': product.description,
         'price': product.price,

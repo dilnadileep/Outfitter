@@ -27,7 +27,6 @@ class UserProfile(models.Model):
 
    
 class Product(models.Model):
-    name = models.CharField(max_length=255)
     pro_category = models.CharField(max_length=50, blank=True)
     description = models.CharField(max_length=255, blank=True)
     image = models.ImageField(upload_to='products/', blank=True, null=True)

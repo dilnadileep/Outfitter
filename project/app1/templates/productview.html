@@ -43,11 +43,13 @@
                 {% for product in products %}
                     <div class="col-md-4 mb-4">
                         <div class="product-card">
-                            <img src="{{ product.image.url }}" class="product-image" alt="{{ product.name }}">
-                            <h5 class="card-title">{{ product.name }}</h5>
+                            <img src="{{ product.image.url }}" class="product-image" alt="{{ product.pro_category }}">
+                            <h5 class="card-title">{{ product.pro_category }}</h5>
                             <p class="card-text">{{ product.description }}</p>
                             <p class="card-text">Price: ${{ product.price }}</p>
                             {% comment %} <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a> {% endcomment %}
+                            <button class="btn-add-to-cart">Add to Cart</button>
+
                         </div>
                     </div>
                 {% endfor %}

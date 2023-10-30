@@ -56,7 +56,6 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Name</th>
                             <th>Category</th>
                             <th>Description</th>
                             <th>Price</th>
@@ -67,7 +66,6 @@
                     <tbody>
                         {% for product in products %}
                         <tr>
-                            <td>{{ product.name }}</td>
                             <td>{{ product.pro_category }}</td>
                             <td>{{ product.description }}</td>
                             <td>{{ product.price }}</td>
@@ -105,14 +103,7 @@
                                 {% csrf_token %}
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-sm-3">
-                                            <p class="mb-0" for="name">Name</p>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <input type="text" id="name" class="form-control form-control-lg" name="name" />
-                                            <span id="namespan" style="font-size: 12px;"></span>
-                                        </div>
-                                    </div>
+                                   
                                     <hr>
                                     <div class="row">
                                         <div class="col-sm-3">
@@ -120,9 +111,10 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <select id="category" class="form-control form-control-lg" name="category">
-                                                <option value="male">Male</option>
-                                                <option value="female">Female</option>
-                                                <option value="others">Others</option>
+                                                <option value="Skirt">Skirt</option>
+                                                <option value="Top">Top</option>
+                                                <option value="Blouse">Blouse</option>
+                                                <option value="Kurti">Kurti</option>
                                             </select>
                                         </div>
                                     </div>
@@ -157,6 +149,7 @@
                                             <span id="pricespan" style="font-size: 12px;"></span>
                                         </div>
                                     </div>
+                                    
                                 </div>
                                 <hr>
 
@@ -193,15 +186,7 @@
                             {% csrf_token %}
                             <div class="card-body">
 
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <label class="mb-0" for="name">Name</label>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <input type="text" id="name" class="form-control form-control-lg" name="name" value="{{ product.name }}" />
-                                        <span id="namespan" style="font-size: 12px;"></span>
-                                    </div>
-                                </div>
+                                
                                 <hr>
                                 <div class="row">
                                     <div class="col-sm-3">
@@ -209,9 +194,11 @@
                                     </div>
                                     <div class="col-sm-9">
                                         <select id="category" class="form-control form-control-lg" name="category">
-                                            <option value="male">Male</option>
-                                            <option value="female">Female</option>
-                                            <option value="others">Others</option>
+                                            <option value="Skirt">Skirt</option>
+                                            <option value="Top">Top</option>
+                                            <option value="Blouse">Blouse</option>
+                                            <option value="Kurti">Kurti</option>
+
                                         </select>
                                     </div>
                                 </div>
