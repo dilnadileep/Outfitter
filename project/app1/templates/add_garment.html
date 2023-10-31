@@ -63,6 +63,7 @@
                         <tr>
                             <th>Category</th>
                             <th>Description</th>
+                            <th>Time period</th>
                             <th>Price</th>
                             <th>Image</th>
                             <th>Actions</th>
@@ -73,6 +74,8 @@
                         <tr>
                             <td>{{ product.pro_category }}</td>
                             <td>{{ product.description }}</td>
+                            <td>{{ product.delivery_time }}</td>
+
                             <td>{{ product.price }}</td>
                             <td>
                                 {% if product.image %}
@@ -84,9 +87,14 @@
                                             
                             <td>
                                 <button class="green-button" data-bs-toggle="modal" data-bs-target="#editProductModal" data-product-id="{{ product.id }}">Edit</button>
-                                <button class="red-button"> 
-                                    <a href="{% url 'delete_product' product.id %}">Delete</a>
-                                </button> 
+                                <button class="deactivate-button" type="button" data-product-id="{{ product.id }}"  data-deactivate-url="{% url 'deactivate_product' product.id %}">
+                                {% if not product.is_active %}
+                                    Activate
+                                {% else %}
+                                    Deactivate
+                                {% endif %}
+                            </button>
+                            </td> 
                             </td>
                         </tr>
                         {% endfor %}
@@ -119,7 +127,7 @@
                                             <select id="category" class="form-control form-control-lg" name="category">
                                                 <option value="Skirt">Skirt</option>
                                                 <option value="Top">Top</option>
-                                                <option value="Blouse">Blouse</option>
+                                                <option value="Saree Blouse">Saree Blouse</option>
                                                 <option value="Kurti">Kurti</option>
                                             </select>
                                             <br>
@@ -139,7 +147,21 @@
                                         </div>
                                     </div>
                                     <hr>
-
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0" for="time">Time period </p>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <select id="time" class="form-control form-control-lg" name="time">
+                                                <option value="3 Days">3 Days</option>
+                                                <option value="5 Days">5 Days</option>
+                                                <option value="9 Days">9 Days</option>
+                                                <option value="12 Days">12 Days</option>
+                                            </select>
+                                            <br>
+                                        </div>
+                                    </div>
+                                    <hr>
                                     <div class="row">
                                         <div class="col-sm-3">
                                             <p class="mb-0" for="image">Product Image</p>
@@ -218,6 +240,21 @@
                                     <div class="col-sm-9">
                                         <input type="text" id="description" class="form-control form-control-lg" name="description" size="50" value="{{ product.description }}" />
                                         <span id="descriptionspan" style="font-size: 12px;"></span>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0" for="time">Category</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <select id="time" class="form-control form-control-lg" name="time">
+                                            <option value="3 Days">3 Days</option>
+                                            <option value="5 Days">5 Days</option>
+                                            <option value="7 Days">7 Days</option>
+                                            <option value="12 Days">12 Days</option>
+
+                                        </select>
                                     </div>
                                 </div>
                                 <hr>
@@ -331,7 +368,7 @@
                 
             </script>
             
-            <script>
+            {% comment %} <script>
                 $(document).ready(function () {
                     const fields = [
                         { id: "#category", validate: validateCategory },
@@ -415,7 +452,7 @@
                         }
                     }
                 });
-            </script>
+            </script> {% endcomment %}
             
 {% comment %} <script>
     $(document).ready(function () {
@@ -505,6 +542,41 @@
         }
     });
 </script> {% endcomment %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.deactivate-button').click(function () {
+            var productId = $(this).data('product-id');
+            var deactivateUrl = $(this).data('deactivate-url');
+
+            // Send an AJAX request to deactivate the product
+            $.ajax({
+                type: 'POST',
+                url: deactivateUrl,
+                data: {
+                    'product_id': productId,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (data) {
+                    // Check the response data for debugging
+                    console.log(data);
+
+                    // Reload the page or update the UI as needed
+                    location.reload(); // This will refresh the page
+                },
+                error: function (xhr, status, error) {
+                    // Log the error for debugging
+                    console.log(xhr.responseText);
+                    console.log(status);
+                    console.log(error);
+
+                    alert('Failed to deactivate the product.');
+                }
+            });
+        });
+    });
+</script>
 
             
             

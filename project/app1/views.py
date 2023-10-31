@@ -252,11 +252,12 @@ def add_garment(request):
         if request.method == "POST":
             category1 = request.POST.get("category")
             description = request.POST.get("description")
+            time = request.POST.get("time")
             image = request.FILES.get("image")
             price = request.POST.get("price")
 
             # Create and save the product with the currently logged-in user
-            product = Product(pro_category=category1, description=description, image=image, price=price, user=request.user)
+            product = Product(pro_category=category1, description=description, delivery_time=time,image=image, price=price, user=request.user)
             product.save()
 
             return redirect('add_garment')  # Redirect to the product list page
@@ -267,13 +268,19 @@ def add_garment(request):
         return redirect('signin')  # Redirect to the sign-in page if the user is not authenticated
 
 
+from django.http import JsonResponse
 
-def delete_product(request, product_id):
-    product = get_object_or_404(Product, pk=product_id)
-    product.delete()
-    return redirect('add_garment')  # Redirect to the product list page (change 'product_list' to your actual URL name)
+def deactivate_product(request, product_id):
+    if request.is_ajax():
+        product = get_object_or_404(Product, pk=product_id)
+        
+        # Toggle the is_active field
+        product.is_active = not product.is_active
+        product.save()
 
+        return JsonResponse({'message': 'Product deactivated successfully'})
 
+    return JsonResponse({'error': 'Invalid request'})
 
 
 
@@ -285,6 +292,7 @@ def edit_product(request, product_id):
     if request.method == "POST":
         category1 = request.POST.get("category")
         description = request.POST.get("description")
+        time = request.POST.get("time")
         price = request.POST.get("price")
         new_image = request.FILES.get("new_image")
 
@@ -292,6 +300,8 @@ def edit_product(request, product_id):
         product.pro_category = category1
         product.description = description
         product.price = price
+        product.delivery_time = time
+
 
         if new_image:
             if product.image:
