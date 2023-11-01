@@ -52,19 +52,21 @@
             </div>
             <div class="row">
                 {% for product in products %}
-                    <div class="col-md-4 mb-4">
-                        <div class="product-card">
-                            <img src="{{ product.image.url }}" class="product-image" alt="{{ product.pro_category }}">
-                            <h5 class="card-title">{{ product.pro_category }}</h5>
-                            <p class="card-text">{{ product.description }}</p>
-                            <p class="card-text">Price: ${{ product.price }}</p>
-                            <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a> 
-                            <button class="btn-add-to-cart">Add to Cart</button>
-
+                    {% if product.is_active %}  {# Check if the product is active #}
+                        <div class="col-md-4 mb-4">
+                            <div class="product-card">
+                                <img src="{{ product.image.url }}" class="product-image" alt="{{ product.pro_category }}">
+                                <h5 class="card-title">{{ product.pro_category }}</h5>
+                                <p class="card-text">{{ product.description }}</p>
+                                <p class="card-text">Price: ${{ product.price }}</p>
+                                <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a> 
+                                <button class="btn-add-to-cart">Add to Cart</button>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                 {% endfor %}
             </div>
+            
         </div>
     </section>
 

@@ -269,18 +269,21 @@ def add_garment(request):
 
 
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
-def deactivate_product(request, product_id):
-    if request.is_ajax():
-        product = get_object_or_404(Product, pk=product_id)
-        
-        # Toggle the is_active field
+@csrf_exempt  # Add this decorator to disable CSRF protection for this view temporarily.
+def toggle_product_status(request, product_id):
+    if request.method == 'POST':
+        # Get the product based on product_id
+        product = Product.objects.get(id=product_id)
+
+        # Toggle the product's status
         product.is_active = not product.is_active
         product.save()
 
-        return JsonResponse({'message': 'Product deactivated successfully'})
+        # Return the updated status as JSON response
+        return JsonResponse({'status': 'active' if product.is_active else 'inactive'})
 
-    return JsonResponse({'error': 'Invalid request'})
 
 
 
