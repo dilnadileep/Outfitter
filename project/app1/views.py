@@ -341,3 +341,37 @@ def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
     return render(request, "product_detail.html", {"product": product})
+
+
+
+from django.shortcuts import render, redirect
+from .models import kurtiMeasurementEntry  # Import your MeasurementEntry model
+from django.http import HttpResponse
+
+def kurti_measurment(request):
+    if request.method == 'POST':
+        # Get data from the POST request
+        bust = request.POST.get('bust')
+        waist = request.POST.get('waist')
+        hips = request.POST.get('hips')
+        length = request.POST.get('length')
+        shoulder_width = request.POST.get('shoulderWidth')
+        sleeve_length = request.POST.get('sleeveLength')
+
+        # Create a new MeasurementEntry object and save it to the database
+        measurement = kurtiMeasurementEntry(
+            bust=bust,
+            waist=waist,
+            hips=hips,
+            length=length,
+            shoulder_width=shoulder_width,
+            sleeve_length=sleeve_length
+        )
+        measurement.save()
+
+        return redirect('kurti_measurment')  # Redirect to a success page or any other page you prefer
+
+    return render(request, "kurti_measurment.html")
+
+def success_page(request):
+    return HttpResponse("Measurement data has been saved successfully.")

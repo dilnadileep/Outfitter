@@ -69,6 +69,8 @@
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <div class="d-flex flex-column flex-lg-row align-items-center ml-auto"> <!-- Use ml-auto to push items to the right -->
                       <ul class="navbar-nav">
+                        {% if user.is_authenticated %}
+
                           <li class="nav-item">
                               <button class="instagram-button">
                                   <a href="{% url "add_garment" %}" class="nav-link">Add Your Garment</a>
@@ -83,6 +85,8 @@
                               <button class="instagram-button">
                                   <a href="{% url 'loggout' %}" class="nav-link">Logout</a>
                               </button>
+                              {% endif %}
+
                           </li>
                       </ul>
                   </div>
