@@ -42,13 +42,16 @@ class Product(models.Model):
         return self.name
 
 
-class kurtiMeasurementEntry(models.Model):
+class Measurement(models.Model):
     bust = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     waist = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     hips = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     length = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     shoulder_width = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     sleeve_length = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=None)
+    # Add a foreign key to the Product model
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
 
-    def __str__(self):
-        return f'Measurement Entry {self.id}'
+    def _str_(self):
+        return f'Measurement Entry{self.id}'

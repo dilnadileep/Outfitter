@@ -298,6 +298,7 @@ def edit_product(request, product_id):
         time = request.POST.get("time")
         price = request.POST.get("price")
         new_image = request.FILES.get("new_image")
+        print(new_image)
 
         # Update the product's details
         product.pro_category = category1
@@ -311,7 +312,6 @@ def edit_product(request, product_id):
                 # Delete the old image to save space
                 product.image.delete()
             product.image = new_image
-
         product.save()
 
         return JsonResponse({'message': 'Product updated successfully'})
@@ -337,7 +337,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import Product
 
 from django.shortcuts import render, redirect
-from .models import Product, kurtiMeasurementEntry  # Import your models
+from .models import Product, Measurement # Import your models
 from django.http import HttpResponse
 
 def product_detail(request, product_id):
@@ -346,7 +346,7 @@ def product_detail(request, product_id):
 
     return render(request, "product_detail.html", {"product": product})
 
-def kurti_measurment(request):
+def measurment(request):
     if request.method == 'POST':
         # Get data from the POST request and validate it
         bust = request.POST.get('bust')
@@ -357,7 +357,7 @@ def kurti_measurment(request):
         sleeve_length = request.POST.get('sleeveLength')
 
         selected_product_id = request.session.get('selected_product_id')
-        measurement = kurtiMeasurementEntry(
+        measurement = Measurement(
             bust=bust,
             waist=waist,
             hips=hips,

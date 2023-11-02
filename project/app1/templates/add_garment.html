@@ -1,121 +1,137 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>product add</title>
 
-        <style>
-            .green-button {
-                background-color: #4CAF50; /* Green color */
-                color: white; /* Text color */
-                padding: 10px 20px; /* Padding around text */
-                border: none; /* No border */
-                border-radius: 5px; /* Rounded corners */
-                cursor: pointer; /* Cursor style on hover */
-            }
-            .modal-lg {
-                max-width: 80%; /* Adjust the value as needed */
-            }
-        </style>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>product add</title>
 
-    </head>
-    <body>
-        <section style="background-color: #e1c9c9;">
-            <div class="container py-5">
-                <div class="row">
-                    <div class="col">
-                        <nav aria-label="breadcrumb"
-                            class="bg-light rounded-3 p-3 mb-4">
-                            <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item">
-                                    {% if user.is_customer %}
-                                    <a href="{% url "index" %}">Home</a></li>
+    <style>
+        .green-button {
+            background-color: #4CAF50;
+            /* Green color */
+            color: white;
+            /* Text color */
+            padding: 10px 20px;
+            /* Padding around text */
+            border: none;
+            /* No border */
+            border-radius: 5px;
+            /* Rounded corners */
+            cursor: pointer;
+            /* Cursor style on hover */
+        }
 
-                                    {% elif user.is_tailor %}
-                                    <a href="{% url "t_index" %}">Home</a></li>
-                                    <li class="breadcrumb-item">
+        .modal-lg {
+            max-width: 80%;
+            /* Adjust the value as needed */
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
-                                    <a href="{% url "profile" %}">Profile</a></li>
+</head>
 
-                                    {% endif %}
-                                <li class="breadcrumb-item active"
-                                    aria-current="page">Add Garment</li>
-                            </ol>
-                        </nav>
-                    </div>
+<body>
+    <section style="background-color: #e1c9c9;">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col">
+                    <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item">
+                                {% if user.is_customer %}
+                                <a href="{% url "index" %}">Home</a>
+                            </li>
+
+                            {% elif user.is_tailor %}
+                            <a href="{% url "t_index" %}">Home</a></li>
+                            <li class="breadcrumb-item">
+
+                                <a href="{% url "profile" %}">Profile</a>
+                            </li>
+
+                            {% endif %}
+                            <li class="breadcrumb-item active" aria-current="page">Add Garment</li>
+                        </ol>
+                    </nav>
                 </div>
-
-                
             </div>
-            <button class="green-button" data-bs-toggle="modal" data-bs-target="#addProductModal">Add New</button>
-                
-            <section>
-                <!-- Your form for adding products (as you've shown in your previous code) -->
-            
-                <hr>
-                <h2>Product List</h2>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Category</th>
-                            <th>Description</th>
-                            <th>Time period</th>
-                            <th>Price</th>
-                            <th>Image</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for product in products %}
-                        <tr>
-                            <td>{{ product.pro_category }}</td>
-                            <td>{{ product.description }}</td>
-                            <td>{{ product.delivery_time }}</td>
-                            <td>{{ product.price }}</td>
-                            <td>
-                                {% if product.image %}
-                                    <img src="{{ product.image.url }}" width="100" height="100" alt="{{ product.name }}" />
+
+
+        </div>
+        <button class="green-button" data-bs-toggle="modal" data-bs-target="#addProductModal">Add New</button>
+
+        <section>
+            <!-- Your form for adding products (as you've shown in your previous code) -->
+
+            <hr>
+            <h2>Product List</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Time period</th>
+                        <th>Price</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td>{{ product.pro_category }}</td>
+                        <td>{{ product.description }}</td>
+                        <td>{{ product.delivery_time }}</td>
+                        <td>{{ product.price }}</td>
+                        <td>
+                            {% if product.image %}
+                            <img src="{{ product.image.url }}" width="100" height="100" alt="{{ product.name }}" />
+                            {% else %}
+                            Image not available
+                            {% endif %}
+                        </td>
+                        <td>
+                            <button class="green-button" data-bs-toggle="modal" data-bs-target="#editProductModal"
+                                data-product-id="{{ product.id }}">Edit</button>
+                            <a href="#" class="status-toggle" data-product-id="{{ product.id }}"
+                                data-status="{% if product.is_active %}active{% else %}inactive{% endif %}">
+                                {% if product.is_active %}
+                                <button class="btn btn-danger btn-sm logout-button">Inactive</button>
                                 {% else %}
-                                    Image not available
+                                <button class="btn btn-success btn-sm activate-button">Activate</button>
                                 {% endif %}
-                            </td>
-                            <td>
-                                <button class="green-button" data-bs-toggle="modal" data-bs-target="#editProductModal" data-product-id="{{ product.id }}">Edit</button>
-                                <a href="#" class="status-toggle" data-product-id="{{ product.id }}" data-status="{% if product.is_active %}active{% else %}inactive{% endif %}">
-                                    {% if product.is_active %}
-                                        <button class="btn btn-danger btn-sm logout-button">Inactive</button>
-                                    {% else %}
-                                        <button class="btn btn-success btn-sm activate-button">Activate</button>
-                                    {% endif %}
-                                </a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                
-                
-            </section>
-          </section>
-          
-          <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
-            <div  class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <center><h5 class="modal-title" id="addProductModalLabel">Add a New Product</h5></center>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <section>
-                            <form method="POST" enctype="multipart/form-data" action=""  id="form">
-                                {% csrf_token %}
-                                <div class="card-body">
-                                    <div class="row">
-                                   
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+
+        </section>
+    </section>
+
+    <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <center>
+                        <h5 class="modal-title" id="addProductModalLabel">Add a New Product</h5>
+                    </center>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <section>
+                        <form method="POST" enctype="multipart/form-data" action="" id="form">
+                            {% csrf_token %}
+                            <div class="card-body">
+                                <div class="row">
                                     <hr>
 
                                     <div class="row">
@@ -125,6 +141,8 @@
                                         <div class="col-sm-9">
                                             <select id="category" class="form-control form-control-lg" name="category">
                                                 <option value="Skirt">Skirt</option>
+                                                <option value="Top">Top</option>
+                                                <option value="Blouse">Blouse</option>
                                                 <option value="Kurti">Kurti</option>
                                                 <span id="categoryspan" style="font-size: 12px;"></span>
 
@@ -140,7 +158,8 @@
                                             <p class="mb-0" for="description">Product Description</p>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" id="description" class="form-control form-control-lg" name="description" size="50"/>
+                                            <input type="text" id="description" class="form-control form-control-lg"
+                                                name="description" size="50" />
                                             <span id="descriptionspan" style="font-size: 12px;"></span>
                                             <br>
                                         </div>
@@ -163,14 +182,14 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    
-                                    <hr>
+
                                     <div class="row">
                                         <div class="col-sm-3">
                                             <p class="mb-0" for="image">Product Image</p>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="file" id="image" class="form-control form-control-lg" name="image" accept="image/*" />
+                                            <input type="file" id="image" class="form-control form-control-lg"
+                                                name="image" accept="image/*" />
                                             <span id="imagespan" style="font-size: 12px;"></span>
                                             <br>
                                         </div>
@@ -182,35 +201,39 @@
                                             <p class="mb-0" for="price">Price</p>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" id="price" class="form-control form-control-lg" name="price" />
+                                            <input type="text" id="price" class="form-control form-control-lg"
+                                                name="price" />
                                             <span id="pricespan" style="font-size: 12px;"></span>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                                 <hr>
-                                 <br>
-                        </section>
-                        <!-- Add your product input fields here -->
-                        <!-- For example, you can add text input fields for product name, description, etc. -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" id="savebtn" name="savebtn">Save Product</button>
+                                <br>
+                    </section>
+                    <!-- Add your product input fields here -->
+                    <!-- For example, you can add text input fields for product name, description, etc. -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="savebtn" name="savebtn">Save Product</button>
                     </form>
-                    </div>
                 </div>
             </div>
-            
         </div>
 
+    </div>
 
-      {% comment %} edit product modal {% endcomment %}
-      <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+
+    {% comment %} edit product modal {% endcomment %}
+    <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <center><h5 class="modal-title" id="editProductModalLabel">Edit Product</h5></center>
+                    <center>
+                        <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
+                    </center>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -219,7 +242,7 @@
                             {% csrf_token %}
                             <div class="card-body">
 
-                                
+
                                 <hr>
                                 <div class="row">
                                     <div class="col-sm-3">
@@ -231,7 +254,6 @@
                                             <option value="Top">Top</option>
                                             <option value="Blouse">Blouse</option>
                                             <option value="Kurti">Kurti</option>
-
                                         </select>
                                     </div>
                                 </div>
@@ -241,7 +263,8 @@
                                         <p class="mb-0" for="description">Product Description</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <input type="text" id="description" class="form-control form-control-lg" name="description" size="50" value="{{ product.description }}" />
+                                        <input type="text" id="description" class="form-control form-control-lg"
+                                            name="description" size="50" value="{{ product.description }}" />
                                         <span id="descriptionspan" style="font-size: 12px;"></span>
                                     </div>
                                 </div>
@@ -267,11 +290,12 @@
                                     </div>
                                     <div class="col-sm-9">
                                         <!-- Display the current product image -->
-                                        <img src="{{ product.image.url }}" width="100" height="100" alt="{{ product.name }}" />
-                                        <input type="hidden" name="current_image" value="{{ product.image.url }}">
+                                        <img src="{{ product.image.url }}" width="100" height="100"
+                                            alt="{{ product.name }}" />
                                         <!-- Allow users to upload a new image if needed -->
-                                        <input type="file" id="new_image" class="form-control" name="new_image" accept="image/*">                                   
-                                             <span id="new_imagespan" style="font-size: 12px;"></span>
+                                        <input type="file" id="new_image" class="form-control" name="new_image"
+                                            accept="image/*">
+                                        <span id="new_imagespan" style="font-size: 12px;"></span>
                                     </div>
 
                                 </div>
@@ -281,7 +305,8 @@
                                         <p class="mb-0" for="price">Price</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <input type="text" id="price" class="form-control form-control-lg" name="price" value="{{ product.price }}" />
+                                        <input type="text" id="price" class="form-control form-control-lg" name="price"
+                                            value="{{ product.price }}" />
                                         <span id="pricespan" style="font-size: 12px;"></span>
                                     </div>
                                 </div>
@@ -293,128 +318,139 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" id="savebtn-edit" name="savebtn-edit" class="btn btn-primary">Save Changes</button>
+                    <button type="submit" id="savebtn-edit" name="savebtn-edit" class="btn btn-primary">Save
+                        Changes</button>
                 </div>
-            </form>
+                </form>
 
             </div>
         </div>
     </div>
-    
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Include jQuery -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-       
-   
-        
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
-            <script>
-                $(document).ready(function() {
-                    // Function to open the edit modal
-                    function openEditModal(productId) {
-                        $.ajax({
-                            url: `/edit_product/${productId}/`,
-                            type: 'GET',
-                            success: function (data) {
-                                $('#editProductModal #name').val(data.name);
-                                $('#editProductModal #category').val(data.category);
-                                $('#editProductModal #description').val(data.description);
-                                $('#editProductModal #price').val(data.price);
-                                if (data.image_url) {
-                                    $('#editProductModal img').attr('src', data.image_url); // Update the image source
-                                } else {
-                                    $('#editProductModal img').attr('src', '');
-                                }
-            
-                                // Set the product_id as a data attribute on the form
-                                $('#edit-form').data('product-id', productId);
-            
-                                $('#editProductModal').modal('show');
-                            }
-                        });
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            // Function to open the edit modal
+            function openEditModal(productId) {
+                $.ajax({
+                    url: `/edit_product/${productId}/`,
+                    type: 'GET',
+                    success: function (data) {
+                        $('#editProductModal #name').val(data.name);
+                        $('#editProductModal #category').val(data.category);
+                        $('#editProductModal #description').val(data.description);
+                        $('#editProductModal #price').val(data.price);
+                        if (data.image_url) {
+                            $('#editProductModal img').attr('src', data.image_url); // Update the image source
+                        } else {
+                            $('#editProductModal img').attr('src', '');
+                        }
+
+                        // Set the product_id as a data attribute on the form
+                        $('#edit-form').data('product-id', productId);
+
+                        $('#editProductModal').modal('show');
                     }
-            
-                    // Handle form submission within the edit modal
-                    $('#edit-form').on('submit', function (e) {
-                        e.preventDefault();
-                        // Get the productId from the form's data attribute
-                        var productId = $(this).data('product-id');
-                        $.ajax({
-                            url: `/edit_product/${productId}/`,
-                            type: 'POST',
-                            data: $(this).serialize(),
-                            success: function (response) {
-                                alert(response.message);
-                                $('#editProductModal').modal('hide');
-                            }
-                        });
-                    });
-                   
-            
-                    // Add a click event to trigger the edit modal
-                    $('.green-button[data-bs-target="#editProductModal"]').click(function() {
-                        var productId = $(this).data('product-id');
-                        openEditModal(productId);
-                    });
-
-                   
                 });
-               
-                
-                
-            </script>
-            
-         
-
-
-<script>
-// JavaScript code to handle status toggling
-document.querySelectorAll('.status-toggle').forEach(function (element) {
-    element.addEventListener('click', function (event) {
-        event.preventDefault();
-        const productId = element.getAttribute('data-product-id');
-        const currentStatus = element.getAttribute('data-status');
-
-        // Send an AJAX request to toggle the product status in the backend
-        fetch(`/toggle_product_status/${productId}/`, {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': '{{ csrf_token }}', // Include the CSRF token
-            },
-            body: JSON.stringify({ currentStatus: currentStatus }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Update the status in the UI
-            if (data.status === 'active') {
-                element.innerHTML = 'Inactive';
-                element.setAttribute('data-status', 'inactive');
-                element.querySelector('.logout-button').classList.remove('btn-danger');
-                element.querySelector('.logout-button').classList.add('btn-success');
-                element.querySelector('.logout-button').textContent = 'Activate';
-            } else {
-                element.innerHTML = 'Active';
-                element.setAttribute('data-status', 'active');
-                element.querySelector('.logout-button').classList.remove('btn-success');
-                element.querySelector('.logout-button').classList.add('btn-danger');
-                element.querySelector('.logout-button').textContent = 'Inactive';
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    });
-});
 
-</script>        
-            
-    </body>
+            // Handle form submission within the edit modal
+            $('#edit-form').on('submit', function (e) {
+                e.preventDefault();
+                var productId = $(this).data('product-id');
+
+                // Create a FormData object to send the form data
+                var formData = new FormData(this);
+
+                // Append the current productId to the FormData
+                formData.append('product_id', productId);
+
+                $.ajax({
+                    url: `/edit_product/${productId}/`,
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,  // Set content type to false to let jQuery handle it
+                    success: function (response) {
+                        alert(response.message);
+                        $('#editProductModal').modal('hide');
+                        location.reload();
+                    }
+                });
+            });
+
+
+            // Add a click event to trigger the edit modal
+            $('.green-button[data-bs-target="#editProductModal"]').click(function () {
+                var productId = $(this).data('product-id');
+                openEditModal(productId);
+            });
+
+        });
+
+    </script>
+
+
+
+    <script>
+        // JavaScript code to handle status toggling
+        document.querySelectorAll('.status-toggle').forEach(function (element) {
+            element.addEventListener('click', function (event) {
+                event.preventDefault();
+                const productId = element.getAttribute('data-product-id');
+                const currentStatus = element.getAttribute('data-status');
+
+                // Send an AJAX request to toggle the product status in the backend
+                fetch(`/toggle_product_status/${productId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}', // Include the CSRF token
+                    },
+                    body: JSON.stringify({ currentStatus: currentStatus }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Update the status in the UI
+                        if (data.status === 'active') {
+                            element.innerHTML = 'Inactive';
+                            element.setAttribute('data-status', 'inactive');
+                            element.querySelector('.logout-button').classList.remove('btn-danger');
+                            element.querySelector('.logout-button').classList.add('btn-success');
+                            element.querySelector('.logout-button').textContent = 'Activate';
+                        } else {
+                            element.innerHTML = 'Active';
+                            element.setAttribute('data-status', 'active');
+                            element.querySelector('.logout-button').classList.remove('btn-success');
+                            element.querySelector('.logout-button').classList.add('btn-danger');
+                            element.querySelector('.logout-button').textContent = 'Inactive';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+        });
+
+    </script>
+
+</body>
+
 </html>
