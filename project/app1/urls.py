@@ -24,6 +24,7 @@ urlpatterns = [
    path('productview/', views.productview, name='productview'),
    path('product_detail/<int:product_id>/', views.product_detail, name='product_detail'),
    path('kurti_measurment/', views.kurti_measurment, name='kurti_measurment'),
+   path('order/', views.order, name='order'),
 
     
     

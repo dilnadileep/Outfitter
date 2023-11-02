@@ -373,3 +373,7 @@ def kurti_measurment(request):
 
 def success_page(request):
     return HttpResponse("Measurement data has been saved successfully.")
+
+def order(request):
+
+    return render(request, "order.html")
