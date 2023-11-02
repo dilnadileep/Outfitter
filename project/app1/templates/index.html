@@ -80,6 +80,8 @@
                     <span>OUTFITTER</span>
                     {% if user.is_authenticated %}
                     <span class="nav-link">Welcome, {{ user.first_name }}</span>
+                    <a href ="#us_section"><span class="nav-link">About us</span></a>
+
                     {% endif %}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -112,6 +114,7 @@
     
                     <ul class="navbar-nav ml-auto"> <!-- Use ml-auto to push items to the right -->
                         {% if user.is_authenticated %}
+                       
                         <li class="nav-item">
                           <button class="instagram-button">
                             <a href="{% url 'profile' %}" class="nav-link">Profile</a>
@@ -120,6 +123,7 @@
                           <button class="instagram-button">
                             <a href="{% url 'loggout' %}" class="nav-link">Logout</a>
                         </button>                        </li>
+
                         {% endif %}
                     </ul>
                 </div>

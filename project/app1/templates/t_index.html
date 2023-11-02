@@ -59,6 +59,8 @@
                   <span>OUTFITTER</span>
                   {% if user.is_authenticated %}
                   <span class="nav-link">Welcome, {{ user.first_name }}</span>
+                  <a href ="#us_section"><span class="nav-link">About us</span></a>
+
                   {% endif %}
               </a>
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -70,7 +72,7 @@
                   <div class="d-flex flex-column flex-lg-row align-items-center ml-auto"> <!-- Use ml-auto to push items to the right -->
                       <ul class="navbar-nav">
                         {% if user.is_authenticated %}
-
+                        
                           <li class="nav-item">
                               <button class="instagram-button">
                                   <a href="{% url "add_garment" %}" class="nav-link">Add Your Garment</a>

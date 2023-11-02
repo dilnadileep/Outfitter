@@ -336,21 +336,19 @@ def productview(request):
 from django.shortcuts import render, get_object_or_404
 from .models import Product
 
+from django.shortcuts import render, redirect
+from .models import Product, kurtiMeasurementEntry  # Import your models
+from django.http import HttpResponse
+
 def product_detail(request, product_id):
-    # Retrieve the product from the database using its ID
     product = get_object_or_404(Product, id=product_id)
+    request.session['selected_product_id'] = product_id
 
     return render(request, "product_detail.html", {"product": product})
 
-
-
-from django.shortcuts import render, redirect
-from .models import kurtiMeasurementEntry  # Import your MeasurementEntry model
-from django.http import HttpResponse
-
 def kurti_measurment(request):
     if request.method == 'POST':
-        # Get data from the POST request
+        # Get data from the POST request and validate it
         bust = request.POST.get('bust')
         waist = request.POST.get('waist')
         hips = request.POST.get('hips')
@@ -358,7 +356,7 @@ def kurti_measurment(request):
         shoulder_width = request.POST.get('shoulderWidth')
         sleeve_length = request.POST.get('sleeveLength')
 
-        # Create a new MeasurementEntry object and save it to the database
+        selected_product_id = request.session.get('selected_product_id')
         measurement = kurtiMeasurementEntry(
             bust=bust,
             waist=waist,
@@ -369,7 +367,7 @@ def kurti_measurment(request):
         )
         measurement.save()
 
-        return redirect('kurti_measurment')  # Redirect to a success page or any other page you prefer
+        return redirect('product_detail', product_id=selected_product_id)
 
     return render(request, "kurti_measurment.html")
 

@@ -32,7 +32,7 @@
             <div class="row">
                 <div class="col">
                     <div class="container">
-                        <form method="POST" action="">
+                        <form method="POST" action="{% url 'kurti_measurment' %}">
                             {% csrf_token %}
                             <h2>Enter Your Measurements</h2>
                             <div class="mb-3">
@@ -85,7 +85,7 @@
 
                             <!-- Add more measurements as needed -->
 
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Submit Measurements</button>
                         </form>
                     </div>
                 </div>
