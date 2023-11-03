@@ -34,6 +34,7 @@ class Product(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     delivery_time = models.CharField(max_length=20, blank=True,null=True)  # Add this field for time period
     is_active = models.BooleanField(default=True,null=True)  # Add this field to track product status
+    tailor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='tailored_products', null=True, blank=True)
 
     # tailor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='tailored_products')
 
@@ -42,6 +43,10 @@ class Product(models.Model):
         return self.name
 
 
+# models.py
+
+from django.db import models
+from django.conf import settings
 class Measurement(models.Model):
     bust = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     waist = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
@@ -49,9 +54,10 @@ class Measurement(models.Model):
     length = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     shoulder_width = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     sleeve_length = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=None)
-    # Add a foreign key to the Product model
+    fabric_type = models.CharField(max_length=255,null=True, blank=True)
+    color = models.CharField(max_length=255,null=True, blank=True)
+    reference_images = models.ImageField(upload_to='fabric_reference_images/', blank=True, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='measurements')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
-
-    def _str_(self):
-        return f'Measurement Entry{self.id}'
+    def __str__(self):
+        return f'Measurement Entry {self.id}'

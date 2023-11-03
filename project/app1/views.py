@@ -346,34 +346,87 @@ def product_detail(request, product_id):
 
     return render(request, "product_detail.html", {"product": product})
 
-def measurment(request):
+# views.py
+
+from django.shortcuts import render, redirect
+from .models import Measurement
+
+def measurment(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
     if request.method == 'POST':
-        # Get data from the POST request and validate it
+        # Get data from the POST request
         bust = request.POST.get('bust')
         waist = request.POST.get('waist')
         hips = request.POST.get('hips')
         length = request.POST.get('length')
         shoulder_width = request.POST.get('shoulderWidth')
         sleeve_length = request.POST.get('sleeveLength')
+        fabric_type = request.POST.get('fabric_type')
+        color = request.POST.get('color')
+        reference_images = request.FILES.get('fabricImages')
 
-        selected_product_id = request.session.get('selected_product_id')
+
+        # Create a new Measurement instance and save it
         measurement = Measurement(
             bust=bust,
             waist=waist,
             hips=hips,
             length=length,
             shoulder_width=shoulder_width,
-            sleeve_length=sleeve_length
+            sleeve_length=sleeve_length,
+            fabric_type=fabric_type,
+            color=color,
+            reference_images=reference_images,
+            user=request.user,
+            product_id=product_id,  # Save the product ID
         )
         measurement.save()
 
-        return redirect('product_detail', product_id=selected_product_id)
+        return redirect('product_detail', product_id=product_id)  # Redirect to the product detail page
 
-    return render(request, "kurti_measurment.html")
+    return render(request, 'measurment.html', {'product': product})
+
 
 def success_page(request):
     return HttpResponse("Measurement data has been saved successfully.")
 
-def order(request):
 
-    return render(request, "order.html")
+
+from django.shortcuts import render
+from .models import Product, Measurement
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def order(request):
+    # Get the currently logged-in user (tailor)
+    current_user = request.user
+
+    # Fetch the products added by the tailor
+    tailored_products = Product.objects.filter(tailor=current_user)
+
+    # Create a dictionary to store product and customer measurement details
+    order_details = {}
+
+    for product in tailored_products:
+        # Fetch the corresponding measurement details added by customers for each product
+        customer_measurements = Measurement.objects.filter(product=product)
+
+        # Fetch the customer details for this product
+        customer = product.user  # Assuming user field in Product refers to the customer
+
+        # Create a dictionary to store product and measurement details
+        product_details = {
+            'product': product,
+            'customer': customer,
+            'measurements': customer_measurements
+        }
+
+        order_details[product] = product_details
+
+    context = {
+        'order_details': order_details,
+        'tailor_name': current_user.username,
+        'tailor_email': current_user.email,
+    }
+
+    return render(request, "order.html", context)

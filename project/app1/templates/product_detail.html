@@ -83,7 +83,7 @@
                         <p class="product-price">Price: ${{ product.price }}</p>
                     
                         {% if product.pro_category == "Kurti" %}
-                        <a href="{% url 'kurti_measurment' %}" class="btn btn-primary">Add Measurements</a>
+                        <a href="{% url 'measurment' product_id=product.id %}" class="btn btn-primary">Add Details</a>
                         {% endif %}
                     
                         <button class="product-buy-button" {% if product.pro_category == "Kurti" %}disabled{% endif %}>Add to cart</button>

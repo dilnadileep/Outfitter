@@ -6,6 +6,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Measurement Entry</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        .container {
+            max-width: 900px;
+        }
+
+        .measurement-guide {
+            float: right;
+            width: 30%;
+            margin-left: 20px;
+        }
+
+        .fabric-details-section, .measurement-section {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .fabric-details-section h3, .measurement-section h3 {
+            color: #333;
+        }
+
+        .form-label {
+            width: 30%;
+            display: inline-block;
+            text-align: right;
+            margin-right: 10px;
+        }
+
+        .form-control {
+            width: 60%;
+            display: inline-block;
+        }
+        /* CSS for the boutique-style heading */
+.boutique-heading {
+    font-family: 'cursive', sans-serif;
+    color: #d30346;
+    font-size: 36px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 20px;
+    border-bottom: 2px solid #d30346;
+    padding-bottom: 10px;
+}
+/* CSS for the boutique-style subheading */
+.sub-heading {
+    font-family: 'cursive', sans-serif;
+    color: #333;
+    font-size: 24px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 20px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+}
+
+
+    </style>
 </head>
 <body>
     <section style="background-color: #eee;">
@@ -32,67 +93,144 @@
             <div class="row">
                 <div class="col">
                     <div class="container">
-                        <form method="POST" action="{% url 'kurti_measurment' %}">
+                        <form method="POST" action="{% url 'measurment' product_id=product.id %}" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <h2>Enter Your Measurements</h2>
-                            <div class="mb-3">
-                                <label for="bust" class="form-label">Bust:</label>
-                                <div class="input-group">
-                                    <input type="text" id="bust" name="bust" class="form-control" placeholder="e.g., 90" aria-describedby="bust-addon">
-                                    <span class="input-group-text" id="bust-addon">cm</span>
+                            <input type="hidden" name="product_id" value="{{ product.id }}">
+
+                            <h2 class="boutique-heading">Enter Your Details</h2>
+                            <br>
+                            <div class="fabric-details-section">
+                                <h3 class="sub-heading">Fabric Details</h3>
+                                <!-- Fabric Selection -->
+                                <div class="mb-3">
+                                    <label for="fabric_type" class="form-label">Fabric Type:</label>
+                                    <select id="fabric_type" name="fabric_type" class="form-select form-control">
+                                        <option value="cotton">Cotton</option>
+                                        <option value="silk">Silk</option>
+                                        <!-- Add more fabric options here -->
+                                    </select>
+                                </div>
+                                <!-- Color Selection using a color palette -->
+                                <div class="mb-3">
+                                    <label for="color" class="form-label">Color:</label>
+                                    <input type="color" id="color" name="color" class="form-control">
+                                </div>
+                                <!-- Reference Images for Fabric -->
+                            
+
+
+                            </div>
+                            <div class="measurement-section">
+                                <h3 class="sub-heading">Measurements</h3>
+                                <!-- Upload Reference Image for Measurements -->
+                                <div class="form-group">
+                                    <img src="{% static 'images/kurti_guide.png' %}" alt="Measurement Guide" class="measurement-guide">
+                                </div>
+                                
+                                <!-- Measurement Fields -->
+                                <div class="mb-3">
+                                    <label for="bust" class="form-label">Bust:</label>
+                                    <input type="text" id="bust" name="bust" class="form-control" placeholder="e.g., 90">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="waist" class="form-label">Waist:</label>
+                                    <input type="text" id="waist" name="waist" class="form-control" placeholder="e.g., 70">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="hips" class="form-label">Hips:</label>
+                                    <input type="text" id="hips" name="hips" class="form-control" placeholder="e.g., 95">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="length" class="form-label">Length:</label>
+                                    <input type="text" id="length" name="length" class="form-control" placeholder="e.g., 100">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="shoulderWidth" class="form-label">Shoulder Width:</label>
+                                    <input type="text" id="shoulderWidth" name="shoulderWidth" class="form-control" placeholder="e.g., 40">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="sleeveLength" class="form-label">Sleeve Length:</label>
+                                    <input type="text" id="sleeveLength" name="sleeveLength" class="form-control" placeholder="e.g., 60">
+                                </div>
+                                
+                               
+                                
+                                
+                                
+
+                                <!-- Add more measurements as needed -->
+                            </div>
+                            <div class="design-section">
+                                <h3 class="sub-heading">Design Selection</h3>
+                                <!-- Neck Design Selection -->
+                                <div class="mb-3">
+                                    <label for="neck_design" class="form-label">Neck Design:</label>
+                                    <select id="neck_design" name="neck_design" class="form-select form-control">
+                                        <option value="neck_design_1">
+                                            <img src="{% static "images\kurti_guide.png" %}" alt="Design 1">
+                                        </option>
+                                        <option value="neck_design_2">
+                                            <img src="{% static "images\kurti_guide.png" %}" alt="Design 2">
+                                        </option>
+                                        <option value="neck_design_3">
+                                            <img src="{% static "images\kurti_guide.png" %}" alt="Design 3">
+                                        </option>
+                                        <!-- Add more neck design options as needed -->
+                                    </select>
+                                </div>
+                            
+                                <!-- Sleeves Design Selection -->
+                                <div class="mb-3">
+                                    <label for="sleeves_design" class="form-label">Sleeves Design:</label>
+                                    <select id="sleeves_design" name="sleeves_design" class="form-select form-control">
+                                        <option value="sleeves_design_1">
+                                            <img src="{% static "images\kurti_guide.png" %}" alt="Design 1">
+                                        </option>
+                                        <option value="sleeves_design_2">
+                                            <img src="{% static "images\kurti_guide.png" %}" alt="Design 2">
+                                        </option>
+                                        <option value="sleeves_design_3">
+                                            <img src="{% static "images\kurti_guide.png" %}" alt="Design 3">
+                                        </option>
+                                        <!-- Add more sleeves design options as needed -->
+                                    </select>
+                                </div>
+                            
+                                <!-- Back Neck Design Selection -->
+                                <div class="mb-3">
+                                    <label for="back_neck_design" class="form-label">Back Neck Design:</label>
+                                    <select id="back_neck_design" name="back_neck_design" class="form-select form-control">
+                                        <option value="back_neck_design_1">
+                                            <img src="{% static "images\kurti_guide.png" %}" alt="Design 1">
+                                        </option>
+                                        <option value="back_neck_design_2">
+                                            <img src="{% static "images\kurti_guide.png" %}" alt="Design 2">
+                                        </option>
+                                        <option value="back_neck_design_3">
+                                            <img src="{% static "images\kurti_guide.png" %}" alt="Design 3">
+                                        </option>
+                                        <!-- Add more back neck design options as needed -->
+                                    </select>
                                 </div>
                             </div>
-
-                            <div class="mb-3">
-                                <label for="waist" class="form-label">Waist:</label>
-                                <div class="input-group">
-                                    <input type="text" id="waist" name="waist" class="form-control" placeholder="e.g., 70" aria-describedby="waist-addon">
-                                    <span class="input-group-text" id="waist-addon">cm</span>
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="hips" class="form-label">Hips:</label>
-                                <div class="input-group">
-                                    <input type="text" id="hips" name="hips" class="form-control" placeholder="e.g., 95" aria-describedby="hips-addon">
-                                    <span class="input-group-text" id="hips-addon">cm</span>
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="length" class="form-label">Length:</label>
-                                <div class="input-group">
-                                    <input type="text" id="length" name="length" class="form-control" placeholder="e.g., 100" aria-describedby="length-addon">
-                                    <span class="input-group-text" id="length-addon">cm</span>
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="shoulderWidth" class="form-label">Shoulder Width:</label>
-                                <div class="input-group">
-                                    <input type="text" id="shoulderWidth" name="shoulderWidth" class="form-control" placeholder="e.g., 40" aria-describedby="shoulderWidth-addon">
-                                    <span class="input-group-text" id="shoulderWidth-addon">cm</span>
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="sleeveLength" class="form-label">Sleeve Length:</label>
-                                <div class="input-group">
-                                    <input type="text" id="sleeveLength" name="sleeveLength" class="form-control" placeholder="e.g., 60" aria-describedby="sleeveLength-addon">
-                                    <span class="input-group-text" id="sleeveLength-addon">cm</span>
-                                </div>
-                            </div>
-
-                            <!-- Add more measurements as needed -->
-
-                            <button type="submit" class="btn btn-primary">Submit Measurements</button>
+                            
+                            <!-- Confirm Button -->
+                            <button type="submit" class="btn btn-primary">Submit Details</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-Correct-Integrity-Hash-Goes-Here" crossorigin="anonymous"></script>
 
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-abcdef123456" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
