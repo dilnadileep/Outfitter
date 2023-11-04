@@ -66,29 +66,74 @@
 }
 
 
-    .scrollable-images {
-        display: flex;
-        flex-wrap: wrap; /* Allow images to wrap to the next row */
-    }
+.scrollable-images {
+    display: flex;
+    flex-wrap: wrap; /* Allow images to wrap to the next row */
+}
 
-    .image-option {
-        width: calc(33.33% - 20px); /* Set a width for three images in a row with some spacing */
-        margin: 10px; /* Add some margin for spacing between images */
-        display: inline-block; /* Display images in a block */
-        cursor: pointer; /* Add a pointer cursor to indicate interactivity */
-        transition: border 0.3s; /* Add a smooth transition for the border */
-        border: 1px solid #ddd; /* Add a border for the image cards */
-        padding: 10px; /* Add padding for each image card */
-    }
+.image-option {
+    width: calc(33.33% - 20px); /* Set a width for three images in a row with some spacing */
+    margin: 10px; /* Add some margin for spacing between images */
+    display: inline-block; /* Display images in a block */
+    cursor: pointer; /* Add a pointer cursor to indicate interactivity */
+    transition: border 0.3s; /* Add a smooth transition for the border */
+    border: 1px solid #ddd; /* Add a border for the image cards */
+    padding: 10px; /* Add padding for each image card */
+}
 
-    .image-option.selected {
-        border: 2px solid #007bff; /* Highlight the selected image with a blue border */
-    }
+.image-option.selected {
+    border: 2px solid #007bff; /* Highlight the selected image with a blue border */
+}
 
-    .image-option img {
-        max-width: 50%; /* Set the image width to fit within the card */
-        height: auto; /* Maintain aspect ratio */
-    }
+.image-option img {
+    max-width: 50%; /* Set the image width to fit within the card */
+    height: auto; /* Maintain aspect ratio */
+}
+/* Style the selected-designs container */
+.selected-designs {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Style each selected-design container */
+.selected-design {
+    text-align: center;
+}
+
+/* Style the selected design images */
+.selected-design img {
+    max-width: 100px;
+    max-height: 150px;
+    border: 1px solid #ddd;
+    padding: 5px;
+}
+/* Style the Selected Front Neck Design heading */
+.selected-design h4 {
+    font-size: 16px; /* Reduce the font size */
+    color: #333; /* Change the text color to a neutral color, e.g., dark gray */
+    margin: 10px 0; /* Add some margin for spacing */
+    text-transform: uppercase; /* Uppercase text for emphasis */
+    font-weight: bold; /* Make the text bold */
+    text-align: center; /* Center the text */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add a subtle text shadow */
+}
+/* Style for the form labels */
+.form-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+/* Apply standard CSS to align the labels to the leftmost side */
+label[for="neck_design"],
+label[for="back_design"] {
+    width: 100%;
+    display: block;
+    text-align: left;
+}
 
 
     </style>
@@ -221,9 +266,15 @@
                                             </div>
                                         </div>
                                         <input type="hidden" id="selected-neck-design" name="neck_design" value="">
+                                   <!-- Add this HTML section below your image options -->
+                                <div class="selected-designs">
+                                    <div class="selected-design">
+                                         <h4>Selected Front Neck Design</h4>
+                                                 <img id="selected-neck-design-image" src="" alt="">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
 
                                     <!--back neck design -->
                                     <div class="mb-6">
@@ -252,6 +303,12 @@
                                             </div>
                                         </div>
                                         <input type="hidden" id="selected-back-design" name="back_design" value="">
+                                        <div class="selected-design">
+                                            <h4>Selected Back Neck Design</h4>
+                                            <img id="selected-back-design-image" src="" alt="">
+                                        </div>
+                                    </div>
+                                    
                                     </div>
                                 </div>
                             </div>
@@ -290,46 +347,56 @@
                 document.getElementById('selected-value').value = selectedValue;
             });
         });
-// Get all image options for neck design
-const neckDesignOptions = document.querySelectorAll('.image-option.neck-design');
 
-// Handle neck design option click event
+            
+</script>
+    
+<script>
+    // Get all image options for both neck and back design
+    const designOptions = document.querySelectorAll('.image-option');
+
+    // Handle design option click event
+    designOptions.forEach((option) => {
+        option.addEventListener('click', () => {
+            // Remove the 'selected' class from all design options
+            designOptions.forEach((opt) => opt.classList.remove('selected'));
+
+            // Add the 'selected' class to the clicked design option
+            option.classList.add('selected');
+
+            // Set the selected design value in the hidden input field
+            const selectedValue = option.getAttribute('data-value');
+            const inputFieldId = option.parentElement.parentElement.querySelector('input[type="hidden"]').id;
+            document.getElementById(inputFieldId).value = selectedValue;
+        });
+    });
+</script>
+<script>
+    // Update the selected front neck design image
+const selectedNeckDesignImage = document.getElementById('selected-neck-design-image');
+const neckDesignOptions = document.querySelectorAll('.image-option.neck_design');
+
 neckDesignOptions.forEach((option) => {
     option.addEventListener('click', () => {
-        // Remove the 'selected' class from all neck design options
-        neckDesignOptions.forEach((opt) => opt.classList.remove('selected'));
-
-        // Add the 'selected' class to the clicked neck design option
-        option.classList.add('selected');
-
-        // Set the selected neck design value in the hidden input field
         const selectedValue = option.getAttribute('data-value');
-        document.getElementById('selected-neck-design').value = selectedValue;
+        selectedNeckDesignImage.src = option.querySelector('img').src;
     });
 });
 
-// Get all image options for back design
-const backDesignOptions = document.querySelectorAll('.image-option.back-design');
+// Update the selected back neck design image
+const selectedBackDesignImage = document.getElementById('selected-back-design-image');
+const backDesignOptions = document.querySelectorAll('.image-option.back_design');
 
-// Handle back design option click event
 backDesignOptions.forEach((option) => {
     option.addEventListener('click', () => {
-        // Remove the 'selected' class from all back design options
-        backDesignOptions.forEach((opt) => opt.classList.remove('selected'));
-
-        // Add the 'selected' class to the clicked back design option
-        option.classList.add('selected');
-
-        // Set the selected back design value in the hidden input field
         const selectedValue = option.getAttribute('data-value');
-        document.getElementById('selected-back-design').value = selectedValue;
+        selectedBackDesignImage.src = option.querySelector('img').src;
     });
 });
 
-
-
-    </script>
+</script>
     
     
+
 </body>
 </html>
