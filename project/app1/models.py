@@ -15,7 +15,7 @@ class CustomUser(AbstractUser):
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,null=True)
     phone_number = models.CharField(max_length=15, blank=True)
     state = models.CharField(max_length=255, null=True, blank=True)
     district = models.CharField(max_length=100, blank=True, null=True)
@@ -56,8 +56,10 @@ class Measurement(models.Model):
     sleeve_length = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     fabric_type = models.CharField(max_length=255,null=True, blank=True)
     color = models.CharField(max_length=255,null=True, blank=True)
-    reference_images = models.ImageField(upload_to='fabric_reference_images/', blank=True, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='measurements')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
+    neck_design = models.CharField(max_length=255, null=True, blank=True)  # Add neck_design field
+    back_design = models.CharField(max_length=255, null=True, blank=True)  # Add back_design field
+
     def __str__(self):
         return f'Measurement Entry {self.id}'

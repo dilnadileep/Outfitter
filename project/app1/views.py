@@ -222,8 +222,12 @@ from .models import CustomUser, UserProfile
 @login_required
 def profile(request):
     # Fetch the user's profile
-    user_profile = UserProfile.objects.get(user=request.user)
-
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        # If the UserProfile doesn't exist, create one for the user
+        user_profile = UserProfile.objects.create(user=request.user)
+    
     if request.method == "POST":
        
         # Update the user's profile with the submitted data
@@ -363,7 +367,8 @@ def measurment(request, product_id):
         sleeve_length = request.POST.get('sleeveLength')
         fabric_type = request.POST.get('fabric_type')
         color = request.POST.get('color')
-        reference_images = request.FILES.get('fabricImages')
+        neck_design = request.POST.get('neck_design')  # Get the selected neck design
+        back_design = request.POST.get('back_design')  # Get the selected neck design
 
 
         # Create a new Measurement instance and save it
@@ -376,7 +381,9 @@ def measurment(request, product_id):
             sleeve_length=sleeve_length,
             fabric_type=fabric_type,
             color=color,
-            reference_images=reference_images,
+            neck_design=neck_design,  # Save the selected neck design
+            back_design=back_design,  # Save the selected neck design
+
             user=request.user,
             product_id=product_id,  # Save the product ID
         )

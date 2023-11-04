@@ -66,6 +66,31 @@
 }
 
 
+    .scrollable-images {
+        display: flex;
+        flex-wrap: wrap; /* Allow images to wrap to the next row */
+    }
+
+    .image-option {
+        width: calc(33.33% - 20px); /* Set a width for three images in a row with some spacing */
+        margin: 10px; /* Add some margin for spacing between images */
+        display: inline-block; /* Display images in a block */
+        cursor: pointer; /* Add a pointer cursor to indicate interactivity */
+        transition: border 0.3s; /* Add a smooth transition for the border */
+        border: 1px solid #ddd; /* Add a border for the image cards */
+        padding: 10px; /* Add padding for each image card */
+    }
+
+    .image-option.selected {
+        border: 2px solid #007bff; /* Highlight the selected image with a blue border */
+    }
+
+    .image-option img {
+        max-width: 50%; /* Set the image width to fit within the card */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+
     </style>
 </head>
 <body>
@@ -168,56 +193,69 @@
                             <div class="design-section">
                                 <h3 class="sub-heading">Design Selection</h3>
                                 <!-- Neck Design Selection -->
-                                <div class="mb-3">
-                                    <label for="neck_design" class="form-label">Neck Design:</label>
-                                    <select id="neck_design" name="neck_design" class="form-select form-control">
-                                        <option value="neck_design_1">
-                                            <img src="{% static "images\kurti_guide.png" %}" alt="Design 1">
-                                        </option>
-                                        <option value="neck_design_2">
-                                            <img src="{% static "images\kurti_guide.png" %}" alt="Design 2">
-                                        </option>
-                                        <option value="neck_design_3">
-                                            <img src="{% static "images\kurti_guide.png" %}" alt="Design 3">
-                                        </option>
-                                        <!-- Add more neck design options as needed -->
-                                    </select>
+                                <div class="mb-6">
+                                    <div class="custom-select">
+                                        <label for="neck_design" class="form-label">Front Neck Design:</label>
+                                        <div class="scrollable-images">
+                                            <!-- Add more image options as needed -->
+                                            <div class="image-option neck_design" data-value="neck_design_1">
+                                                <img src="{% static "images/neck/boat_neck.jpg" %}" alt="Design 1">
+                                            </div>
+                                           
+                                           
+                                            <!-- Add more image options here -->
+                                            <div class="image-option neck_design" data-value="neck_design_2">
+                                                <img src="{% static "images/neck/pointed_neck.jpg" %}" alt="Design 2">
+                                            </div>
+                                            <div class="image-option neck_design" data-value="neck_design_3">
+                                                <img src="{% static "images/neck/round_neck.jpg" %}" alt="Design 3">
+                                            </div>
+                                            <div class="image-option neck_design" data-value="neck_design_4">
+                                                <img src="{% static "images/neck/square_neck.jpg" %}" alt="Design 4">
+                                            </div>
+                                            <div class="image-option neck_design" data-value="neck_design_5">
+                                                <img src="{% static "images/neck/v_neck.jpg" %}" alt="Design 5">
+                                            </div>
+                                            <div class="image-option neck_design" data-value="neck_design_6">
+                                                <img src="{% static "images/neck/semi_neck.jpg" %}" alt="Design 6">
+                                            </div>
+                                        </div>
+                                        <input type="hidden" id="selected-neck-design" name="neck_design" value="">
+                                    </div>
                                 </div>
-                            
-                                <!-- Sleeves Design Selection -->
-                                <div class="mb-3">
-                                    <label for="sleeves_design" class="form-label">Sleeves Design:</label>
-                                    <select id="sleeves_design" name="sleeves_design" class="form-select form-control">
-                                        <option value="sleeves_design_1">
-                                            <img src="{% static "images\kurti_guide.png" %}" alt="Design 1">
-                                        </option>
-                                        <option value="sleeves_design_2">
-                                            <img src="{% static "images\kurti_guide.png" %}" alt="Design 2">
-                                        </option>
-                                        <option value="sleeves_design_3">
-                                            <img src="{% static "images\kurti_guide.png" %}" alt="Design 3">
-                                        </option>
-                                        <!-- Add more sleeves design options as needed -->
-                                    </select>
-                                </div>
-                            
-                                <!-- Back Neck Design Selection -->
-                                <div class="mb-3">
-                                    <label for="back_neck_design" class="form-label">Back Neck Design:</label>
-                                    <select id="back_neck_design" name="back_neck_design" class="form-select form-control">
-                                        <option value="back_neck_design_1">
-                                            <img src="{% static "images\kurti_guide.png" %}" alt="Design 1">
-                                        </option>
-                                        <option value="back_neck_design_2">
-                                            <img src="{% static "images\kurti_guide.png" %}" alt="Design 2">
-                                        </option>
-                                        <option value="back_neck_design_3">
-                                            <img src="{% static "images\kurti_guide.png" %}" alt="Design 3">
-                                        </option>
-                                        <!-- Add more back neck design options as needed -->
-                                    </select>
+
+
+                                    <!--back neck design -->
+                                    <div class="mb-6">
+                                        <div class="custom-select">
+                                            <label for="back_design" class="form-label">Back Neck Design:</label>
+                                            <div class="scrollable-images">
+                                            <!-- Add more image options as needed -->
+                                            <div class="image-option back_design" data-value="back_design_1">
+                                                <img src="{% static "images/back/arrow_back.jpg" %}" alt="Design 7">
+                                            </div>
+                                           
+                                            <div class="image-option back_design" data-value="back_design_2">
+                                                <img src="{% static "images/back/overlap_back.jpg" %}" alt="Design 8">
+                                            </div>
+                                            <div class="image-option back_design" data-value="back_design_3">
+                                                <img src="{% static "images/back/arrow_back.jpg" %}" alt="Design 9">
+                                            </div>
+                                            <div class="image-option back_design" data-value="back_design_4">
+                                                <img src="{% static "images/back/boat2_back.jpg" %}" alt="Design 10">
+                                            </div>
+                                            <div class="image-option back_design" data-value="back_design_5">
+                                                <img src="{% static "images/back/deep_back.jpg" %}" alt="Design 11">
+                                            </div>
+                                            <div class="image-option back_design" data-value="back_design_6">
+                                                <img src="{% static "images/back/sweetheart_back.jpg" %}" alt="Design 12">
+                                            </div>
+                                        </div>
+                                        <input type="hidden" id="selected-back-design" name="back_design" value="">
+                                    </div>
                                 </div>
                             </div>
+                            
                             
                             <!-- Confirm Button -->
                             <button type="submit" class="btn btn-primary">Submit Details</button>
@@ -233,5 +271,65 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-abcdef123456" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <script>
+        // Get all image options
+        const imageOptions = document.querySelectorAll('.image-option');
+    
+        // Handle image option click event
+        imageOptions.forEach((option) => {
+            option.addEventListener('click', () => {
+                // Remove the 'selected' class from all options
+                imageOptions.forEach((opt) => opt.classList.remove('selected'));
+    
+                // Add the 'selected' class to the clicked option
+                option.classList.add('selected');
+    
+                // Set the selected value in the hidden input field
+                const selectedValue = option.getAttribute('data-value');
+                document.getElementById('selected-value').value = selectedValue;
+            });
+        });
+// Get all image options for neck design
+const neckDesignOptions = document.querySelectorAll('.image-option.neck-design');
+
+// Handle neck design option click event
+neckDesignOptions.forEach((option) => {
+    option.addEventListener('click', () => {
+        // Remove the 'selected' class from all neck design options
+        neckDesignOptions.forEach((opt) => opt.classList.remove('selected'));
+
+        // Add the 'selected' class to the clicked neck design option
+        option.classList.add('selected');
+
+        // Set the selected neck design value in the hidden input field
+        const selectedValue = option.getAttribute('data-value');
+        document.getElementById('selected-neck-design').value = selectedValue;
+    });
+});
+
+// Get all image options for back design
+const backDesignOptions = document.querySelectorAll('.image-option.back-design');
+
+// Handle back design option click event
+backDesignOptions.forEach((option) => {
+    option.addEventListener('click', () => {
+        // Remove the 'selected' class from all back design options
+        backDesignOptions.forEach((opt) => opt.classList.remove('selected'));
+
+        // Add the 'selected' class to the clicked back design option
+        option.classList.add('selected');
+
+        // Set the selected back design value in the hidden input field
+        const selectedValue = option.getAttribute('data-value');
+        document.getElementById('selected-back-design').value = selectedValue;
+    });
+});
+
+
+
+    </script>
+    
+    
 </body>
 </html>
