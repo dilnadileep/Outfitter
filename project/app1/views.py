@@ -379,6 +379,7 @@ def measurment(request, product_id):
             'sleeve_length': Decimal('0'),
             'fabric_type': None,
             'color': None,
+            'style_design': None,
             'neck_design': None,
             'back_design': None,
             'sleev_design': None,
@@ -398,6 +399,7 @@ def measurment(request, product_id):
         sleeve_length = request.POST.get('sleeveLength')
         fabric_type = request.POST.get('fabric_type')
         color = request.POST.get('color')
+        style_design = request.POST.get('style_design')        
         neck_design = request.POST.get('neck_design')
         back_design = request.POST.get('back_design')
         sleev_design = request.POST.get('sleev_design')
@@ -413,6 +415,7 @@ def measurment(request, product_id):
         measurment.sleeve_length = sleeve_length
         measurment.fabric_type = fabric_type
         measurment.color = color
+        measurment.style_design = style_design
         measurment.neck_design = neck_design
         measurment.back_design = back_design
         measurment.sleev_design = sleev_design

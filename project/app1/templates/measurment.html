@@ -268,6 +268,34 @@ body {
                             </div>
                             <div class="design-section">
                                 <h3 class="sub-heading">Design Selection</h3>
+                                <div class="mb-6">
+                                    <div class="custom-select">
+                                        <label for="style_design" class="form-label">Style:</label>
+                                        <div class="scrollable-images">
+                                        <!-- Add more image options as needed -->
+                                        <div class="image-option style_design" data-value="style_design_1">
+                                            <img src="{% static "images/kurti/anarkali.jpg" %}" alt="Design 23">
+                                            <p class="image-name">Anarkali Kurti</p> <!-- Add the name of the image -->
+                                        </div>
+                                       
+                                        <div class="image-option style_design" data-value="style_design_2">
+                                            <img src="{% static "images/kurti/a-line.jpg" %}" alt="Design 24">
+                                            <p class="image-name">A-line kurti</p> <!-- Add the name of the image -->
+                                        </div>
+                                        <div class="image-option style_design" data-value="style_design_3">
+                                            <img src="{% static "images/kurti/center-slit.jpg" %}" alt="Design 25">
+                                            <p class="image-name">Center slit kurti</p> <!-- Add the name of the image -->
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="selected-style-design" name="style_design" value="">
+                                    <div class="selected-design">
+                                        <h4>Selected Style</h4>
+                                        <img id="selected-style-design-image" src="" alt="">
+                                        <p class="selected-style-design-name"></p> <!-- Add this element to display the name -->
+
+                                    </div>
+                                </div>
+                                <hr>
                                 <!-- Neck Design Selection -->
                                 <div class="mb-6">
                                     <div class="custom-select">
@@ -339,12 +367,10 @@ body {
                                             <div class="image-option back_design" data-value="back_design_3">
                                                 <img src="{% static "images/back/glass_back.jpg" %}" alt="Design 9">
                                                 <p class="image-name">Glass Backneck Design</p> <!-- Add the name of the image -->
-
                                             </div>
                                             <div class="image-option back_design" data-value="back_design_4">
                                                 <img src="{% static "images/back/boat2_back.jpg" %}" alt="Design 10">
                                                 <p class="image-name">Boat Backneck Design</p> <!-- Add the name of the image -->
-
                                             </div>
                                             <div class="image-option back_design" data-value="back_design_5">
                                                 <img src="{% static "images/back/deep_back.jpg" %}" alt="Design 11">
@@ -481,7 +507,7 @@ body {
                                     <hr>
                                     <div class="description-box">
                                         <label for="additional_info" class="form-label">Additional Information:</label>
-                                        <textarea id="additional_info1" name="additional_info1" placeholder="Add any additional information here">{{ measurement.additional_info }}</textarea>
+                                        <textarea id="additional_info1" name="additional_info1" placeholder="Add any additional information here" >{{ measurment.additional_info }}</textarea>
                                     </div>
                                     
                                     </div>
@@ -618,6 +644,19 @@ workDesignOptions.forEach((option) => {
         const selectedName = option.querySelector('.image-name').textContent; // Get the name of the selected image
         selectedWorkDesignImage.src = option.querySelector('img').src;
         selectedWorkDesignName.textContent = selectedName; // Populate the name
+    });
+});
+
+const selectedStyleDesignImage = document.getElementById('selected-style-design-image');
+const selectedStyleDesignName = document.querySelector('.selected-style-design-name'); // Get the name element
+const styleDesignOptions = document.querySelectorAll('.image-option.style_design');
+
+styleDesignOptions.forEach((option) => {
+    option.addEventListener('click', () => {
+        const selectedValue = option.getAttribute('data-value');
+        const selectedName = option.querySelector('.image-name').textContent; // Get the name of the selected image
+        selectedStyleDesignImage.src = option.querySelector('img').src;
+        selectedStyleDesignName.textContent = selectedName; // Populate the name
     });
 });
 

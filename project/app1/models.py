@@ -56,6 +56,7 @@ class Measurement(models.Model):
     sleeve_length = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     fabric_type = models.CharField(max_length=255, null=True, blank=True)
     color = models.CharField(max_length=255, null=True, blank=True)
+    style_design = models.CharField(max_length=255, null=True, blank=True)
     neck_design = models.CharField(max_length=255, null=True, blank=True)
     back_design = models.CharField(max_length=255, null=True, blank=True)
     sleev_design = models.CharField(max_length=255, null=True, blank=True)
