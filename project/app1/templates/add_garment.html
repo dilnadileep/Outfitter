@@ -27,7 +27,14 @@
             max-width: 80%;
             /* Adjust the value as needed */
         }
-    </style>
+        section {
+            padding: 20px; /* Adjust the value as needed */
+        }
+        th{
+            color: white;
+        }
+        
+        </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -36,7 +43,7 @@
 </head>
 
 <body>
-    <section style="background-color: #e1c9c9;">
+    <section style="background-color: rgba(190, 208, 243, 0.765)">
         <div class="container py-5">
             <div class="row">
                 <div class="col">
@@ -49,10 +56,7 @@
 
                             {% elif user.is_tailor %}
                             <a href="{% url "t_index" %}">Home</a></li>
-                            <li class="breadcrumb-item">
-
-                                <a href="{% url "profile" %}">Profile</a>
-                            </li>
+                            
 
                             {% endif %}
                             <li class="breadcrumb-item active" aria-current="page">Add Garment</li>
@@ -63,15 +67,16 @@
 
 
         </div>
-        <button class="green-button" data-bs-toggle="modal" data-bs-target="#addProductModal">Add New</button>
-
         <section>
-            <!-- Your form for adding products (as you've shown in your previous code) -->
-
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="text-white">Product List</h2>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">Add New</button>
+            </div>
+            
+            
             <hr>
-            <h2>Product List</h2>
-            <table class="table">
-                <thead>
+            <table class="table table-striped table-bordered ">
+                <thead class="bg-secondary">
                     <tr>
                         <th>Category</th>
                         <th>Description</th>
@@ -81,13 +86,13 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="table-light">
                     {% for product in products %}
                     <tr>
                         <td>{{ product.pro_category }}</td>
                         <td>{{ product.description }}</td>
                         <td>{{ product.delivery_time }}</td>
-                        <td>{{ product.price }}</td>
+                        <td>${{ product.price }}</td>
                         <td>
                             {% if product.image %}
                             <img src="{{ product.image.url }}" width="100" height="100" alt="{{ product.name }}" />
@@ -96,14 +101,14 @@
                             {% endif %}
                         </td>
                         <td>
-                            <button class="green-button" data-bs-toggle="modal" data-bs-target="#editProductModal"
+                            <button class="btn btn-secondary" id="editbtn" data-bs-toggle="modal" data-bs-target="#editProductModal"
                                 data-product-id="{{ product.id }}">Edit</button>
                             <a href="#" class="status-toggle" data-product-id="{{ product.id }}"
                                 data-status="{% if product.is_active %}active{% else %}inactive{% endif %}">
                                 {% if product.is_active %}
-                                <button class="btn btn-danger btn-sm logout-button">Inactive</button>
+                                <button class="btn btn-danger btn-sm">Inactive</button>
                                 {% else %}
-                                <button class="btn btn-success btn-sm activate-button">Activate</button>
+                                <button class="btn btn-success btn-sm">Activate</button>
                                 {% endif %}
                             </a>
                         </td>
@@ -111,6 +116,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+            
 
 
         </section>
@@ -139,12 +145,12 @@
                                             <label class="mb-0" for="category">Category</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <select id="category" class="form-control form-control-lg" name="category">
-                                               
-                                                <option value="Saree_Blouse">Saree Blouse</option>
+                                            <select id="dresscategory" class="form-control form-control-lg" name="category" required>
+                                                <option value="Skirt">Skirt</option>
+                                                <option value="Top">Top</option>
+                                                <option value="Blouse">Blouse</option>
                                                 <option value="Kurti">Kurti</option>
                                                 <span id="categoryspan" style="font-size: 12px;"></span>
-
                                             </select>
                                             <br>
                                         </div>
@@ -170,7 +176,6 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <select id="time" class="form-control form-control-lg" name="time">
-                                                <option value="">Select Time Period</option>
                                                 <option value="3 Days">3 Days</option>
                                                 <option value="5 Days">5 Days</option>
                                                 <option value="9 Days">9 Days</option>
@@ -207,11 +212,8 @@
                                     </div>
 
                                 </div>
-                                <hr>
-                                <br>
                     </section>
-                    <!-- Add your product input fields here -->
-                    <!-- For example, you can add text input fields for product name, description, etc. -->
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -220,8 +222,109 @@
                 </div>
             </div>
         </div>
-
     </div>
+    <script>
+        $(document).ready(function () {
+
+            const fields = [
+
+                { id: "#description", validate: validatedescription },
+                { id: "#image", validate: validateimage },
+                { id: "#price", validate: validateprice }
+            ];
+
+            fields.forEach(field => {
+                $(field.id).keyup(function () {
+                    field.validate();
+                });
+
+                validateFieldOnBlur(field.id, field.validate);
+            });
+            function checkFormValidity() {
+                const isValid = fields.every(field => {
+                    const $field = $(field.id);
+                    const $errorSpan = $(`${field.id}span`);
+
+                    return $field.val().trim() !== "" && $errorSpan.html() === "";
+                });
+
+                $("#savebtn").prop("disabled", !isValid);
+            }
+
+
+
+            function validateFieldOnBlur(fieldId, validationFunction) {
+                $(fieldId).blur(function () {
+                    validationFunction();
+                    checkFormValidity();
+                });
+            }
+
+            // Form submission
+            $("#form").submit(function (event) {
+                if (!$("#savebtn").prop("disabled")) {
+                    // Form is valid, allow submission
+                    return true;
+                } else {
+                    // Form is not valid, prevent submission
+                    event.preventDefault();
+                    return false;
+                }
+            });
+
+            // Initial check for form validity
+            checkFormValidity();
+
+            
+            
+
+            function validatedescription() {
+                const name = $("#description").val();
+                const lettersWithSpaces = /^[a-zA-Z0-9\s.,'"!?-]*$/;
+                if (name.trim() === "") {
+                    $("#descriptionspan").html("Enter the description").css("color", "red");
+                } else if (!lettersWithSpaces.test(name)) {
+                    $("#descriptionspan").html("please input a description with alphabets, numbers, punctuation and special characters").css("color", "red");
+                } else {
+                    $("#descriptionspan").html("");
+                }
+            }
+
+        
+            function validateimage() {
+                const imageInput = $('#image');
+                const imageError = $('#imagespan');
+                const selectedFile = imageInput[0].files[0];
+
+                if (!selectedFile) {
+                    imageError.text('No image selected.');
+                    imageError.css('color', 'red');
+                } else if (!/^image\//.test(selectedFile.type)) {
+                    imageError.text('Please select an image file.');
+                    imageError.css('color', 'red');
+                } else {
+                    imageError.text('');
+                }
+            }
+            
+
+
+            function validateprice() {
+                const name = $("#price").val();
+                const lettersWithSpaces = /^(?:[1-9]\d{0,4}|100000)$/;
+                if (name.trim() === "") {
+                    $("#pricespan").html("Enter the Price").css("color", "red");
+                } else if (!lettersWithSpaces.test(name)) {
+                    $("#pricespan").html("The price should range from 1 - 1000000").css("color", "red");
+                } else {
+                    $("#pricespan").html("");
+                }
+            }
+
+
+        });
+
+    </script>
 
 
     {% comment %} edit product modal {% endcomment %}
@@ -262,9 +365,9 @@
                                         <p class="mb-0" for="description">Product Description</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <input type="text" id="description" class="form-control form-control-lg"
+                                        <input type="text" id="editdescription" class="form-control form-control-lg"
                                             name="description" size="50" value="{{ product.description }}" />
-                                        <span id="descriptionspan" style="font-size: 12px;"></span>
+                                        <span id="editdescriptionspan" style="font-size: 12px;"></span>
                                     </div>
                                 </div>
                                 <hr>
@@ -289,7 +392,7 @@
                                     </div>
                                     <div class="col-sm-9">
                                         <!-- Display the current product image -->
-                                        <img src="{{ product.image.url }}" width="100" height="100"
+                                        <img src="{{ product.image.url }}" id="productimg" width="100" height="100"
                                             alt="{{ product.name }}" />
                                         <!-- Allow users to upload a new image if needed -->
                                         <input type="file" id="new_image" class="form-control" name="new_image"
@@ -304,15 +407,14 @@
                                         <p class="mb-0" for="price">Price</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <input type="text" id="price" class="form-control form-control-lg" name="price"
+                                        <input type="text" id="editprice" class="form-control form-control-lg" name="price"
                                             value="{{ product.price }}" />
-                                        <span id="pricespan" style="font-size: 12px;"></span>
+                                        <span id="editpricespan" style="font-size: 12px;"></span>
                                     </div>
                                 </div>
 
                             </div>
-                            <hr>
-                            <br>
+                            
                     </section>
                 </div>
                 <div class="modal-footer">
@@ -325,6 +427,106 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function () {
+            const fields = [
+                { id: "#editdescription", validate: validateEditDescription },
+                { id: "#new_image", validate: validateEditImage },
+                { id: "#editprice", validate: validateEditPrice },
+            ];
+        
+            // Initialize an object to store the initial field values
+            const initialFieldValues = {};
+        
+            fields.forEach(field => {
+                const $field = $(field.id);
+        
+                // Store the initial value of each field
+                initialFieldValues[field.id] = $field.val();
+        
+                // Add a keyup event listener to text fields to check for changes
+                if ($field.is(":text")) {
+                    $field.keyup(function () {
+                        field.validate();
+                        checkFormValidity();
+                    });
+                }
+            });
+        
+            // Handle image field validation when a new image is selected
+            $("#new_image").change(function () {
+                validateEditImage();
+                checkFormValidity();
+            });
+        
+            function checkFormValidity() {
+                // Check if any field value has changed (excluding the image field)
+                const isAnyFieldChanged = fields
+                    .filter(field => !$(field.id).is("#new_image"))
+                    .some(field => {
+                        const $field = $(field.id);
+                        return $field.val() !== initialFieldValues[field.id];
+                    });
+        
+                const isValid = fields.every(field => {
+                    const $field = $(field.id);
+                    const $errorSpan = $(`${field.id}span`);
+        
+                    return $field.val().trim() !== "" && $errorSpan.html() === "";
+                });
+        
+                // Enable the "Save Changes" button if changes have been made and the form is valid
+                $("#savebtn-edit").prop("disabled", !(isAnyFieldChanged && isValid));
+            }
+            function validateEditDescription() {
+                const name = $("#editdescription").val();
+                console.log("Validating description:", name);
+                const lettersWithSpaces = /^[a-zA-Z0-9\s.,'"!?-]*$/;
+                if (name.trim() === "") {
+                    $("#editdescriptionspan").html("Enter the description").css("color", "red");
+                } else if (!lettersWithSpaces.test(name)) {
+                    $("#editdescriptionspan").html("please input a description with alphabets, numbers, punctuation and special characters").css("color", "red");
+                } else {
+                    $("#editdescriptionspan").html("");
+                }
+            }
+        
+        
+            function validateEditImage() {
+                const imageInput = $('#new_image');
+                const imageError = $('#new_imagespan');
+                const selectedFile = imageInput[0].files[0];
+        
+                if (selectedFile) {
+                    if (!/^image\//.test(selectedFile.type)) {
+                        imageError.text('Please select an image file.');
+                        imageError.css('color', 'red');
+                    } else {
+                        imageError.text('');
+                    }
+                } else {
+                    // No file selected, clear the error message
+                    imageError.text('');
+                }
+            }
+            
+        
+        
+            function validateEditPrice() {
+                const name = $("#editprice").val();
+                const lettersWithSpaces = /^(?:[1-9]\d{0,4}|100000)$/;
+                if (name.trim() === "") {
+                    $("#editpricespan").html("Enter the Price").css("color", "red");
+                } else if (!lettersWithSpaces.test(name)) {
+                    $("#editpricespan").html("The price should range from 1 - 1000000").css("color", "red");
+                } else {
+                    $("#editpricespan").html("");
+                }
+            }
+        
+        
+        });
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -355,8 +557,8 @@
                     success: function (data) {
                         $('#editProductModal #name').val(data.name);
                         $('#editProductModal #category').val(data.category);
-                        $('#editProductModal #description').val(data.description);
-                        $('#editProductModal #price').val(data.price);
+                        $('#editProductModal #editdescription').val(data.description);
+                        $('#editProductModal #editprice').val(data.price);
                         if (data.image_url) {
                             $('#editProductModal img').attr('src', data.image_url); // Update the image source
                         } else {
@@ -398,7 +600,7 @@
 
 
             // Add a click event to trigger the edit modal
-            $('.green-button[data-bs-target="#editProductModal"]').click(function () {
+            $('#editbtn').click(function () {
                 var productId = $(this).data('product-id');
                 openEditModal(productId);
             });
@@ -416,7 +618,7 @@
                 event.preventDefault();
                 const productId = element.getAttribute('data-product-id');
                 const currentStatus = element.getAttribute('data-status');
-
+        
                 // Send an AJAX request to toggle the product status in the backend
                 fetch(`/toggle_product_status/${productId}/`, {
                     method: 'POST',
@@ -425,28 +627,31 @@
                     },
                     body: JSON.stringify({ currentStatus: currentStatus }),
                 })
-                    .then(response => response.json())
-                    .then(data => {
-                        // Update the status in the UI
-                        if (data.status === 'active') {
-                            element.innerHTML = 'Inactive';
-                            element.setAttribute('data-status', 'inactive');
-                            element.querySelector('.logout-button').classList.remove('btn-danger');
-                            element.querySelector('.logout-button').classList.add('btn-success');
-                            element.querySelector('.logout-button').textContent = 'Activate';
-                        } else {
-                            element.innerHTML = 'Active';
-                            element.setAttribute('data-status', 'active');
-                            element.querySelector('.logout-button').classList.remove('btn-success');
-                            element.querySelector('.logout-button').classList.add('btn-danger');
-                            element.querySelector('.logout-button').textContent = 'Inactive';
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
+                .then(response => response.json())
+                .then(data => {
+                    // Update the status in the UI
+                    element.innerHTML = data.status === 'active' ? 'Inactive' : 'Active';
+                    element.setAttribute('data-status', data.status);
+                    
+                    const button = element.querySelector('.logout-button');
+                    if (data.status === 'active') {
+                        button.classList.remove('btn-danger');
+                        button.classList.add('btn-success');
+                        button.textContent = 'Activate';
+                    } else {
+                        button.classList.remove('btn-success');
+                        button.classList.add('btn-danger');
+                        button.textContent = 'Inactive';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+                location.reload()
             });
         });
+        
+        
 
     </script>
 

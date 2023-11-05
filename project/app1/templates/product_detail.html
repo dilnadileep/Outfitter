@@ -47,6 +47,19 @@
             cursor: pointer;
             margin-top: 20px;
         }
+        .product-status {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .approved-status {
+            color: #009900; /* Green color for "Approved" status */
+        }
+        
+        .pending-status {
+            color: #FFA500; /* Orange color for "Pending" status */
+        }
+        
     </style>
 </head>
 <body>
@@ -80,7 +93,9 @@
                     <div class="product-details">
                         <h1 class="product-title">{{ product.pro_category }}</h1>
                         <p class="product-description">{{ product.description }}</p>
+                        <p class="product-delivery_time">Time period: {{ product.delivery_time }}</p>
                         <p class="product-price">Price: Rs.{{ product.price }}/-</p>
+
                     
                         {% if product.pro_category == "Kurti" %}
                         <a href="{% url 'measurment' product_id=product.id %}" class="btn btn-primary">Add Details</a>
@@ -88,8 +103,11 @@
                         <a href="{% url 'blouse_measurment' product_id=product.id %}" class="btn btn-primary">Add Details</a>
 
                         {% endif %}
-                    
-                        <button class="product-buy-button" {% if product.pro_category == "Kurti" %}disabled{% endif %}>Add to cart</button>
+                        {% if order and order.is_active %}
+                        <p class="product-status approved-status">Status: Approved</p>
+                    {% else %}
+                        <p class="product-status pending-status">Status: Pending</p>
+                    {% endif %}
                     </div>
                     
                 </div>

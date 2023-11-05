@@ -344,11 +344,19 @@ from django.shortcuts import render, redirect
 from .models import Product, Measurement # Import your models
 from django.http import HttpResponse
 
+from django.shortcuts import render, get_object_or_404
+from .models import Product, Order
+
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     request.session['selected_product_id'] = product_id
 
-    return render(request, "product_detail.html", {"product": product})
+    order = None
+
+    if request.user.is_authenticated and request.user.is_customer:
+        order = Order.objects.filter(customer=request.user, product=product).first()
+
+    return render(request, "product_detail.html", {"product": product, "order": order})
 
 # views.py
 
@@ -356,26 +364,28 @@ def product_detail(request, product_id):
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import Measurement, Product
+from .models import Measurement, Product,Order
 from django.shortcuts import get_object_or_404
 from decimal import Decimal
 from django.core.exceptions import ValidationError
 
 @login_required
+
+
+
 def measurment(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     user = request.user
 
     # Check if a measurement record already exists for the user and product
     measurment, created = Measurement.objects.get_or_create(
-        user=user,
         product=product,
         defaults={
-            'bust':Decimal('0'),
+            'bust': Decimal('0'),
             'waist': Decimal('0'),
             'hips': Decimal('0'),
-            'length':Decimal('0'),
-            'shoulder_width':Decimal('0'),
+            'length': Decimal('0'),
+            'shoulder_width': Decimal('0'),
             'sleeve_length': Decimal('0'),
             'fabric_type': None,
             'color': None,
@@ -385,12 +395,12 @@ def measurment(request, product_id):
             'sleev_design': None,
             'lining_design': None,
             'work_design': None,
-            'additional_info':None,
+            'additional_info': None,
         }
     )
 
     if request.method == 'POST':
-        # Get data from the POST request
+        # Get data from the POST request and update the measurement
         bust = request.POST.get('bust')
         waist = request.POST.get('waist')
         hips = request.POST.get('hips')
@@ -399,14 +409,14 @@ def measurment(request, product_id):
         sleeve_length = request.POST.get('sleeveLength')
         fabric_type = request.POST.get('fabric_type')
         color = request.POST.get('color')
-        style_design = request.POST.get('style_design')        
+        style_design = request.POST.get('style_design')
         neck_design = request.POST.get('neck_design')
         back_design = request.POST.get('back_design')
         sleev_design = request.POST.get('sleev_design')
         lining_design = request.POST.get('lining_design')
-        work_design = request.POST.get('work_design')        
+        work_design = request.POST.get('work_design')
         additional_info = request.POST.get('additional_info1')
-        # Update the existing measurement record
+
         measurment.bust = bust
         measurment.waist = waist
         measurment.hips = hips
@@ -420,13 +430,18 @@ def measurment(request, product_id):
         measurment.back_design = back_design
         measurment.sleev_design = sleev_design
         measurment.lining_design = lining_design
-        measurment.work_design = work_design        
+        measurment.work_design = work_design
         measurment.additional_info = additional_info
         measurment.save()
 
+    
+        order = Order.objects.create(product=product, customer=user, mesurment=measurment)
+        order.save()
+
+        messages.success(request, 'Order created successfully!')
         return redirect('product_detail', product_id=product_id)
 
-    return render(request, 'measurment.html', {'product': product, 'user': user, 'measurment': measurment})
+    return render(request, 'measurment.html', {'product': product, 'measurment': measurment})
 
 
 
@@ -437,7 +452,6 @@ def blouse_measurment(request, product_id):
 
     # Check if a measurement record already exists for the user and product
     measurment, created = Measurement.objects.get_or_create(
-        user=user,
         product=product,
         defaults={
             'bust':Decimal('0'),
@@ -490,10 +504,13 @@ def blouse_measurment(request, product_id):
 
         measurment.save()
 
+        order = Order.objects.create(product=product, customer=user, mesurment=measurment)
+        order.save()
+
+        messages.success(request, 'Order created successfully!')
         return redirect('product_detail', product_id=product_id)
 
-    return render(request, 'blouse_measurment.html', {'product': product, 'user': user, 'measurment': measurment})
-
+    return render(request, 'blouse_measurment.html', {'product': product, 'measurement': measurment})
 
 def success_page(request):
     return HttpResponse("Measurement data has been saved successfully.")
@@ -538,3 +555,7 @@ def order(request):
     }
 
     return render(request, "order.html", context)
+
+def order_request(request):
+        return render(request, "order_request.html")
+
