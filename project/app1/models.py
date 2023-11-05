@@ -59,7 +59,9 @@ class Measurement(models.Model):
     neck_design = models.CharField(max_length=255, null=True, blank=True)
     back_design = models.CharField(max_length=255, null=True, blank=True)
     sleev_design = models.CharField(max_length=255, null=True, blank=True)
-
+    lining_design = models.CharField(max_length=255, null=True, blank=True)
+    work_design = models.CharField(max_length=255, null=True, blank=True)
+    additional_info = models.TextField(verbose_name="Additional Information",blank=True, null=True, help_text="Add any additional information here.")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='measurement')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
 

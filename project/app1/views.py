@@ -382,7 +382,9 @@ def measurment(request, product_id):
             'neck_design': None,
             'back_design': None,
             'sleev_design': None,
-
+            'lining_design': None,
+            'work_design': None,
+            'additional_info':None,
         }
     )
 
@@ -399,7 +401,9 @@ def measurment(request, product_id):
         neck_design = request.POST.get('neck_design')
         back_design = request.POST.get('back_design')
         sleev_design = request.POST.get('sleev_design')
-
+        lining_design = request.POST.get('lining_design')
+        work_design = request.POST.get('work_design')        
+        additional_info = request.POST.get('additional_info1')
         # Update the existing measurement record
         measurment.bust = bust
         measurment.waist = waist
@@ -412,7 +416,9 @@ def measurment(request, product_id):
         measurment.neck_design = neck_design
         measurment.back_design = back_design
         measurment.sleev_design = sleev_design
-
+        measurment.lining_design = lining_design
+        measurment.work_design = work_design        
+        measurment.additional_info = additional_info
         measurment.save()
 
         return redirect('product_detail', product_id=product_id)
@@ -442,6 +448,9 @@ def blouse_measurment(request, product_id):
             'neck_design': None,
             'back_design': None,
             'sleev_design': None,
+            'lining_design': None,
+            'work_design': None,
+            'additional_info': None,
 
         }
     )
@@ -458,6 +467,9 @@ def blouse_measurment(request, product_id):
         neck_design = request.POST.get('neck_design')
         back_design = request.POST.get('back_design')
         sleev_design = request.POST.get('sleev_design')
+        lining_design = request.POST.get('lining_design')
+        work_design = request.POST.get('work_design')        
+        additional_info = request.POST.get('additional_info1')
 
         # Update the existing measurement record
         measurment.bust = bust
@@ -469,6 +481,9 @@ def blouse_measurment(request, product_id):
         measurment.neck_design = neck_design
         measurment.back_design = back_design
         measurment.sleev_design = sleev_design
+        measurment.lining_design = lining_design
+        measurment.work_design = work_design        
+        measurment.additional_info = additional_info
 
         measurment.save()
 

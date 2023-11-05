@@ -136,8 +136,42 @@ label[for="sleev_design"] {
     display: block;
     text-align: left;
 }
+body {
+    font-family: Arial, sans-serif;
+    background-color: #eee; /* Match the form's background color */
+}
 
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 
+.description-box {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff; /* Match the form's background color */
+}
+
+.description-box textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: vertical;
+}
+
+.description-box label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
     </style>
 </head>
 <body>
@@ -233,6 +267,7 @@ label[for="sleev_design"] {
                             <div class="design-section">
                                 <h3 class="sub-heading">Design Selection</h3>
                                 <!-- Neck Design Selection -->
+
                                 <div class="mb-6">
                                     <div class="custom-select">
                                         <label for="neck_design" class="form-label">Front Neck Design:</label>
@@ -240,24 +275,34 @@ label[for="sleev_design"] {
                                             <!-- Add more image options as needed -->
                                             <div class="image-option neck_design" data-value="neck_design_1">
                                                 <img src="{% static "images/neck/boat_neck.jpg" %}" alt="Design 1">
+                                                <p class="image-name">Boat Neck Design</p>
+
                                             </div>
-                                           
-                                           
                                             <!-- Add more image options here -->
                                             <div class="image-option neck_design" data-value="neck_design_2">
                                                 <img src="{% static "images/neck/pointed_neck.jpg" %}" alt="Design 2">
+                                                <p class="image-name">Pointed Neck Design</p>
+
                                             </div>
                                             <div class="image-option neck_design" data-value="neck_design_3">
                                                 <img src="{% static "images/neck/round_neck.jpg" %}" alt="Design 3">
+                                                <p class="image-name">Round Neck Design</p>
+
                                             </div>
                                             <div class="image-option neck_design" data-value="neck_design_4">
                                                 <img src="{% static "images/neck/square_neck.jpg" %}" alt="Design 4">
+                                                <p class="image-name">Square Neck Design</p>
+
                                             </div>
                                             <div class="image-option neck_design" data-value="neck_design_5">
                                                 <img src="{% static "images/neck/v_neck.jpg" %}" alt="Design 5">
+                                                <p class="image-name">V Neck Design</p>
+
                                             </div>
                                             <div class="image-option neck_design" data-value="neck_design_6">
                                                 <img src="{% static "images/neck/semi_neck.jpg" %}" alt="Design 6">
+                                                <p class="image-name">Semisweetheart Neck Design</p>
+
                                             </div>
                                         </div>
                                         <input type="hidden" id="selected-neck-design" name="neck_design" value="">
@@ -266,11 +311,13 @@ label[for="sleev_design"] {
                                     <div class="selected-design">
                                          <h4>Selected Front Neck Design</h4>
                                                  <img id="selected-neck-design-image" src="" alt="">
+                                                 <p class="selected-design-name"></p> <!-- Add this element to display the name -->
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
+                                <hr>
                                     <!--back neck design -->
                                     <div class="mb-6">
                                         <div class="custom-select">
@@ -279,65 +326,162 @@ label[for="sleev_design"] {
                                             <!-- Add more image options as needed -->
                                             <div class="image-option back_design" data-value="back_design_1">
                                                 <img src="{% static "images/back/arrow_back.jpg" %}" alt="Design 7">
+                                                <p class="image-name">Arrow Backneck Design</p> <!-- Add the name of the image -->
+
                                             </div>
                                            
                                             <div class="image-option back_design" data-value="back_design_2">
                                                 <img src="{% static "images/back/overlap_back.jpg" %}" alt="Design 8">
+                                                <p class="image-name">Overlapping Backneck Design</p> <!-- Add the name of the image -->
+
                                             </div>
                                             <div class="image-option back_design" data-value="back_design_3">
-                                                <img src="{% static "images/back/arrow_back.jpg" %}" alt="Design 9">
+                                                <img src="{% static "images/back/glass_back.jpg" %}" alt="Design 9">
+                                                <p class="image-name">Glass Backneck Design</p> <!-- Add the name of the image -->
+
                                             </div>
                                             <div class="image-option back_design" data-value="back_design_4">
                                                 <img src="{% static "images/back/boat2_back.jpg" %}" alt="Design 10">
+                                                <p class="image-name">Boat Backneck Design</p> <!-- Add the name of the image -->
+
                                             </div>
                                             <div class="image-option back_design" data-value="back_design_5">
                                                 <img src="{% static "images/back/deep_back.jpg" %}" alt="Design 11">
+                                                <p class="image-name">Deep Backneck Design</p> <!-- Add the name of the image -->
+
                                             </div>
                                             <div class="image-option back_design" data-value="back_design_6">
                                                 <img src="{% static "images/back/sweetheart_back.jpg" %}" alt="Design 12">
+                                                <p class="image-name">Sweetheart Backneck Design</p> <!-- Add the name of the image -->
+
                                             </div>
                                         </div>
                                         <input type="hidden" id="selected-back-design" name="back_design" value="">
                                         <div class="selected-design">
                                             <h4>Selected Back Neck Design</h4>
                                             <img id="selected-back-design-image" src="" alt="">
+                                            <p class="selected-back-design-name"></p> <!-- Add this element to display the name -->
+
                                         </div>
                                     </div>
                                     
                                     <!-- sleev design-->
-
+                                    <hr>
                                     <div class="mb-6">
                                         <div class="custom-select">
-                                            <label for="sleev_design" class="form-label">Sleev Design:</label>
+                                            <label for="sleev_design" class="form-label">Sleeve Design:</label>
                                             <div class="scrollable-images">
                                             <!-- Add more image options as needed -->
                                             <div class="image-option sleev_design" data-value="sleev_design_1">
                                                 <img src="{% static "images/sleev/cap_sleev.jpg" %}" alt="Design 13">
+                                                <p class="image-name">Cap Sleeve Design</p> <!-- Add the name of the image -->
+
                                             </div>
                                            
                                             <div class="image-option sleev_design" data-value="sleev_design_2">
                                                 <img src="{% static "images/sleev/paded_sleev.jpg" %}" alt="Design 14">
+                                                <p class="image-name">Padded Sleeve Design</p> <!-- Add the name of the image -->
+
                                             </div>
                                             <div class="image-option sleev_design" data-value="sleev_design_3">
                                                 <img src="{% static "images/sleev/frill_sleev.jpg" %}" alt="Design 15">
+                                                <p class="image-name">Frill Sleeve Design</p> <!-- Add the name of the image -->
+
                                             </div>
                                             <div class="image-option sleev_design" data-value="sleev_design_4">
                                                 <img src="{% static "images/sleev/churidaar_sleev.jpg" %}" alt="Design 16">
+                                                <p class="image-name">Churidhar Sleeve Design</p> <!-- Add the name of the image -->
+
                                             </div>
                                             <div class="image-option sleev_design" data-value="sleev_design_5">
                                                 <img src="{% static "images/sleev/cold_sleev.jpg" %}" alt="Design 17">
+                                                <p class="image-name">Cold Sleeve Design</p> <!-- Add the name of the image -->
+
                                             </div>
                                             <div class="image-option sleev_design" data-value="sleev_design_6">
                                                 <img src="{% static "images/sleev/sleeveless.jpg" %}" alt="Design 18">
+                                                <p class="image-name">Sleeveless Design</p> <!-- Add the name of the image -->
+
                                             </div>
                                         </div>
                                         <input type="hidden" id="selected-sleev-design" name="sleev_design" value="">
                                         <div class="selected-design">
-                                            <h4>Selected Sleev Design</h4>
+                                            <h4>Selected Sleeve Design</h4>
                                             <img id="selected-sleev-design-image" src="" alt="">
+                                            <p class="selected-sleev-design-name"></p> <!-- Add this element to display the name -->
+
                                         </div>
                                     </div>
-                                    
+                                    <hr>
+                                    <div class="mb-6">
+                                        <div class="custom-select">
+                                            <label for="lining_design" class="form-label">Lining:</label>
+                                            <div class="scrollable-images">
+                                            <!-- Add more image options as needed -->
+                                            <div class="image-option lining_design" data-value="lining_design_1">
+                                                <img src="{% static "images/lining/cotton.jpg" %}" alt="Design 19">
+                                                <p class="image-name">Lining Cotton</p> <!-- Add the name of the image -->
+
+                                            </div>
+                                           
+                                            <div class="image-option lining_design" data-value="lining_design_2">
+                                                <img src="{% static "images/lining/crepe.jpg" %}" alt="Design 20">
+                                                <p class="image-name">Lining crepe</p> <!-- Add the name of the image -->
+
+                                            </div>
+                                            <div class="image-option lining_design" data-value="lining_design_3">
+                                                <img src="{% static "images/lining/satin.jpg" %}" alt="Design 21">
+                                                <p class="image-name">Lining satin</p> <!-- Add the name of the image -->
+
+                                            </div>
+                                            <div class="image-option lining_design" data-value="lining_design_4">
+                                                <img src="{% static "images/lining/nolining.jpg" %}" alt="Design 22">
+                                                <p class="image-name">No Lining</p> <!-- Add the name of the image -->
+
+                                            </div>
+                                            
+                                        </div>
+                                        <input type="hidden" id="selected-lining-design" name="lining_design" value="">
+                                        <div class="selected-design">
+                                            <h4>Selected Lining</h4>
+                                            <img id="selected-lining-design-image" src="" alt="">
+                                            <p class="selected-lining-design-name"></p> <!-- Add this element to display the name -->
+
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="mb-6">
+                                        <div class="custom-select">
+                                            <label for="work_design" class="form-label">work:</label>
+                                            <div class="scrollable-images">
+                                            <!-- Add more image options as needed -->
+                                            <div class="image-option work_design" data-value="work_design_1">
+                                                <img src="{% static "images/work/nowork.jpg" %}" alt="Design 20">
+                                                <p class="image-name">No Work</p> <!-- Add the name of the image -->
+
+                                            </div>
+                                           
+                                            <div class="image-option work_design" data-value="work_design_2">
+                                                <img src="{% static "images/work/work.jpg" %}" alt="Design 22">
+                                                <p class="image-name">With Work</p> <!-- Add the name of the image -->
+
+                                            </div>
+                                           
+                                            
+                                        </div>
+                                        <input type="hidden" id="selected-work-design" name="work_design" value="">
+                                        <div class="selected-design">
+                                            <h4>Selected work</h4>
+                                            <img id="selected-work-design-image" src="" alt="">
+                                            <p class="selected-work-design-name"></p> <!-- Add this element to display the name -->
+
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="description-box">
+                                        <label for="additional_info" class="form-label">Additional Information:</label>
+                                        <textarea id="additional_info1" name="additional_info1" placeholder="Add any additional information here" >{{ measurment.additional_info }}</textarea>
+                                    </div>
                                     </div>
                                     </div>
                                 </div>
@@ -402,38 +546,78 @@ label[for="sleev_design"] {
 </script>
 <script>
     // Update the selected front neck design image
+// Update the selected front neck design image and name
 const selectedNeckDesignImage = document.getElementById('selected-neck-design-image');
+const selectedNeckDesignName = document.querySelector('.selected-design-name'); // Get the name element
 const neckDesignOptions = document.querySelectorAll('.image-option.neck_design');
-
 
 neckDesignOptions.forEach((option) => {
     option.addEventListener('click', () => {
         const selectedValue = option.getAttribute('data-value');
+        const selectedName = option.querySelector('.image-name').textContent; // Get the name of the selected image
         selectedNeckDesignImage.src = option.querySelector('img').src;
+        selectedNeckDesignName.textContent = selectedName; // Populate the name
     });
 });
 
+
 // Update the selected back neck design image
+// Update the selected back neck design image and name
 const selectedBackDesignImage = document.getElementById('selected-back-design-image');
+const selectedBackDesignName = document.querySelector('.selected-back-design-name'); // Get the name element
 const backDesignOptions = document.querySelectorAll('.image-option.back_design');
 
 backDesignOptions.forEach((option) => {
     option.addEventListener('click', () => {
         const selectedValue = option.getAttribute('data-value');
+        const selectedName = option.querySelector('.image-name').textContent; // Get the name of the selected image
         selectedBackDesignImage.src = option.querySelector('img').src;
+        selectedBackDesignName.textContent = selectedName; // Populate the name
     });
 });
 
+
 const selectedSleevDesignImage = document.getElementById('selected-sleev-design-image');
+const selectedSleevDesignName = document.querySelector('.selected-sleev-design-name'); // Get the name element
 const sleevDesignOptions = document.querySelectorAll('.image-option.sleev_design');
 
 sleevDesignOptions.forEach((option) => {
     option.addEventListener('click', () => {
         const selectedValue = option.getAttribute('data-value');
+        const selectedName = option.querySelector('.image-name').textContent; // Get the name of the selected image
         selectedSleevDesignImage.src = option.querySelector('img').src;
+        selectedSleevDesignName.textContent = selectedName; // Populate the name
     });
 });
 
+// Update the selected lining design image and name
+const selectedLiningDesignImage = document.getElementById('selected-lining-design-image');
+const selectedLiningDesignName = document.querySelector('.selected-lining-design-name'); // Get the name element
+const liningDesignOptions = document.querySelectorAll('.image-option.lining_design');
+
+liningDesignOptions.forEach((option) => {
+    option.addEventListener('click', () => {
+        const selectedValue = option.getAttribute('data-value');
+        const selectedName = option.querySelector('.image-name').textContent; // Get the name of the selected image
+        selectedLiningDesignImage.src = option.querySelector('img').src;
+        selectedLiningDesignName.textContent = selectedName; // Populate the name
+    });
+});
+
+
+// Update the selected work design image and name
+const selectedWorkDesignImage = document.getElementById('selected-work-design-image');
+const selectedWorkDesignName = document.querySelector('.selected-work-design-name'); // Get the name element
+const workDesignOptions = document.querySelectorAll('.image-option.work_design');
+
+workDesignOptions.forEach((option) => {
+    option.addEventListener('click', () => {
+        const selectedValue = option.getAttribute('data-value');
+        const selectedName = option.querySelector('.image-name').textContent; // Get the name of the selected image
+        selectedWorkDesignImage.src = option.querySelector('img').src;
+        selectedWorkDesignName.textContent = selectedName; // Populate the name
+    });
+});
 
 </script>
     
