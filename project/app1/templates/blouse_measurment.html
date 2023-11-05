@@ -196,31 +196,30 @@ label[for="sleev_design"] {
                                 <h3 class="sub-heading">Measurements</h3>
                                 <!-- Upload Reference Image for Measurements -->
                                 <div class="form-group">
-                                    <img src="{% static 'images/kurti_guide.png' %}" alt="Measurement Guide" class="measurement-guide">
+                                    <img src="{% static 'images/blouse_guid.png' %}" alt="Measurement Guide" class="measurement-guide">
                                 </div>
                                 <div class="mb-3">
                                     <label for="bust" class="form-label">Bust:</label>
-                                    <input type="text" id="bust" name="bust" class="form-control" placeholder="*in inches " value="{{ measurment.bust }}">
+                                    <input type="text" id="bust" name="bust" class="form-control" placeholder="*in inches" value="{{ measurment.bust }}">
                                 </div>
                                 
-                                <div class="mb-3">
+                                 <div class="mb-3">
                                     <label for="waist" class="form-label">Waist:</label>
                                     <input type="text" id="waist" name="waist" class="form-control" placeholder="*in inches " value="{{ measurment.waist }}">
                                 </div>
                                 
                                 <div class="mb-3">
-                                    <label for="hips" class="form-label">Hips:</label>
-                                    <input type="text" id="hips" name="hips" class="form-control" placeholder="*in inches " value="{{ measurment.hips }}">
-                                </div>
-                                
-                                <div class="mb-3">
+                                    <label for="hips" class="form-label">Chest:</label>
+                                    <input type="text" id="hips" name="hips" class="form-control" placeholder="*in inches" value="{{ measurment.hips }}">
+                                </div> 
+                                {% comment %} <div class="mb-3">
                                     <label for="length" class="form-label">Length:</label>
-                                    <input type="text" id="length" name="length" class="form-control" placeholder="*in inches " value="{{ measurment.length }}">
-                                </div>
+                                    <input type="text" id="length" name="length" class="form-control" placeholder="e.g., 100" value="{{ measurment.length }}">
+                                </div> {% endcomment %}
                                 
                                 <div class="mb-3">
                                     <label for="shoulderWidth" class="form-label">Shoulder Width:</label>
-                                    <input type="text" id="shoulderWidth" name="shoulderWidth" class="form-control" placeholder="*in inches " value="{{ measurment.shoulder_width }}">
+                                    <input type="text" id="shoulderWidth" name="shoulderWidth" class="form-control" placeholder="*in inches" value="{{ measurment.shoulder_width }}">
                                 </div>
                                 
                                 <div class="mb-3">

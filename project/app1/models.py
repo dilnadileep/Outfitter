@@ -44,9 +44,9 @@ class Product(models.Model):
 
 
 # models.py
-
 from django.db import models
 from django.conf import settings
+
 class Measurement(models.Model):
     bust = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     waist = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
@@ -54,12 +54,14 @@ class Measurement(models.Model):
     length = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     shoulder_width = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     sleeve_length = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    fabric_type = models.CharField(max_length=255,null=True, blank=True)
-    color = models.CharField(max_length=255,null=True, blank=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='measurements')
+    fabric_type = models.CharField(max_length=255, null=True, blank=True)
+    color = models.CharField(max_length=255, null=True, blank=True)
+    neck_design = models.CharField(max_length=255, null=True, blank=True)
+    back_design = models.CharField(max_length=255, null=True, blank=True)
+    sleev_design = models.CharField(max_length=255, null=True, blank=True)
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='measurement')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
-    neck_design = models.CharField(max_length=255, null=True, blank=True)  # Add neck_design field
-    back_design = models.CharField(max_length=255, null=True, blank=True)  # Add back_design field
 
     def __str__(self):
         return f'Measurement Entry {self.id}'

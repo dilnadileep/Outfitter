@@ -80,26 +80,20 @@
                     <div class="product-details">
                         <h1 class="product-title">{{ product.pro_category }}</h1>
                         <p class="product-description">{{ product.description }}</p>
-                        <p class="product-price">Price: ${{ product.price }}</p>
+                        <p class="product-price">Price: Rs.{{ product.price }}/-</p>
                     
                         {% if product.pro_category == "Kurti" %}
                         <a href="{% url 'measurment' product_id=product.id %}" class="btn btn-primary">Add Details</a>
+                        {% else %}
+                        <a href="{% url 'blouse_measurment' product_id=product.id %}" class="btn btn-primary">Add Details</a>
+
                         {% endif %}
                     
                         <button class="product-buy-button" {% if product.pro_category == "Kurti" %}disabled{% endif %}>Add to cart</button>
                     </div>
                     
                 </div>
-                <!-- <div class="tailor-details">
-                    <h2>Tailor Details</h2>
-                    <p><strong>Name:</strong> {{ tailor.user.get_first_name }}</p>
-                    <p><strong>Phone Number:</strong> {{ tailor.phone_number }}</p>
-                    <p><strong>State:</strong> {{ tailor.state }}</p>
-                    <p><strong>District:</strong> {{ tailor.district }}</p>
-                    <p><strong>Gender:</strong> {{ tailor.gender }}</p>
-                    <p><strong>Age:</strong> {{ tailor.age }}</p>
-                </div> -->
-                
+               
             </div>
         </div>
     </section>
