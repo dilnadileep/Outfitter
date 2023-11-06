@@ -57,12 +57,8 @@
     color: #fff;
         }
 
-        .disapprove-button {
-            background-color: #ff0000;
-            border-radius: 10px; /* Adjust the value to control the level of rounding */
-    padding: 5px 10px; /* Add padding to make the button larger and more rounded */
-    color: #fff;
-        }
+        
+        
         .detail-button {
     background-color: rgb(84, 124, 246);
     border-radius: 10px; /* Adjust the value to control the level of rounding */
@@ -92,9 +88,56 @@
             color: #fff;
             text-decoration: none;
         }
+            .request-card {
+                background-color: #fff;
+                border: 1px solid #ddd;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                margin: 20px;
+                padding: 20px;
+            }
+        
+            .request-card h3 {
+                font-size: 24px;
+                font-weight: bold;
+            }
+        
+            .request-details {
+                display: flex;
+                justify-content: space-between;
+            }
+        
+            .customer-details, .product-details, .measurement-details {
+                width: 30%;
+            }
+        
+            .customer-details h4, .product-details h4, .measurement-details h4 {
+                font-size: 18px;
+                margin-top: 10px;
+            }
+        
+            .request-card-buttons {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 20px;
+            }
+        
+            .approve-button, .disapprove-button {
+                background-color: #e91e63;
+                color: #fff;
+                border: none;
+                padding: 10px 20px;
+                font-size: 18px;
+                cursor: pointer;
+            }
+        
+            .disapprove-button {
+                background-color: #ff0000;
+            }
+       
+        
     </style>
 </head>
-<body>
+<body  style="background-color: rgba(190, 208, 243, 0.765)">
     <header class="header_section">
         <div class="container">
             <nav class="navbar navbar-expand-lg custom_nav-container">
@@ -141,12 +184,13 @@
                 <li class="breadcrumb-item active" aria-current="page">Customer Requests</li>
             </ol>
         </nav>
+        <section  style="background-color: rgba(190, 208, 243, 0.765)">
         {% for request in requests %}
         <div class="request-card">
             <h3>{{ request.customer.first_name }}'s Request</h3>
             <p>Product: {{ request.product.pro_category }}</p>
             <p>Measurement Details:
-                <button class="detail-button">Measurment Details</button>
+                <button class="btn btn-primary details-button" data-bs-toggle="modal" data-bs-target="#measurment_details" data-request-id="{{ request.id }}">Details</button>
             </p>
             <p>Price: Rs.{{ request.product.price }}/-</p>
             {% comment %} <!-- Display Measurement Details -->
@@ -164,13 +208,67 @@
                         <button type="submit" class="approve-button">Approve</button>
                     {% endif %}
                 </form>
-                <button class="disapprove-button">Disapprove</button>
-            </div>
+                <form method="post" action="{% url 'order_request' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="order_id" value="{{ request.id }}">
+                        {% if request.is_active %}
+                        <button type="submit" class="disapprove-button">Disapprove</button>
+                        {% else %}
+                        <button type="submit" class="disapproved-button">Disapproved</button>
+                        {% endif %}
+                    
+                </form>
+                </div>
         </div>
         {% endfor %}
         
     </div>
+</section>
+
+
+<div class="modal fade" id="measurment_details" tabindex="-1" aria-labelledby="measurment_detailsLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <center>
+                        <h5 class="modal-title" id="measurment_detailsLabel">Customer Details</h5>
+                    </center>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <section>
+                        <form method="POST" enctype="multipart/form-data" action="" id="form">
+                            {% csrf_token %}
+                            <div class="card-body">
+                                {% for request in requests %}
+
+                                <div class="request-card">
+                                    <div class="request-details">
+                                        <div class="measurement-details">
+                                            <h4>Measurement Details</h4>
+                                            <p><strong>Fabric Type:</strong> {{ request.mesurment.fabric_type }}</p>
+                                            <p><strong>Color:</strong> {{ request.mesurment.color }}</p>
+                                            <!-- Add more measurement details as needed -->
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                {% endfor %}
+                                  
+                            </div>   
+                    </section>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 </body>
 </html>

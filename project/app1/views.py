@@ -517,51 +517,14 @@ def success_page(request):
 
 
 
-from django.shortcuts import render
 from .models import Product, Measurement
 from django.contrib.auth.decorators import login_required
-
-@login_required
-def order(request):
-    # Get the currently logged-in user (tailor)
-    current_user = request.user
-
-    # Fetch the products added by the tailor
-    tailored_products = Product.objects.filter(tailor=current_user)
-
-    # Create a dictionary to store product and customer measurement details
-    order_details = {}
-
-    for product in tailored_products:
-        # Fetch the corresponding measurement details added by customers for each product
-        customer_measurements = Measurement.objects.filter(product=product)
-
-        # Fetch the customer details for this product
-        customer = product.user  # Assuming user field in Product refers to the customer
-
-        # Create a dictionary to store product and measurement details
-        product_details = {
-            'product': product,
-            'customer': customer,
-            'measurements': customer_measurements
-        }
-
-        order_details[product] = product_details
-
-    context = {
-        'order_details': order_details,
-        'tailor_name': current_user.username,
-        'tailor_email': current_user.email,
-    }
-
-    return render(request, "order.html", context)
-
-from django.shortcuts import render
-from .models import Order  # Import the relevant models
-
 from django.shortcuts import render
 from .models import Order
 from django.http import HttpResponseRedirect
+from django.core.mail import send_mail
+@login_required
+
 
 def order_request(request):
     if request.method == 'POST':
@@ -570,6 +533,15 @@ def order_request(request):
             order = Order.objects.get(pk=order_id)
             order.is_active = True
             order.save()
+            
+            # Send an email to the customer
+            if order.customer.email and order.is_active:
+                subject = 'Outfitter : Your Order is Approved '
+                message = 'Your order is now approved from tailor. Thank you for your order.'
+                from_email = 'dilnadileep2024a@mca.ajce.in'  # Change to your email
+                recipient_list = [order.customer.email]
+                send_mail(subject, message, from_email, recipient_list)
+                
             # You can add a success message or other logic here if needed
         except Order.DoesNotExist:
             # Handle the case where the order doesn't exist
