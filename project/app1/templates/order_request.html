@@ -4,13 +4,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Details</title>
+    <title>Customer Requests</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-   
+    <style>
+        /* Style for the header section */
+        .header_section {
+            background-color: #FFA500;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand img {
+            max-width: 50px;
+        }
+
+        /* Style for the request cards */
+        .request-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            padding: 20px;
+        }
+
+        .request-card h3 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .request-card p {
+            font-size: 16px;
+        }
+
+        .request-card-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .approve-button,
+        .disapprove-button {
+            background-color: #e91e63;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 10px; /* Adjust the value to control the level of rounding */
+    padding: 5px 10px; /* Add padding to make the button larger and more rounded */
+    color: #fff;
+        }
+
+        .disapprove-button {
+            background-color: #ff0000;
+            border-radius: 10px; /* Adjust the value to control the level of rounding */
+    padding: 5px 10px; /* Add padding to make the button larger and more rounded */
+    color: #fff;
+        }
+        .detail-button {
+    background-color: rgb(84, 124, 246);
+    border-radius: 10px; /* Adjust the value to control the level of rounding */
+    padding: 5px 10px; /* Add padding to make the button larger and more rounded */
+    color: #fff; /* Text color for better visibility on the background */
+}
+
+        /* Style for the breadcrumb navigation */
+        .breadcrumb {
+            background-color: #f5f5f5;
+            padding: 10px;
+        }
+
+        /* Custom button style */
+        .instagram-button {
+            background-color: transparent;
+            border: 1px solid #000;
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+      
+        .instagram-button:hover {
+            background-color: #000;
+            color: #fff;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
+    <header class="header_section">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg custom_nav-container">
+                <a class="navbar-brand">
+                    <img src="{% static 'images/logo1.jpg' %}" alt />
+                    <span>OUTFITTER</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
     
-
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <button class="instagram-button">
+                                <a href="{% url 'add_garment' %}" class="nav-link">Add Garment</a>
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="instagram-button">
+                                <a href="{% url 'profile' %}" class="nav-link">Profile</a>
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="instagram-button">
+                                <a href="{% url 'loggout' %}" class="nav-link">Logout</a>
+                            </button>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <br><br>
+    <div class="container py-5">
+        <nav aria-label="breadcrumb" class="breadcrumb rounded-3 mb-4">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                    <a href="{% url "t_index" %}">Home</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Customer Requests</li>
+            </ol>
+        </nav>
+        {% for request in requests %}
+        <div class="request-card">
+            <h3>{{ request.customer.first_name }}'s Request</h3>
+            <p>Product: {{ request.product.pro_category }}</p>
+            <p>Measurement Details:
+                <button class="detail-button">Measurment Details</button>
+            </p>
+            <p>Price: Rs.{{ request.product.price }}/-</p>
+            {% comment %} <!-- Display Measurement Details -->
+            <p>Bust: {{ request.mesurment.bust }}</p>
+            <p>Waist: {{ request.mesurment.waist }}</p>
+            <!-- Add more fields as needed --> {% endcomment %}
+            
+            <div class="request-card-buttons">
+                <form method="post" action="{% url 'order_request' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="order_id" value="{{ request.id }}">
+                    {% if request.is_active %}
+                        <button type="submit" class="approved-button" disabled>Approved</button>
+                    {% else %}
+                        <button type="submit" class="approve-button">Approve</button>
+                    {% endif %}
+                </form>
+                <button class="disapprove-button">Disapprove</button>
+            </div>
+        </div>
+        {% endfor %}
+        
+    </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>

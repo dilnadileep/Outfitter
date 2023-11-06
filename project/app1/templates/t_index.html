@@ -57,11 +57,11 @@
               <a class="navbar-brand" >
                   <img src="{% static 'images/logo1.jpg' %}" alt />
                   <span>OUTFITTER</span>
-                  {% comment %} {% if user.is_authenticated %}
-                  <span class="nav-link">Welcome, {{ user.first_name }}</span>
-                  <a href ="#us_section"><span class="nav-link">About us</span></a>
+                  {% if user.is_authenticated %}
+                  <p>Welcome, {{ user.first_name }}</p>
+                  {% comment %} <a href ="#us_section"><span class="nav-link1">About us</span></a> {% endcomment %}
 
-                  {% endif %} {% endcomment %}
+                  {% endif %} 
               </a>
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                   aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

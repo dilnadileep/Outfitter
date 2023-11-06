@@ -556,6 +556,27 @@ def order(request):
 
     return render(request, "order.html", context)
 
-def order_request(request):
-        return render(request, "order_request.html")
+from django.shortcuts import render
+from .models import Order  # Import the relevant models
 
+from django.shortcuts import render
+from .models import Order
+from django.http import HttpResponseRedirect
+
+def order_request(request):
+    if request.method == 'POST':
+        order_id = request.POST.get('order_id')  # Get the order_id from the form
+        try:
+            order = Order.objects.get(pk=order_id)
+            order.is_active = True
+            order.save()
+            # You can add a success message or other logic here if needed
+        except Order.DoesNotExist:
+            # Handle the case where the order doesn't exist
+            pass
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  # Redirect back to the same page
+
+    # Fetch the orders and associated data
+    requests = Order.objects.select_related('customer', 'product', 'mesurment').all()
+    
+    return render(request, "order_request.html", {"requests": requests})

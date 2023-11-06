@@ -13,7 +13,7 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS = []
     
 
-
+ 
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,null=True)
     phone_number = models.CharField(max_length=15, blank=True)
@@ -74,4 +74,5 @@ class Order(models.Model):
         customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='customer', null=True, blank=True)
         mesurment = models.ForeignKey(Measurement, on_delete=models.CASCADE, null=True, blank=True)
         is_active = models.BooleanField(default=False,null=True)  # Add this field to track product status
+        status = models.BooleanField(default=True,null=True)  # Add this field to track product status
 
