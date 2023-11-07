@@ -83,11 +83,11 @@
                         <ul class="navbar-nav ml-auto"> <!-- Use ml-auto to push items to the right -->
                             {% if user.is_authenticated %}
                             {% if user.is_tailor %}
-                            <li class="nav-item">
+                            {% comment %} <li class="nav-item">
                                 <button class="instagram-button">
                                     <a href="{% url "order" %}" class="nav-link">Orders</a>
                                 </button>
-                            </li>
+                            </li> {% endcomment %}
                             {% else %}
                             <li class="nav-item">
                                 <button class="instagram-button">
@@ -142,9 +142,9 @@
                                      <h5 class="my-3">{{ user.first_name }} {{ user.last_name }}</h5>
                                      {% if user.is_customer %}
                                         <p class="text-muted mb-1">Customer</p>
-                {% elif user.is_tailor %}
-                <p class="text-muted mb-1">Tailor</p>
-                {% endif %}
+                                    {% elif user.is_tailor %}
+                                          <p class="text-muted mb-1">Tailor</p>
+                                    {% endif %}
                                      <p class="text-muted mb-1">{{ user.email }}</p>
                                      <p class="text-muted mb-1">Phone Number: {{ user_profile.phone_number }}</p>
                                      <p class="text-muted mb-1">State: {{ user_profile.state }}</p>
@@ -154,6 +154,8 @@
 
                                 <!-- Add other user details here if needed -->
                                 <div class="d-flex justify-content-center mb-2">
+                                    <p class="text-muted mb-1" ><a href="{% url "change_password" %}">change password</a></p>
+
                                 </div>
                             </div>
                             

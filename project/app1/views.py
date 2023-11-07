@@ -242,7 +242,36 @@ def profile(request):
 
     return render(request, "profile.html", {"user_profile": user_profile})
 
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.shortcuts import render
 
+def change_password(request):
+    if request.method == 'POST':
+        old_password = request.POST.get('old_password')  # Get the old password from the form
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
+        user = request.user  # Get the currently logged-in user
+
+        # Check if the entered old password matches the user's current password
+        if not user.check_password(old_password):
+            return JsonResponse({'error': 'Incorrect old password'}, status=400)
+
+        if new_password == confirm_password:
+            # Change the user's password and save it to the database
+            user.set_password(new_password)
+            user.save()
+
+            # Update the session to keep the user logged in
+            update_session_auth_hash(request, user)
+
+            return JsonResponse({'message': 'Password changed successfully'})
+        else:
+            return JsonResponse({'error': 'Passwords do not match'}, status=400)
+
+    return render(request, 'change_password.html')
 
 from .models import Product
 
@@ -510,7 +539,7 @@ def blouse_measurment(request, product_id):
         messages.success(request, 'Order created successfully!')
         return redirect('product_detail', product_id=product_id)
 
-    return render(request, 'blouse_measurment.html', {'product': product, 'measurement': measurment})
+    return render(request, 'blouse_measurment.html', {'product': product, 'measurment': measurment})
 
 def success_page(request):
     return HttpResponse("Measurement data has been saved successfully.")

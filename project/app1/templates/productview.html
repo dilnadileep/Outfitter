@@ -38,9 +38,7 @@
                                 <a href="{% url "index" %}">Home</a>
                             </li>
                             {% endif %}
-                            <li class="breadcrumb-item">
-                                <a href="{% url "profile" %}">Profile</a>
-                            </li>
+                           
                             {% if user.is_customer %}
 
                             <li class="breadcrumb-item active" aria-current="page">Product List</li>

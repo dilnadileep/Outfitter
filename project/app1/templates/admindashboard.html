@@ -294,9 +294,9 @@ Addons
                                                 data-user-id="{{ customer.id }}"
                                                 data-status="{% if customer.is_active %}active{% else %}inactive{% endif %}">
                                                 {% if customer.is_active %}
-                                                <button class="btn btn-danger btn-sm logout-button">Active</button>
-                                                {% else %}
                                                 <button class="btn btn-danger btn-sm logout-button">Inactive</button>
+                                                {% else %}
+                                                <button class="btn btn-danger btn-sm logout-button">Active</button>
                                                 {% endif %}
                                             </a>
                                         </td>
