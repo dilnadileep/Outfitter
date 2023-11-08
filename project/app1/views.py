@@ -359,12 +359,26 @@ def edit_product(request, product_id):
 
     return JsonResponse(product_data)
 
+from django.db.models import Q
+
 def productview(request):
-    products = Product.objects.all()
+    search_query = request.GET.get('search_query')
+    all_products = Product.objects.filter(is_active=True)
+
+    if search_query:
+        searched_products = all_products.filter(
+            Q(pro_category__icontains=search_query) |
+            Q(description__icontains=search_query)
+        )
+        remaining_products = all_products.exclude(id__in=searched_products.values_list('id', flat=True))
+    else:
+        searched_products = []
+        remaining_products = all_products
+
+    products = list(searched_products) + list(remaining_products)
 
     return render(request, "productview.html", {"products": products})
 
-    
 
 from django.shortcuts import render, get_object_or_404
 from .models import Product
@@ -581,3 +595,28 @@ def order_request(request):
     requests = Order.objects.select_related('customer', 'product', 'mesurment').all()
     
     return render(request, "order_request.html", {"requests": requests})
+from django.shortcuts import render
+from .models import Order, UserProfile
+
+def order(request):
+    # Check if the user is authenticated
+    if request.user.is_authenticated:
+        # Fetch the user's orders
+        user_orders = Order.objects.filter(customer=request.user)
+
+        tailor_profiles = {}  # Create a dictionary to store tailor profiles
+
+        for order in user_orders:
+            product = order.product
+            if product:
+                tailor = product.user
+        # Fetch the tailor's profile
+                tailor_profile = UserProfile.objects.filter(user=tailor).first()
+                if tailor_profile:
+                    tailor_profiles[order.id] = tailor_profile
+                    print(f"Tailor Profile for Order {order.id}: {tailor_profile}")
+
+        return render(request, "order.html", {"requests": user_orders, "tailor_profiles": tailor_profiles})
+    else:
+        # Handle the case where the user is not authenticated
+        return render(request, "order.html")

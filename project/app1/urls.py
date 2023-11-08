@@ -27,6 +27,7 @@ urlpatterns = [
    path('blouse_measurment/<int:product_id>/', views.blouse_measurment, name='blouse_measurment'),
    path('order_request/', views.order_request, name='order_request'),
    path('change_password/', views.change_password, name='change_password'),
+   path('order/', views.order, name='order'),
 
     
     

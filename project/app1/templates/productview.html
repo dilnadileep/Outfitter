@@ -19,14 +19,140 @@
             height: 200px; /* Set a fixed height for all images */
             object-fit: cover; /* Ensure the entire image fits within the fixed dimensions */
         }
+        /* Style for the search form */
+        .search-form {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; /* Move the search bar to the right */
+        }
+
+/* Style for the search input */
+.search-input {
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 4px;
+    margin-right: 5px;
+    /* Adjust the width as needed */
+}
+
+/* Style for the search button */
+.search-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+/* Hover effect for the search button */
+.search-button:hover {
+    background-color: #0056b3;
+}
+    .green-button {
+        background-color: #4CAF50;
+        /* Green color */
+        color: white;
+        /* Text color */
+        padding: 10px 20px;
+        /* Padding around text */
+        border: none;
+        /* No border */
+        border-radius: 5px;
+        /* Rounded corners */
+        cursor: pointer;
+        /* Cursor style on hover */
+    }
+
+    .modal-lg {
+        max-width: 80%;
+        /* Adjust the value as needed */
+    }
+    section {
+        padding: 20px; /* Adjust the value as needed */
+    }
+    th{
+        color: white;
+    }
+   
+    .instagram-button {
+        background-color: transparent;
+        border: 1px solid #000;
+        color: #000;
+        padding: 8px 16px;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: background-color 0.3s, color 0.3s;
+    }
+  
+    .instagram-button:hover {
+        background-color: rgb(91, 71, 71)676;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    /* Style for the header section */
+    .header_section {
+        background-color: rgb(239, 207, 89);
+        width: 100%;
+        position: fixed;
+        top: 0;
+        z-index: 1000; /* Ensures the header appears on top of other content */
+    }
+
+    .navbar-brand img {
+        max-width: 50px; /* Adjust the image width as needed */
+    }
+
+
+    
     </style>
 </head>
 <body>
+    <header class="header_section">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg custom_nav-container">
+                <a class="navbar-brand">
+                    <img src="{% static 'images/logo1.jpg' %}" alt />
+                    <span>OUTFITTER</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto"> <!-- Use ml-auto to push items to the right -->
+                        {% comment %} <li class="nav-item">
+                            <button class="instagram-button">
+                                <a href="{% url "order" %}" class="nav-link">Orders</a>
+                            </button>
+                        </li> {% endcomment %}
+                        <li class="nav-item">
+                            <button class="instagram-button">
+                                <a href="{% url "profile" %}" class="nav-link">Profile</a>
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="instagram-button">
+                                <a href="{% url 'loggout' %}" class="nav-link">Logout</a>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <br><br>
     <section>
         <div class="container py-5">
             <div class="row">
                 <div class="col">
                     <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+                        <form method="get" action="{% url 'productview' %}" class="search-form">
+                            <input type="text" name="search_query" class="search-input" placeholder="Search Products" aria-label="Search" value="{{ request.GET.search_query }}">
+                            <button type="submit" class="search-button">Search</button>
+                        </form>
                         <ol class="breadcrumb mb-0">
                             {% if user.is_customer %}
 
@@ -45,6 +171,7 @@
                             {% endif %}
 
                         </ol>
+                        
                     </nav>
                 </div>
             </div>
@@ -65,6 +192,7 @@
             </div>
             
         </div>
+       
     </section>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
