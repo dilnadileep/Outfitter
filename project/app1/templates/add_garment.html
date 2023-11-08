@@ -101,8 +101,8 @@
                             {% endif %}
                         </td>
                         <td>
-                            <button class="btn btn-secondary" id="editbtn" data-bs-toggle="modal" data-bs-target="#editProductModal"
-                                data-product-id="{{ product.id }}">Edit</button>
+                            <button class="btn btn-secondary editbtn" data-bs-toggle="modal" data-bs-target="#editProductModal" data-product-id="{{ product.id }}">Edit</button>
+
                             <a href="#" class="status-toggle" data-product-id="{{ product.id }}"
                                 data-status="{% if product.is_active %}active{% else %}inactive{% endif %}">
                                 {% if product.is_active %}
@@ -122,7 +122,8 @@
         </section>
     </section>
 
-    <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -327,7 +328,8 @@
 
 
     {% comment %} edit product modal {% endcomment %}
-    <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -350,12 +352,13 @@
                                     </div>
                                     <div class="col-sm-9">
                                         <select id="category" class="form-control form-control-lg" name="category">
-                                            <option value="Skirt">Skirt</option>
-                                            <option value="Top">Top</option>
-                                            <option value="Blouse">Blouse</option>
-                                            <option value="Kurti">Kurti</option>
+                                            <option value="Skirt" {% if product.category == 'Skirt' %} selected {% endif %}>Skirt</option>
+                                            <option value="Top" {% if product.category == 'Top' %} selected {% endif %}>Top</option>
+                                            <option value="Blouse" {% if product.category == 'Blouse' %} selected {% endif %}>Blouse</option>
+                                            <option value="Kurti" {% if product.category == 'Kurti' %} selected {% endif %}>Kurti</option>
                                         </select>
                                     </div>
+                                    
                                 </div>
                                 <hr>
                                 <div class="row">
@@ -363,25 +366,38 @@
                                         <p class="mb-0" for="description">Product Description</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <input type="text" id="editdescription" class="form-control form-control-lg" name="description" size="50" value="{{ product.description }}" />
+                                        <input type="text" id="editdescription" class="form-control form-control-lg"
+                                            name="description" size="50" value="{{ product.description }}" />
                                         <span id="editdescriptionspan" style="font-size: 12px;"></span>
                                     </div>
                                 </div>
                                 <hr>
                                 <div class="row">
                                     <div class="col-sm-3">
-                                        <p class="mb-0" for="time">Category</p>
+                                        <p class="mb-0" for="time">Duration</p>
                                     </div>
                                     <div class="col-sm-9">
                                         <select id="time" class="form-control form-control-lg" name="time">
-                                            <option value="3 Days">3 Days</option>
-                                            <option value="5 Days">5 Days</option>
-                                            <option value="7 Days">7 Days</option>
-                                            <option value="12 Days">12 Days</option>
-
+                                            <option value="3 Days" {% if product.delivery_time == '3 Days' %} selected {% endif %}>3 Days</option>
+                                            <option value="5 Days" {% if product.delivery_time == '5 Days' %} selected {% endif %}>5 Days</option>
+                                            <option value="7 Days" {% if product.delivery_time == '7 Days' %} selected {% endif %}>7 Days</option>
+                                            <option value="12 Days" {% if product.delivery_time == '12 Days' %} selected {% endif %}>12 Days</option>
                                         </select>
                                     </div>
+
                                 </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0" for="price">Price</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="editprice" class="form-control form-control-lg" name="price"
+                                            value="{{ product.price }}" />
+                                        <span id="editpricespan" style="font-size: 12px;"></span>
+                                    </div>
+                                </div>
+
                                 <hr>
                                 <div class="row">
                                     <div class="col-sm-3">
@@ -398,25 +414,15 @@
                                     </div>
 
                                 </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <p class="mb-0" for="price">Price</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <input type="text" id="editprice" class="form-control form-control-lg" name="price"
-                                            value="{{ product.price }}" />
-                                        <span id="editpricespan" style="font-size: 12px;"></span>
-                                    </div>
-                                </div>
-
+                                
                             </div>
                             
                     </section>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" id="savebtn-edit" name="savebtn-edit" class="btn btn-primary">Save Changes</button>
+                    <button type="submit" id="savebtn-edit" name="savebtn-edit" class="btn btn-primary">Save
+                        Changes</button>
                 </div>
                 </form>
 
@@ -444,7 +450,6 @@
                 if ($field.is(":text")) {
                     $field.keyup(function () {
                         field.validate();
-                        checkFormValidity();
                     });
                 }
             });
@@ -452,11 +457,9 @@
             // Handle image field validation when a new image is selected
             $("#new_image").change(function () {
                 validateEditImage();
-                checkFormValidity();
             });
         
             function checkFormValidity() {
-                // Check if any field value has changed (excluding the image field)
                 const isAnyFieldChanged = fields
                     .filter(field => !$(field.id).is("#new_image"))
                     .some(field => {
@@ -467,13 +470,15 @@
                 const isValid = fields.every(field => {
                     const $field = $(field.id);
                     const $errorSpan = $(`${field.id}span`);
+                    const errorText = $errorSpan.html();
         
-                    return $field.val().trim() !== "" && $errorSpan.html() === "";
+                    return $field.val().trim() !== "" && errorText === "";
                 });
         
                 // Enable the "Save Changes" button if changes have been made and the form is valid
                 $("#savebtn-edit").prop("disabled", !(isAnyFieldChanged && isValid));
             }
+        
             function validateEditDescription() {
                 const name = $("#editdescription").val();
                 console.log("Validating description:", name);
@@ -481,12 +486,12 @@
                 if (name.trim() === "") {
                     $("#editdescriptionspan").html("Enter the description").css("color", "red");
                 } else if (!lettersWithSpaces.test(name)) {
-                    $("#editdescriptionspan").html("please input a description with alphabets, numbers, punctuation and special characters").css("color", "red");
+                    $("#editdescriptionspan").html("Please input a description with alphabets, numbers, punctuation, and special characters").css("color", "red");
                 } else {
                     $("#editdescriptionspan").html("");
+                    checkFormValidity(); // Call to update the button's status
                 }
             }
-        
         
             function validateEditImage() {
                 const imageInput = $('#new_image');
@@ -499,14 +504,14 @@
                         imageError.css('color', 'red');
                     } else {
                         imageError.text('');
+                        checkFormValidity(); // Call to update the button's status
                     }
                 } else {
                     // No file selected, clear the error message
                     imageError.text('');
+                    checkFormValidity(); // Call to update the button's status
                 }
             }
-            
-        
         
             function validateEditPrice() {
                 const name = $("#editprice").val();
@@ -517,12 +522,13 @@
                     $("#editpricespan").html("The price should range from 1 - 1000000").css("color", "red");
                 } else {
                     $("#editpricespan").html("");
+                    checkFormValidity(); // Call to update the button's status
                 }
             }
-        
-        
         });
-    </script>
+        
+        
+    </script>    
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -555,6 +561,7 @@
                         $('#editProductModal #category').val(data.category);
                         $('#editProductModal #editdescription').val(data.description);
                         $('#editProductModal #editprice').val(data.price);
+                        $('#editProductModal #time').val(data.delivery_time);
                         if (data.image_url) {
                             $('#editProductModal img').attr('src', data.image_url); // Update the image source
                         } else {
@@ -596,10 +603,11 @@
 
 
             // Add a click event to trigger the edit modal
-            $('#editbtn').click(function () {
+            $('.editbtn').click(function () {
                 var productId = $(this).data('product-id');
                 openEditModal(productId);
             });
+        
 
         });
 
