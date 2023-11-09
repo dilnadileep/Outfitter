@@ -245,7 +245,7 @@
                         <button type="submit" class="approve-button">Approve</button>
                     {% endif %}
                 </form>
-                <form method="post" action="{% url 'order_request' %}">
+                {% comment %} <form method="post" action="{% url 'order_request' %}">
                     {% csrf_token %}
                     <input type="hidden" name="order_id" value="{{ request.id }}">
                         {% if request.is_active %}
@@ -254,7 +254,7 @@
                         <button type="submit" class="disapproved-button">Disapproved</button>
                         {% endif %}
                     
-                </form>
+                </form> {% endcomment %}
                 </div>
         </div>
         {% endfor %}

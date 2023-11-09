@@ -598,28 +598,37 @@ def order_request(request):
 from django.shortcuts import render
 from .models import Order, UserProfile
 
+from django.db.models import Q
+
 def order(request):
     # Check if the user is authenticated
     if request.user.is_authenticated:
+        search_query = request.GET.get('search_query', '')  # Get the search query from the request
+
         # Fetch the user's orders
         user_orders = Order.objects.filter(customer=request.user)
 
         tailor_profiles = {}  # Create a dictionary to store tailor profiles
 
+        if search_query:
+            # Filter orders based on the search query
+            user_orders = user_orders.filter(Q(product__pro_category__icontains=search_query))
+
         for order in user_orders:
             product = order.product
             if product:
                 tailor = product.user
-        # Fetch the tailor's profile
+                # Fetch the tailor's profile
                 tailor_profile = UserProfile.objects.filter(user=tailor).first()
                 if tailor_profile:
                     tailor_profiles[order.id] = tailor_profile
                     print(f"Tailor Profile for Order {order.id}: {tailor_profile}")
 
-        return render(request, "order.html", {"requests": user_orders, "tailor_profiles": tailor_profiles})
+        return render(request, "order.html", {"requests": user_orders, "tailor_profiles": tailor_profiles, "search_query": search_query})
     else:
         # Handle the case where the user is not authenticated
         return render(request, "order.html")
+
 from django.http import JsonResponse
 
 def fetch_measurement_details(request):

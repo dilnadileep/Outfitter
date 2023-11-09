@@ -185,7 +185,7 @@
                         <td>{{ product.pro_category }}</td>
                         <td>{{ product.description }}</td>
                         <td>{{ product.delivery_time }}</td>
-                        <td>${{ product.price }}</td>
+                        <td>{{ product.price }}/-</td>
                         <td>
                             {% if product.image %}
                             <img src="{{ product.image.url }}" width="100" height="100" alt="{{ product.name }}" />
@@ -239,8 +239,7 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <select id="dresscategory" class="form-control form-control-lg" name="category" required>
-                                                <option value="Skirt">Skirt</option>
-                                                <option value="Blouse">Blouse</option>
+                                                <option value="Sareee_Blouse">Saree Blouse</option>
                                                 <option value="Kurti">Kurti</option>
                                                 <span id="categoryspan" style="font-size: 12px;"></span>
                                             </select>
