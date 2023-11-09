@@ -199,6 +199,8 @@
             <div class="request-card">
                 <p>Product: {{ request.product.pro_category }}</p>
                 <p>Price: Rs.{{ request.product.price }}/-</p>
+                <p>Order Date & Time:{{ request.order_date }}</p>
+
                 {% if request.is_active %}
                 <p class="product-status approved-status">Status: <span class="approved-text">Approved</span></p>
                 {% else %}

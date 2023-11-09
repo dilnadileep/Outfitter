@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser,User
 from django.db import models
 from django.conf import settings
+from datetime import datetime
 
 
 class CustomUser(AbstractUser):
@@ -75,4 +76,5 @@ class Order(models.Model):
         mesurment = models.ForeignKey(Measurement, on_delete=models.CASCADE, null=True, blank=True)
         is_active = models.BooleanField(default=False,null=True)  # Add this field to track product status
         status = models.BooleanField(default=True,null=True)  # Add this field to track product status
+        order_date = models.DateTimeField(default=datetime.now, blank=True)  # Add the order_date field
 

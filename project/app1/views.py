@@ -620,3 +620,31 @@ def order(request):
     else:
         # Handle the case where the user is not authenticated
         return render(request, "order.html")
+from django.http import JsonResponse
+
+def fetch_measurement_details(request):
+    if request.method == "GET":
+        request_id = request.GET.get("request_id")
+        try:
+            order = Order.objects.get(id=request_id)
+            measurement = order.mesurment  # Get the measurement associated with the order
+            measurement_details = {
+                "fabric_type": measurement.fabric_type,
+                "color": measurement.color,
+                "bust": measurement.bust,
+                "waist": measurement.waist,
+                "hips": measurement.hips,
+                "length": measurement.length,
+                "shoulder_width": measurement.shoulder_width,
+                "sleeve_length": measurement.sleeve_length,
+                "style_design": measurement.style_design,
+                "neck_design": measurement.neck_design,
+                "back_design": measurement.back_design,
+                "sleev_design": measurement.sleev_design,
+                "lining_design": measurement.lining_design,
+                "work_design": measurement.work_design,
+                "additional_info": measurement.additional_info,
+            }
+            return JsonResponse(measurement_details)
+        except Order.DoesNotExist:
+            return JsonResponse({"error": "Order not found"}, status=400)
