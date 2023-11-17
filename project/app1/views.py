@@ -328,7 +328,7 @@ def edit_product(request, product_id):
     if request.method == "POST":
         category1 = request.POST.get("category")
         description = request.POST.get("description")
-        time = request.POST.get("time")
+        time1 = request.POST.get("delivery_time")
         price = request.POST.get("price")
         new_image = request.FILES.get("new_image")
         print(new_image)
@@ -337,7 +337,7 @@ def edit_product(request, product_id):
         product.pro_category = category1
         product.description = description
         product.price = price
-        product.delivery_time = time
+        product.delivery_time = time1
 
 
         if new_image:
@@ -354,6 +354,7 @@ def edit_product(request, product_id):
         'category': product.pro_category,
         'description': product.description,
         'price': product.price,
+        'delivery_time': product.delivery_time,
         'image_url': product.image.url if product.image else None,
     }
 
@@ -595,6 +596,7 @@ def order_request(request):
     requests = Order.objects.select_related('customer', 'product', 'mesurment').all()
     
     return render(request, "order_request.html", {"requests": requests})
+
 from django.shortcuts import render
 from .models import Order, UserProfile
 

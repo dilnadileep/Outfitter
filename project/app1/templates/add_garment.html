@@ -238,7 +238,7 @@
                                             <label class="mb-0" for="category">Category</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <select id="dresscategory" class="form-control form-control-lg" name="category" required>
+                                            <select id="category" class="form-control form-control-lg" name="category" required>
                                                 <option value="Sareee_Blouse">Saree Blouse</option>
                                                 <option value="Kurti">Kurti</option>
                                                 <span id="categoryspan" style="font-size: 12px;"></span>
@@ -267,10 +267,10 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <select id="time" class="form-control form-control-lg" name="time">
-                                                <option value="3 Days">3 Days</option>
-                                                <option value="5 Days">5 Days</option>
-                                                <option value="9 Days">9 Days</option>
-                                                <option value="12 Days">12 Days</option>
+                                                <option value="3_Days">3 Days</option>
+                                                <option value="5_Days">5 Days</option>
+                                                <option value="9_Days">9 Days</option>
+                                                <option value="12_Days">12 Days</option>
                                             </select>
                                             <span id="timespan" style="font-size: 12px;"></span>
                                             <br>
@@ -283,8 +283,7 @@
                                             <p class="mb-0" for="image">Product Image</p>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="file" id="image" class="form-control form-control-lg"
-                                                name="image" accept="image/*" />
+                                            <input type="file" id="image" class="form-control form-control-lg" name="image" accept="image/*" />
                                             <span id="imagespan" style="font-size: 12px;"></span>
                                             <br>
                                         </div>
@@ -296,8 +295,7 @@
                                             <p class="mb-0" for="price">Price</p>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" id="price" class="form-control form-control-lg"
-                                                name="price" />
+                                            <input type="text" id="price" class="form-control form-control-lg" name="price" />
                                             <span id="pricespan" style="font-size: 12px;"></span>
                                         </div>
                                     </div>
@@ -443,9 +441,7 @@
                                     </div>
                                     <div class="col-sm-9">
                                         <select id="category" class="form-control form-control-lg" name="category">
-                                            <option value="Skirt" {% if product.category == 'Skirt' %} selected {% endif %}>Skirt</option>
-                                            <option value="Top" {% if product.category == 'Top' %} selected {% endif %}>Top</option>
-                                            <option value="Blouse" {% if product.category == 'Blouse' %} selected {% endif %}>Blouse</option>
+                                            <option value="Sareee_Blouse" {% if product.category == 'Sareee_Blouse' %} selected {% endif %}>Sareee Blouse</option>
                                             <option value="Kurti" {% if product.category == 'Kurti' %} selected {% endif %}>Kurti</option>
                                         </select>
                                     </div>
@@ -457,22 +453,21 @@
                                         <p class="mb-0" for="description">Product Description</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <input type="text" id="editdescription" class="form-control form-control-lg"
-                                            name="description" size="50" value="{{ product.description }}" />
+                                        <input type="text" id="editdescription" class="form-control form-control-lg" name="description" size="50" value="{{ product.description }}" />
                                         <span id="editdescriptionspan" style="font-size: 12px;"></span>
                                     </div>
                                 </div>
                                 <hr>
                                 <div class="row">
                                     <div class="col-sm-3">
-                                        <p class="mb-0" for="time">Duration</p>
+                                        <p class="mb-0" for="delivery_time">Duration</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <select id="time" class="form-control form-control-lg" name="time">
-                                            <option value="3 Days" {% if product.delivery_time == '3 Days' %} selected {% endif %}>3 Days</option>
-                                            <option value="5 Days" {% if product.delivery_time == '5 Days' %} selected {% endif %}>5 Days</option>
-                                            <option value="7 Days" {% if product.delivery_time == '7 Days' %} selected {% endif %}>7 Days</option>
-                                            <option value="12 Days" {% if product.delivery_time == '12 Days' %} selected {% endif %}>12 Days</option>
+                                        <select id="delivery_time" class="form-control form-control-lg" name="delivery_time">
+                                            <option value="3_Days" {% if product.delivery_time == '3_Days' %} selected {% endif %}>3 Days</option>
+                                            <option value="5_Days" {% if product.delivery_time == '5_Days' %} selected {% endif %}>5 Days</option>
+                                            <option value="7_Days" {% if product.delivery_time == '7_Days' %} selected {% endif %}>7 Days</option>
+                                            <option value="12_Days" {% if product.delivery_time == '12_Days' %} selected {% endif %}>12 Days</option>
                                         </select>
                                     </div>
 
@@ -650,9 +645,9 @@
                     success: function (data) {
                         $('#editProductModal #name').val(data.name);
                         $('#editProductModal #category').val(data.category);
-                        $('#editProductModal #editdescription').val(data.description);
+                        $('#editProductModal #editdescription').val(data.description);                       
                         $('#editProductModal #editprice').val(data.price);
-                        $('#editProductModal #time').val(data.delivery_time);
+                        $('#editProductModal #delivery_time').val(data.delivery_time);
                         if (data.image_url) {
                             $('#editProductModal img').attr('src', data.image_url); // Update the image source
                         } else {

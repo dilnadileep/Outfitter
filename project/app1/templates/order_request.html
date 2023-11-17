@@ -170,6 +170,16 @@
                 padding-bottom: 5px;
                 display: inline-block;/* Display the heading inline with the underline */
             }
+            .approved-text {
+                color: green; /* You can change the color to your preference */
+                font-weight: bold;
+                /* Add other styles like font-size, background-color, etc. as needed */
+            }
+            .pending-text {
+                color: orange; /* You can change the color to your preference */
+                font-weight: bold;
+                /* Add other styles like font-size, background-color, etc. as needed */
+            }
     </style>
 </head>
 <body  style="background-color: rgba(190, 208, 243, 0.765)">
@@ -234,15 +244,19 @@
             <p>Bust: {{ request.mesurment.bust }}</p>
             <p>Waist: {{ request.mesurment.waist }}</p>
             <!-- Add more fields as needed --> {% endcomment %}
-            
+            {% if request.is_active %}
+                <p class="product-status approved-status">Status: <span class="approved-text">Approved</span></p>
+                {% else %}
+                <p class="product-status pending-status">Status: <span class="pending-text">Pending</span></p>
+                {% endif %} 
             <div class="request-card-buttons">
                 <form method="post" action="{% url 'order_request' %}">
                     {% csrf_token %}
                     <input type="hidden" name="order_id" value="{{ request.id }}">
                     {% if request.is_active %}
-                        <button type="submit" class="approved-button" disabled>Approved</button>
+                        <button type="submit" class="approve-button" disabled>Disapprove</button>
                     {% else %}
-                        <button type="submit" class="approve-button">Approve</button>
+                        <button type="submit" class="disapprove-button">Approve</button>
                     {% endif %}
                 </form>
                 {% comment %} <form method="post" action="{% url 'order_request' %}">
