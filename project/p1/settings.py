@@ -138,6 +138,9 @@ EMAIL_HOST_PASSWORD = 'Dilna@14272'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
+RAZOR_KEY_ID = "rzp_test_GAAS0ijKXxrOvF"
+RAZOR_KEY_SECRET = "PhXWHu2Ea90HLi5mPVnjhEuR"
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'signin'

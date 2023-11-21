@@ -28,8 +28,10 @@ urlpatterns = [
    path('order_request/', views.order_request, name='order_request'),
    path('change_password/', views.change_password, name='change_password'),
    path('order/', views.order, name='order'),
-
    path('fetch_measurement_details/', views.fetch_measurement_details, name='fetch_measurement_details'),
+   
+   path('paymenthandler/', views.paymenthandler, name='paymenthandler'),
+   path('payment1/', views.payment1, name='payment1'),
 
     
     
