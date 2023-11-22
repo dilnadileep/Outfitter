@@ -240,11 +240,12 @@
                                             </div>
                                             <div class="col-sm-9">
                                                 <select id="gender" class="form-control form-control-lg" name="gender">
-                                                    <option value="male">Male</option>
-                                                    <option value="female">Female</option>
-                                                    <option value="others">Others</option>
+                                                    <option value="male" {% if user_profile.gender == 'male' %}selected{% endif %}>Male</option>
+                                                    <option value="female" {% if user_profile.gender == 'female' %}selected{% endif %}>Female</option>
+                                                    <option value="others" {% if user_profile.gender == 'others' %}selected{% endif %}>Others</option>
                                                 </select>
                                             </div>
+                                            
                                         </div>
                                         <hr>
 
@@ -253,7 +254,7 @@
                                                 <p class="mb-0">DOB</p>
                                             </div>
                                             <div class="col-sm-9">
-                                                <input type="date" id="age" class="form-control form-control-lg" name="age" value="{{ user_profile.age }}" />
+                                                <input type="date" id="age1" class="form-control form-control-lg" name="age1" value="{{ user_profile.age|date:'Y-m-d' }}" />
                                                 <span id="agespan" style="font-size: 12px;"></span>
 
                                             </div>
@@ -340,83 +341,87 @@
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
        
-    <script>
-        $(document).ready(function () {
-            const fields = [
-                { id: "#num", validate: validatePhoneNumber },
-                { id: "#age", validate: validateAge },
-            ];
-
-            fields.forEach(field => {
-                $(field.id).keyup(function () {
-                    field.validate();
+        <script>
+            $(document).ready(function () {
+                const fields = [
+                    { id: "#num", validate: validatePhoneNumber },
+                    { id: "#age", validate: validateAge },
+                ];
+        
+                fields.forEach(field => {
+                    $(field.id).keyup(function () {
+                        field.validate();
+                    });
+        
+                    validateFieldOnBlur(field.id, field.validate);
                 });
-
-                validateFieldOnBlur(field.id, field.validate);
-            });
-
-            function checkFormValidity() {
-                const isValid = fields.every(field => {
-                    const $field = $(field.id);
-                    const $errorSpan = $(`${field.id}span`);
-
-                    return $field.val().trim() !== "" && $errorSpan.html() === "";
+        
+                function checkFormValidity() {
+                    const isValid = fields.every(field => {
+                        const $field = $(field.id);
+                        const $errorSpan = $(`${field.id}span`);
+        
+                        return $field.val().trim() !== "" && $errorSpan.html() === "";
+                    });
+        
+                    $("#savebtn").prop("disabled", !isValid);
+                }
+        
+                function validateFieldOnBlur(fieldId, validationFunction) {
+                    $(fieldId).blur(function () {
+                        validationFunction();
+                        checkFormValidity();
+                    });
+                }
+        
+                // Form submission
+                $("#form").submit(function (event) {
+                    if (!$("#savebtn").prop("disabled")) {
+                        // Form is valid, allow submission
+                        return true;
+                    } else {
+                        // Form is not valid, prevent submission
+                        event.preventDefault();
+                        return false;
+                    }
                 });
-
-                $("#savebtn").prop("disabled", !isValid);
-            }
-
-            function validateFieldOnBlur(fieldId, validationFunction) {
-                $(fieldId).blur(function () {
-                    validationFunction();
-                    checkFormValidity();
-                });
-            }
-
-            // Form submission
-            $("#form").submit(function (event) {
-                if (!$("#savebtn").prop("disabled")) {
-                    // Form is valid, allow submission
-                    return true;
-                } else {
-                    // Form is not valid, prevent submission
-                    event.preventDefault();
-                    return false;
+        
+                // Initial check for form validity
+                checkFormValidity();
+        
+                function validatePhoneNumber() {
+                    const phoneInput = document.getElementById('num');
+                    const phoneSpan = document.getElementById('numspan');
+                    const phoneNumber = phoneInput.value.trim();
+        
+                    // Use a regular expression to validate the phone number format
+                    const phonePattern = /^[0-9]{10}$/;
+        
+                    if (!phonePattern.test(phoneNumber)) {
+                        phoneSpan.textContent = 'Invalid phone number';
+                    } else {
+                        phoneSpan.textContent = '';
+                    }
+                }
+        
+                function validateAge() {
+                    const ageInput = document.getElementById('age');
+                    const ageSpan = document.getElementById('agespan');
+                    const currentDate = new Date();
+                    const selectedDate = new Date(ageInput.value);
+                    const minAgeDate = new Date();
+        
+                    minAgeDate.setFullYear(currentDate.getFullYear() - 18); // Set date 18 years ago
+        
+                    if (selectedDate > minAgeDate) {
+                        ageSpan.textContent = 'Must be 18 years or older.';
+                    } else {
+                        ageSpan.textContent = '';
+                    }
                 }
             });
-
-            // Initial check for form validity
-            checkFormValidity();
-
-            function validatePhoneNumber() {
-                const phoneInput = document.getElementById('num');
-                const phoneSpan = document.getElementById('numspan');
-                const phoneNumber = phoneInput.value.trim();
-
-                // Use a regular expression to validate the phone number format
-                const phonePattern = /^[0-9]{10}$/;
-
-                 if (!phonePattern.test(phoneNumber)) {
-                    phoneSpan.textContent = 'Invalid phone number';
-                } else {
-                    phoneSpan.textContent = '';
-                }
-            }
-
-            function validateAge() {
-                const ageInput = document.getElementById('age');
-                const ageSpan = document.getElementById('agespan');
-                const age = parseInt(ageInput.value);
-
-                // Check if the age is a valid positive integer
-                if (isNaN(age) || age <= 0) {
-                    ageSpan.textContent = 'Invalid Date of birth';
-                } else {
-                    ageSpan.textContent = '';
-                }
-            }
-        });
-    </script>
+        </script>
+        
         
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>        <script

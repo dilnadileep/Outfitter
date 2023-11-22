@@ -254,9 +254,9 @@
                     {% csrf_token %}
                     <input type="hidden" name="order_id" value="{{ request.id }}">
                     {% if request.is_active %}
-                        <button type="submit" class="approve-button" disabled>Disapprove</button>
+                        <button type="submit" class="approved-button" disabled>Approved</button>
                     {% else %}
-                        <button type="submit" class="disapprove-button">Approve</button>
+                        <button type="submit" class="approve-button">Approve</button>
                     {% endif %}
                 </form>
                 {% comment %} <form method="post" action="{% url 'order_request' %}">

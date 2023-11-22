@@ -235,7 +235,7 @@ def profile(request):
         user_profile.state = request.POST.get("state")
         user_profile.district = request.POST.get("district")
         user_profile.gender = request.POST.get("gender")
-        user_profile.age = request.POST.get("age")
+        user_profile.age = request.POST.get("age1")
         user_profile.save()
         # Redirect to the profile page after updating
         return redirect("profile")
