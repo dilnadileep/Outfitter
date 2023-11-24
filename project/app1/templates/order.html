@@ -88,38 +88,43 @@
             color: #fff;
             text-decoration: none;
         }
-            .request-card {
-                background-color: #fff;
-                border: 1px solid #ddd;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                margin: 20px;
-                padding: 20px;
-            }
+        .request-details {
+            display: flex;
+            align-items: center;
+        }
         
-            .request-card h3 {
-                font-size: 24px;
-                font-weight: bold;
-            }
+        .product-details {
+            width: 70%; /* Adjusted width for text details */
+        }
         
-            .request-details {
-                display: flex;
-                justify-content: space-between;
-            }
+        .product-image {
+            width: 10%; /* Set width for image */
+            text-align: right; /* Align image to the right */
+        }
         
-            .customer-details, .product-details, .measurement-details {
-                width: 30%;
-            }
+        .product-image img {
+            max-width: 100%; /* Ensure the image fits within its container */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 8px; /* Optional: Add border-radius for a rounded corner effect */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+        }
         
-            .customer-details h4, .product-details h4, .measurement-details h4 {
-                font-size: 18px;
-                margin-top: 10px;
-            }
+        /* Adjustments for the card appearance */
+        .request-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            padding: 20px;
+        }
         
-            .request-card-buttons {
-                display: flex;
-                justify-content: space-between;
-                margin-top: 20px;
-            }
+        .request-card h3 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        /* Other styles for details and status can remain unchanged */
+        
         
             .approve-button, .disapprove-button {
                 background-color: #e91e63;
@@ -231,36 +236,28 @@
             </form>
             
         </nav>
-        <section  style="background-color: rgba(190, 208, 243, 0.765)">
+        <section style="background-color: rgba(190, 208, 243, 0.765)">
             {% for request in requests %}
             <div class="request-card">
-                <p>Product: {{ request.product.pro_category }}</p>
-                <p>Price: Rs.{{ request.product.price }}/-</p>
-                <p>Order Date & Time:{{ request.order_date }}</p>
-
-                {% if request.is_active %}
-                <p class="product-status approved-status">Status: <span class="approved-text">Approved</span></p>
-                {% else %}
-                <p class="product-status pending-status">Status: <span class="pending-text">Pending</span></p>
-                {% endif %} 
-                {% comment %} {% with tailor_profile=tailor_profiles.request.id %}
-    {% if tailor_profile %}
-        <div class="tailor-details">
-            <h4>Tailor Details</h4>
-            <p>Phone Number: {{ tailor_profile.phone_number }}</p>
-            <p>State: {{ tailor_profile.state }}</p>
-            <p>District: {{ tailor_profile.district }}</p>
-            <p>Gender: {{ tailor_profile.gender }}</p>
-            <p>Age: {{ tailor_profile.age }}</p>
-        </div>
-    {% endif %}
-    {% endwith %} {% endcomment %}
+                <div class="request-details">
+                    <div class="product-details">
+                        <h3>{{ request.product.pro_category }}</h3>
+                        <p>Price: Rs.{{ request.product.price }}/-</p>
+                        <p>Order Date & Time: {{ request.order_date }}</p>
+                        {% if request.is_active %}
+                        <p class="product-status approved-status">Status: <span class="approved-text">Approved</span></p>
+                        {% else %}
+                        <p class="product-status pending-status">Status: <span class="pending-text">Pending</span></p>
+                        {% endif %}
+                    </div>
+                    <div class="product-image">
+                        <img src="{{ request.product.image.url }}" alt="Product Image">
+                    </div>
+                </div>
             </div>
-        {% endfor %}
+            {% endfor %}
+        </section>
         
-        
-    </div>
-</section>
 
 
 

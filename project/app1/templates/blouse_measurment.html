@@ -236,16 +236,21 @@ body {
                                 <div class="mb-3">
                                     <label for="bust" class="form-label">Bust:</label>
                                     <input type="text" id="bust" name="bust" class="form-control" placeholder="*in inches" value="{{ measurment.bust }}">
+                                    <span id="bustspan" style="font-size: 12px;"></span>
+
                                 </div>
                                 
                                  <div class="mb-3">
                                     <label for="waist" class="form-label">Waist:</label>
-                                    <input type="text" id="waist" name="waist" class="form-control" placeholder="*in inches " value="{{ measurment.waist }}">
+                                    <input type="text" id="waist" name="waist" class="form-control" placeholder="*in inches " value="{{ measurment.waist }}">                            
+                                    <span id="waistspan" style="font-size: 12px;"></span>
                                 </div>
                                 
                                 <div class="mb-3">
                                     <label for="hips" class="form-label">Chest:</label>
                                     <input type="text" id="hips" name="hips" class="form-control" placeholder="*in inches" value="{{ measurment.hips }}">
+                                    <span id="hipsspan" style="font-size: 12px;"></span>
+ 
                                 </div> 
                                 {% comment %} <div class="mb-3">
                                     <label for="length" class="form-label">Length:</label>
@@ -255,11 +260,14 @@ body {
                                 <div class="mb-3">
                                     <label for="shoulderWidth" class="form-label">Shoulder Width:</label>
                                     <input type="text" id="shoulderWidth" name="shoulderWidth" class="form-control" placeholder="*in inches" value="{{ measurment.shoulder_width }}">
+                                    <span id="shoulderWidthspan" style="font-size: 12px;"></span>
                                 </div>
                                 
                                 <div class="mb-3">
                                     <label for="sleeveLength" class="form-label">Sleeve Length:</label>
                                     <input type="text" id="sleeveLength" name="sleeveLength" class="form-control" placeholder="*in inches " value="{{ measurment.sleeve_length }}">
+                                    <span id="sleeveLengthspan" style="font-size: 12px;"></span>
+
                                 </div>
                                 
                                 
@@ -621,7 +629,70 @@ workDesignOptions.forEach((option) => {
 });
 
 </script>
-    
+<script>
+    $(document).ready(function () {
+        const fields = [
+            { id: "#bust", validate: validateMeasurementField },
+            { id: "#waist", validate: validateMeasurementField },
+            { id: "#hips", validate: validateMeasurementField },
+            { id: "#shoulderWidth", validate: validateMeasurementField },
+            { id: "#sleeveLength", validate: validateMeasurementField },
+        ];
+
+        fields.forEach(field => {
+            $(field.id).keyup(function () {
+                field.validate($(this));
+            });
+
+            validateFieldOnBlur(field.id, field.validate);
+        });
+
+        function checkFormValidity() {
+            const isValid = fields.every(field => {
+                const $field = $(field.id);
+                const $errorSpan = $(`${field.id}span`);
+                return $field.val().trim() !== "" && $errorSpan.html() === "";
+            });
+
+            $("#submit-button").prop("disabled", !isValid);
+        }
+
+        function validateFieldOnBlur(fieldId, validationFunction) {
+            $(fieldId).blur(function () {
+                validationFunction($(this));
+                checkFormValidity();
+            });
+        }
+
+        // Form submission
+        $("#measurement-form").submit(function (event) {
+            if (!$("#submit-button").prop("disabled")) {
+                // Form is valid, allow submission
+                return true;
+            } else {
+                // Form is not valid, prevent submission
+                event.preventDefault();
+                return false;
+            }
+        });
+
+        // Initial check for form validity
+        checkFormValidity();
+
+        function validateMeasurementField($field) {
+            const $errorSpan = $field.nextAll("span");
+            const measurementValue = $field.val().trim();
+
+            if (measurementValue === "") {
+                $errorSpan.html("Enter the measurement").css("color", "red");
+            } else if (!/^\d+(\.\d{1,2})?$/.test(measurementValue)) {
+                $errorSpan.html("Enter a valid measurement in inches").css("color", "red");
+            } else {
+                $errorSpan.html("");
+            }
+        }
+    });
+</script>   
     
 
 </body>

@@ -64,6 +64,7 @@ class Measurement(models.Model):
     work_design = models.CharField(max_length=255, null=True, blank=True)
     additional_info = models.TextField(verbose_name="Additional Information",blank=True, null=True, help_text="Add any additional information here.")
     product = models.ForeignKey(Product, on_delete=models.CASCADE,blank=True, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f'Measurement Entry {self.id}'
@@ -77,4 +78,18 @@ class Order(models.Model):
         is_active = models.BooleanField(default=False,null=True)  # Add this field to track product status
         status = models.BooleanField(default=True,null=True)  # Add this field to track product status
         order_date = models.DateTimeField(default=datetime.now, blank=True)  # Add the order_date field
+
+
+
+
+
+
+class Payment(models.Model):
+    order_id = models.CharField(max_length=255, unique=True)
+    payment_id = models.CharField(max_length=255, unique=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Payment for Order ID {self.order_id}"
 
