@@ -180,7 +180,23 @@
             .search-button:hover {
                 background-color: #0056b3;
             }
-            
+            .payment-link {
+        /* Remove default link styles */
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .payment-button {
+        /* Standard button styles */
+        background-color: #007bff; /* Change this color to your desired button color */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+        /* Add any additional styles you prefer */
+    }
             
     </style>
 </head>
@@ -246,6 +262,12 @@
                         <p>Order Date & Time: {{ request.order_date }}</p>
                         {% if request.is_active %}
                         <p class="product-status approved-status">Status: <span class="approved-text">Approved</span></p>
+                        
+                            <button type="submit" class="payment-button" disabled>
+                                <a href="{% url 'payment1' order_id=request.id %}" class="payment-link">
+                                    Make payment</a>
+                            </button>
+                        
                         {% else %}
                         <p class="product-status pending-status">Status: <span class="pending-text">Pending</span></p>
                         {% endif %}

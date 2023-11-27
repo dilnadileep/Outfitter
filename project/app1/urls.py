@@ -31,7 +31,7 @@ urlpatterns = [
    path('fetch_measurement_details/', views.fetch_measurement_details, name='fetch_measurement_details'),
    
    path('paymenthandler/', views.paymenthandler, name='paymenthandler'),
-   path('payment1/', views.payment1, name='payment1'),
+   path('payment1/<int:order_id>/', views.payment1, name='payment1'),
 
     
     

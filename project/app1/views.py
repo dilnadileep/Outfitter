@@ -236,6 +236,10 @@ def profile(request):
         user_profile.district = request.POST.get("district")
         user_profile.gender = request.POST.get("gender")
         user_profile.age = request.POST.get("age1")
+        user_profile.ad1 = request.POST.get("ad1")
+        user_profile.ad2 = request.POST.get("ad2")
+        user_profile.pincode = request.POST.get("pincode")
+
         user_profile.save()
         # Redirect to the profile page after updating
         return redirect("profile")
@@ -681,7 +685,7 @@ razorpay_client = razorpay.Client(
     auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
 
 
-def payment1(request):
+def payment1(request, order_id):
     currency = 'INR'
     amount = 20000 # Rs. 200
 

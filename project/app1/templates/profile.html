@@ -147,10 +147,14 @@
                                     {% endif %}
                                      <p class="text-muted mb-1">{{ user.email }}</p>
                                      <p class="text-muted mb-1">Phone Number: {{ user_profile.phone_number }}</p>
+                                     <p class="text-muted mb-1">Gender: {{ user_profile.gender }}</p>
                                      <p class="text-muted mb-1">State: {{ user_profile.state }}</p>
                                      <p class="text-muted mb-1">District: {{ user_profile.district }}</p>
-                                     <p class="text-muted mb-1">Gender: {{ user_profile.gender }}</p>
                                      <p class="text-muted mb-1">DOB: {{ user_profile.age }}</p>
+                                     <p class="text-muted mb-1">Address Line 1: {{ user_profile.ad1 }}</p>
+                                     <p class="text-muted mb-1">Address Line 2: {{ user_profile.ad2 }}</p>
+                                     <p class="text-muted mb-1">Pincode: {{ user_profile.Pincode }}</p>
+
 
                                 <!-- Add other user details here if needed -->
                                 <div class="d-flex justify-content-center mb-2">
@@ -178,6 +182,20 @@
                                                 <input type="text" id="num" class="form-control form-control-lg" name="num" value= "{{ user_profile.phone_number }} "/>
                                                 <span id="numspan" style="font-size: 12px;"></span>
                                             </div>
+                                        </div>
+                                        <hr>
+                                          <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Gender</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <select id="gender" class="form-control form-control-lg" name="gender">
+                                                    <option value="male" {% if user_profile.gender == 'male' %}selected{% endif %}>Male</option>
+                                                    <option value="female" {% if user_profile.gender == 'female' %}selected{% endif %}>Female</option>
+                                                    <option value="others" {% if user_profile.gender == 'others' %}selected{% endif %}>Others</option>
+                                                </select>
+                                            </div>
+                                            
                                         </div>
                                         <hr>
                                         <div class="row">
@@ -234,21 +252,37 @@
                                             </div>
                                         </div>
                                         <hr>
+                                      
                                         <div class="row">
                                             <div class="col-sm-3">
-                                                <p class="mb-0">Gender</p>
+                                                <p class="mb-0" for="ad1">Address line 1</p>
                                             </div>
                                             <div class="col-sm-9">
-                                                <select id="gender" class="form-control form-control-lg" name="gender">
-                                                    <option value="male" {% if user_profile.gender == 'male' %}selected{% endif %}>Male</option>
-                                                    <option value="female" {% if user_profile.gender == 'female' %}selected{% endif %}>Female</option>
-                                                    <option value="others" {% if user_profile.gender == 'others' %}selected{% endif %}>Others</option>
-                                                </select>
+                                                <input type="text" id="ad1" class="form-control form-control-lg" name="ad1" value= "{{ user_profile.ad1 }} "/>
+                                                <span id="ad1span" style="font-size: 12px;"></span>
                                             </div>
-                                            
                                         </div>
                                         <hr>
-
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0" for="ad2">Address line 2</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="ad2" class="form-control form-control-lg" name="ad2" value= "{{ user_profile.ad2 }} "/>
+                                                <span id="ad2span" style="font-size: 12px;"></span>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0" for="pincode">Pincode</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="pincode" class="form-control form-control-lg" name="pincode" value= "{{ user_profile.pincode }} "/>
+                                                <span id="pincodespan" style="font-size: 12px;"></span>
+                                            </div>
+                                        </div>
+                                        <hr>
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <p class="mb-0">DOB</p>
@@ -345,35 +379,39 @@
             $(document).ready(function () {
                 const fields = [
                     { id: "#num", validate: validatePhoneNumber },
-                    { id: "#age", validate: validateAge },
+                    { id: "#ad1", validate: validateNotEmpty },
+                    { id: "#ad2", validate: validateNotEmpty },
+                    { id: "#pincode", validate: validatePincode },
+                    { id: "#age1", validate: validateAge },
                 ];
-        
+            
                 fields.forEach(field => {
                     $(field.id).keyup(function () {
                         field.validate();
+                        checkFormValidity(); // Check form validity on each keystroke
                     });
-        
+            
                     validateFieldOnBlur(field.id, field.validate);
                 });
-        
+            
                 function checkFormValidity() {
                     const isValid = fields.every(field => {
                         const $field = $(field.id);
                         const $errorSpan = $(`${field.id}span`);
-        
-                        return $field.val().trim() !== "" && $errorSpan.html() === "";
+            
+                        return $field.val().trim() !== "" && $errorSpan.text() === "";
                     });
-        
+            
                     $("#savebtn").prop("disabled", !isValid);
                 }
-        
+            
                 function validateFieldOnBlur(fieldId, validationFunction) {
                     $(fieldId).blur(function () {
                         validationFunction();
                         checkFormValidity();
                     });
                 }
-        
+            
                 // Form submission
                 $("#form").submit(function (event) {
                     if (!$("#savebtn").prop("disabled")) {
@@ -385,34 +423,61 @@
                         return false;
                     }
                 });
-        
+            
                 // Initial check for form validity
                 checkFormValidity();
-        
+            
                 function validatePhoneNumber() {
                     const phoneInput = document.getElementById('num');
                     const phoneSpan = document.getElementById('numspan');
                     const phoneNumber = phoneInput.value.trim();
-        
+            
                     // Use a regular expression to validate the phone number format
                     const phonePattern = /^[0-9]{10}$/;
-        
+            
                     if (!phonePattern.test(phoneNumber)) {
                         phoneSpan.textContent = 'Invalid phone number';
                     } else {
                         phoneSpan.textContent = '';
                     }
                 }
-        
+            
+                function validateNotEmpty() {
+                    const fieldId = this.id;
+                    const input = document.getElementById(fieldId);
+                    const errorSpan = document.getElementById(`${fieldId}span`);
+                    const value = input.value.trim();
+            
+                    if (value === "") {
+                        errorSpan.textContent = 'This field is required';
+                    } else {
+                        errorSpan.textContent = '';
+                    }
+                }
+            
+                function validatePincode() {
+                    const pincodeInput = document.getElementById('pincode');
+                    const pincodeSpan = document.getElementById('pincodespan');
+                    const pincode = pincodeInput.value.trim();
+            
+                    const pincodePattern = /^\d{6}$/;
+            
+                    if (!pincodePattern.test(pincode)) {
+                        pincodeSpan.textContent = 'Pincode must be 6 digits';
+                    } else {
+                        pincodeSpan.textContent = '';
+                    }
+                }
+            
                 function validateAge() {
-                    const ageInput = document.getElementById('age');
+                    const ageInput = document.getElementById('age1');
                     const ageSpan = document.getElementById('agespan');
                     const currentDate = new Date();
                     const selectedDate = new Date(ageInput.value);
                     const minAgeDate = new Date();
-        
+            
                     minAgeDate.setFullYear(currentDate.getFullYear() - 18); // Set date 18 years ago
-        
+            
                     if (selectedDate > minAgeDate) {
                         ageSpan.textContent = 'Must be 18 years or older.';
                     } else {
@@ -420,7 +485,9 @@
                     }
                 }
             });
-        </script>
+            </script>
+            
+            
         
         
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
