@@ -32,21 +32,28 @@
             th{
                 color: white;
             }
-           
             .instagram-button {
-                background-color: transparent;
-                border: 1px solid #000;
-                color: #000;
-                padding: 8px 16px;
+                background: transparent;
+                padding: 5px 8px;
                 border-radius: 50px;
                 text-decoration: none;
                 transition: background-color 0.3s, color 0.3s;
+                margin-right: 10px;
+                border: none; /* Set the border to none */
             }
-          
+            
+            
             .instagram-button:hover {
-                background-color: rgb(91, 71, 71)676;
+                background-color: #000;
                 color: #fff;
                 text-decoration: none;
+            }
+            .navbar-nav .nav-link {
+              color: #fff; /* Set the text color of nav items to white */
+            }
+            
+            .navbar-nav .nav-link:hover {
+              color: #ffffff; /* Change text color on hover if desired */
             }
     
             /* Style for the header section */
@@ -153,7 +160,7 @@
                                      <p class="text-muted mb-1">DOB: {{ user_profile.age }}</p>
                                      <p class="text-muted mb-1">Address Line 1: {{ user_profile.ad1 }}</p>
                                      <p class="text-muted mb-1">Address Line 2: {{ user_profile.ad2 }}</p>
-                                     <p class="text-muted mb-1">Pincode: {{ user_profile.Pincode }}</p>
+                                     <p class="text-muted mb-1">Pincode: {{ user_profile.pincode }}</p>
 
 
                                 <!-- Add other user details here if needed -->

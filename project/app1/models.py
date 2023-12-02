@@ -73,27 +73,29 @@ class Measurement(models.Model):
         return f'Measurement Entry {self.id}'
 
 
-
 class Order(models.Model):
-        product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
-        customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='customer', null=True, blank=True)
-        mesurment = models.ForeignKey(Measurement, on_delete=models.CASCADE, null=True, blank=True)
-        is_active = models.BooleanField(default=False,null=True)  # Add this field to track product status
-        status = models.BooleanField(default=True,null=True)  # Add this field to track product status
-        order_date = models.DateTimeField(default=datetime.now, blank=True)  # Add the order_date field
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
+    customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='customer', null=True, blank=True)
+    mesurment = models.ForeignKey(Measurement, on_delete=models.CASCADE, null=True, blank=True)
+    is_active = models.BooleanField(default=False,null=True)  # Add this field to track product status
+    status = models.BooleanField(default=True,null=True)  # Add this field to track product status
+    order_date = models.DateTimeField(default=datetime.now, blank=True)  # Add the order_date field
+    pay_status = models.BooleanField(default=False,null=True)  # Add this field to track product status
 
 
 
 
 
+from datetime import datetime
 
 class Payment(models.Model):
-    order_id = models.CharField(max_length=255, unique=True)
-    payment_id = models.CharField(max_length=255, unique=True)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    timestamp = models.DateTimeField(auto_now_add=True)
-    order_pay = models.ForeignKey(Order, on_delete=models.CASCADE, null=True, blank=True)
-
-    def __str__(self):
-        return f"Payment for Order ID {self.order_id}"
-
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    payment_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_datetime = models.DateTimeField(default=datetime.now, blank=True)
+    payee = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    payment_status = models.CharField(max_length=20, choices=(
+        ('Pending', 'Pending'),
+        ('Successful', 'Successful'),
+        ('Failed', 'Failed'),
+    ), default='Pending')
+   

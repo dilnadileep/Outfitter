@@ -2,6 +2,7 @@
 from urllib import request
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
+import razorpay
 from .models import CustomUser
 from django.contrib import messages
 from django.contrib.auth import authenticate ,login as auth_login,logout
@@ -606,6 +607,10 @@ def order_request(request):
     
     return render(request, "order_request.html", {"requests": requests})
 
+
+def get_pay_status(order):
+    # Get the pay status for the given order
+    return order.pay_status
 from django.shortcuts import render
 from .models import Order, UserProfile
 
@@ -626,6 +631,9 @@ def order(request):
             user_orders = user_orders.filter(Q(product__pro_category__icontains=search_query))
 
         for order in user_orders:
+            # Set the pay_status attribute for each order
+            order.pay_status = get_pay_status(order)
+
             product = order.product
             if product:
                 tailor = product.user
@@ -639,7 +647,6 @@ def order(request):
     else:
         # Handle the case where the user is not authenticated
         return render(request, "order.html")
-
 from django.http import JsonResponse
 
 def fetch_measurement_details(request):
@@ -672,49 +679,57 @@ def fetch_measurement_details(request):
 
 
 
-
-from django.shortcuts import render
-import razorpay
-from django.conf import settings
-from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponseBadRequest
-from .models import Payment
-
 # authorize razorpay client with API Keys.
+
+
+from datetime import datetime
+from decimal import Decimal
+from django.http import HttpResponseBadRequest
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+from razorpay.errors import BadRequestError
+from .models import Payment
+from django.conf import settings
+
+
 razorpay_client = razorpay.Client(
     auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
 
-
-def payment1(request, order_id):
+def payment1(request, order_id, price):
     currency = 'INR'
-    amount = 20000 # Rs. 200
+    amount_in_rupees = Decimal(price)
+    amount_in_paise = int(amount_in_rupees * 100)
 
-    # Create a Razorpay Order
-    razorpay_order = razorpay_client.order.create(dict(amount=amount,
-                                                    currency=currency,
-                                                    payment_capture='0'))
+    try:
+        razorpay_order = razorpay_client.order.create(dict(amount=amount_in_paise, currency=currency, payment_capture='0'))
+        razorpay_order_id = razorpay_order['id']
+        callback_url = f'http://127.0.0.1:8000/paymenthandler/{order_id}/{price}/'
 
-    # order id of newly created order.
-    razorpay_order_id = razorpay_order['id']
-    callback_url = 'http://127.0.0.1:8000/paymenthandler/'
+        context = {
+            'razorpay_order_id': razorpay_order_id,
+            'razorpay_merchant_key': settings.RAZOR_KEY_ID,
+            'razorpay_amount': amount_in_paise,
+            'currency': currency,
+            'callback_url': callback_url,
+        }
 
-    # we need to pass these details to frontend.
-    context = {}
-    context['razorpay_order_id'] = razorpay_order_id
-    context['razorpay_merchant_key'] = settings.RAZOR_KEY_ID
-    context['razorpay_amount'] = amount
-    context['currency'] = currency
-    context['callback_url'] = callback_url
+        return render(request, 'payment1.html', context=context)
+    except BadRequestError as e:
+        print(f"Error creating Razorpay order: {str(e)}")
+        return HttpResponseBadRequest()
 
-    return render(request, 'payment1.html', context=context)
-
+# we need to csrf_exempt this url as
+# POST request will be made by Razorpay
+# and it won't have the csrf token.
+from django.shortcuts import get_object_or_404
+from .models import Order, Payment
 
 @csrf_exempt
-def paymenthandler(request):
-    # Only accept POST requests.
+def paymenthandler(request, order_id, amount):
+    # only accept POST requests.
     if request.method == "POST":
         try:
-            # Get the required parameters from the POST request.
+            # get the required parameters from the POST request.
             payment_id = request.POST.get('razorpay_payment_id', '')
             razorpay_order_id = request.POST.get('razorpay_order_id', '')
             signature = request.POST.get('razorpay_signature', '')
@@ -723,45 +738,68 @@ def paymenthandler(request):
                 'razorpay_payment_id': payment_id,
                 'razorpay_signature': signature
             }
-
+            
+            # verify the payment signature.
             result = razorpay_client.utility.verify_payment_signature(params_dict)
-            print(result)
             if result is not None:
-                amount = 20000  # Rs. 200
-                try:
-                    # Capture the payment
-                    razorpay_client.payment.capture(payment_id, amount)
+                # convert the amount to paise (multiply by 100)
+                amount_in_paise = int(float(amount) * 100)
 
-                    # Create a Payment instance and save it to the database
-                    payment = Payment(order_id=razorpay_order_id, payment_id=payment_id, amount=amount)
+                try:
+                    # capture the payment with the correct amount in paise
+                    razorpay_client.payment.capture(payment_id, amount_in_paise)
+
+                    # create a Payment instance and save it to the database
+                    payment = Payment(
+                        order_id=order_id,
+                        payment_amount=float(amount),
+                        payment_datetime=datetime.now(),
+                        payee=request.user  # Assuming CustomUser is your User model
+                    )
                     payment.save()
 
-                    # Render success page on successful capture of payment
+                    # Retrieve the corresponding Order and update pay_status
+                    order = get_object_or_404(Order, id=order_id)
+                    order.pay_status = True
+                    order.save()
+                    
+                    payment.payment_status = 'Successful'
+                    payment.save()
+
                     print("Payment successful. Redirecting to paymentsuccess.html.")
-                    return render(request, 'paymentsuccess.html')
+                    return render(request, "paymentsuccess.html")
                 except Exception as e:
+                    # If there's an error capturing the payment
                     print(f"Error capturing payment: {str(e)}")
                     print("Error capturing payment. Redirecting to paymentfail.html.")
-                    return render(request, 'paymentfail.html')
+                    return render(request, "paymentfail.html")
             else:
-                # If signature verification fails.
                 print("Signature verification failed. Redirecting to paymentfail.html.")
-                return render(request, 'paymentfail.html')
+                return render(request, "paymentfail.html")
         except Exception as e:
-            # If we don't find the required parameters in POST data.
+            # if there's an error processing POST data
             print(f"Error processing POST data: {str(e)}")
             print("Error processing POST data. Returning HttpResponseBadRequest.")
             return HttpResponseBadRequest()
     else:
-        # If other than POST request is made.
-        print("Non-POST request received. Returning HttpResponseBadRequest.")
+        # if other than POST request is made.
         return HttpResponseBadRequest()
+    
+    
+    
 
+from django.shortcuts import render, get_object_or_404
+from .models import Order, Payment
 
+def invoice_view(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    # Use filter instead of get to handle MultipleObjectsReturned
+    payments = Payment.objects.filter(order=order)
+    payment = payments.first()
 
+    context = {
+        'order': order,
+        'payment': payment,
+    }
 
-
-
-
-
-
+    return render(request, 'payment_reciept.html', context)

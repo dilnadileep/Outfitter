@@ -30,10 +30,10 @@ urlpatterns = [
    path('order/', views.order, name='order'),
    path('fetch_measurement_details/', views.fetch_measurement_details, name='fetch_measurement_details'),
    
-   path('paymenthandler/', views.paymenthandler, name='paymenthandler'),
-   path('payment1/<int:order_id>/', views.payment1, name='payment1'),
+   path('paymenthandler/<int:order_id>/<str:amount>/', views.paymenthandler, name='paymenthandler'),
+   path('payment1/<int:order_id>/<str:price>/', views.payment1, name='payment1'),
+   path('invoice/<int:order_id>/', views.invoice_view, name='invoice'),
 
-    
     
    
    
