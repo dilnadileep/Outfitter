@@ -46,7 +46,6 @@ class Product(models.Model):
         return self.name
 
 
-# models.py
 from django.db import models
 from django.conf import settings
 

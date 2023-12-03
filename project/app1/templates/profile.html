@@ -123,7 +123,7 @@
                             <ol class="breadcrumb mb-0">
                                 <li class="breadcrumb-item">
                                     {% if user.is_customer %}
-                                    <a href="{% url "index" %}">Home</a></li>
+                                    <a href="{% url "index" %}" id="home_index">Home</a></li>
                                     
                                     {% elif user.is_tailor %}
                                     <a href="{% url "t_index" %}">Home</a></li>

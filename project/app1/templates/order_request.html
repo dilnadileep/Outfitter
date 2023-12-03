@@ -151,7 +151,7 @@
             }
             
             .product-image {
-                width: 10%; /* Set width for image */
+                width: 15%; /* Set width for image */
                 text-align: right; /* Align image to the right */
             }
             
@@ -274,7 +274,7 @@
                         <p class="product-status pending-status">Status: <span class="pending-text">Pending</span></p>
                         {% endif %}
                     </div>
-                    <div class="product-image">
+                    <div class="product-image" id="test_img">
                         <img src="{{ request.product.image.url }}" alt="Product Image">
                     </div>
                 </div>
