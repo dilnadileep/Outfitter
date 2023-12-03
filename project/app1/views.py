@@ -612,7 +612,7 @@ def get_pay_status(order):
     # Get the pay status for the given order
     return order.pay_status
 from django.shortcuts import render
-from .models import Order, UserProfile
+from .models import Order, UserProfile,OrderStatus
 
 from django.db.models import Q
 
@@ -647,6 +647,14 @@ def order(request):
     else:
         # Handle the case where the user is not authenticated
         return render(request, "order.html")
+
+
+def order_status(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    order_statuses = OrderStatus.objects.filter(order=order)
+    return render(request, "order_status.html", {"order_statuses": order_statuses})
+
+
 from django.http import JsonResponse
 
 def fetch_measurement_details(request):
@@ -803,3 +811,49 @@ def invoice_view(request, order_id):
     }
 
     return render(request, 'payment_reciept.html', context)
+
+
+
+from django.shortcuts import render
+from .models import Payment, Order, OrderStatus
+
+def t_order(request):
+    if request.method == 'POST':
+        order_id = request.POST.get('order_id')
+        status = request.POST.get('status')
+
+        # Update order status
+        order = Order.objects.get(id=order_id)
+        order_status, created = OrderStatus.objects.get_or_create(order=order)
+        order_status.status = status
+        order_status.save()
+
+        return redirect('t_order')  # Redirect to the same view after updating status
+
+    successful_payments = Payment.objects.filter(payment_status='Successful')
+    orders_data = []
+    for payment in successful_payments:
+        order = payment.order
+        product_name = order.product.pro_category if order.product else "N/A"
+        customer_name = order.customer.first_name if order.customer else "N/A"
+        
+        # Fetch OrderStatus and get its status
+        try:
+            order_status = OrderStatus.objects.get(order=order)
+            updated_status = order_status.status
+        except OrderStatus.DoesNotExist:
+            updated_status = "N/A"  # If OrderStatus doesn't exist, display 'N/A'
+
+        # Collect necessary order details along with updated status
+        order_details = {
+            'order_id': order.id,
+            'customer_name': customer_name,
+            'product_name': product_name,
+            'payment_amount': payment.payment_amount,
+            'payment_datetime': payment.payment_datetime,
+            'updated_status': updated_status,  # Include the updated status here
+            # Add other details you want to display
+        }
+        orders_data.append(order_details)
+
+    return render(request, 't_order.html', {'orders_data': orders_data})

@@ -98,3 +98,22 @@ class Payment(models.Model):
         ('Failed', 'Failed'),
     ), default='Pending')
    
+   
+
+class OrderStatus(models.Model):
+    ORDER_STATUSES = (
+        ('Out for Delivery', 'Out for Delivery'),
+        ('Quality Check', 'Quality Check'),
+        ('Assembly', 'Assembly'),
+        ('Cutting', 'Cutting'),
+        ('Fabric dyeing', 'Fabric dyeing'),
+        ('Pattern Making', 'Pattern Making'),
+        ('Measurement and Consultation', 'Measurement and Consultation'),
+
+    )
+
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    status = models.CharField(max_length=50, choices=ORDER_STATUSES, default='Measurement and Consultation')
+
+    def __str__(self):
+        return f"Order ID: {self.order.id} - Status: {self.status}"

@@ -28,13 +28,16 @@ urlpatterns = [
    path('order_request/', views.order_request, name='order_request'),
    path('change_password/', views.change_password, name='change_password'),
    path('order/', views.order, name='order'),
+   path('order_status/<int:order_id>/', views.order_status, name='order_status'),
+
    path('fetch_measurement_details/', views.fetch_measurement_details, name='fetch_measurement_details'),
    
    path('paymenthandler/<int:order_id>/<str:amount>/', views.paymenthandler, name='paymenthandler'),
    path('payment1/<int:order_id>/<str:price>/', views.payment1, name='payment1'),
    path('invoice/<int:order_id>/', views.invoice_view, name='invoice'),
 
-    
+   path('t_order/', views.t_order, name='t_order'),
+
    
    
    
