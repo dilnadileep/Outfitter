@@ -750,6 +750,8 @@ styleDesignOptions.forEach((option) => {
                 $errorSpan.html("Enter the measurement").css("color", "red");
             } else if (!/^\d+(\.\d{1,2})?$/.test(measurementValue)) {
                 $errorSpan.html("Enter a valid measurement in inches").css("color", "red");
+            } else if (parseFloat(measurementValue) > 200) {
+                $errorSpan.html("Enter a valid measurement").css("color", "red");
             } else {
                 $errorSpan.html("");
             }

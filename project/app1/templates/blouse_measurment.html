@@ -635,6 +635,7 @@ workDesignOptions.forEach((option) => {
             { id: "#bust", validate: validateMeasurementField },
             { id: "#waist", validate: validateMeasurementField },
             { id: "#hips", validate: validateMeasurementField },
+            { id: "#length", validate: validateMeasurementField },
             { id: "#shoulderWidth", validate: validateMeasurementField },
             { id: "#sleeveLength", validate: validateMeasurementField },
         ];
@@ -650,7 +651,7 @@ workDesignOptions.forEach((option) => {
         function checkFormValidity() {
             const isValid = fields.every(field => {
                 const $field = $(field.id);
-                const $errorSpan = $(`${field.id}span`);
+                const $errorSpan = $field.nextAll("span");
                 return $field.val().trim() !== "" && $errorSpan.html() === "";
             });
 
@@ -687,13 +688,16 @@ workDesignOptions.forEach((option) => {
                 $errorSpan.html("Enter the measurement").css("color", "red");
             } else if (!/^\d+(\.\d{1,2})?$/.test(measurementValue)) {
                 $errorSpan.html("Enter a valid measurement in inches").css("color", "red");
+            } else if (parseFloat(measurementValue) > 200) {
+                $errorSpan.html("Enter a valid measurement").css("color", "red");
             } else {
                 $errorSpan.html("");
             }
+
+            checkFormValidity(); // Validate form after each field validation
         }
     });
-</script>   
-    
+</script>
 
 </body>
 </html>

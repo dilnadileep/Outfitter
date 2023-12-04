@@ -80,7 +80,7 @@
                     <span>OUTFITTER</span>
                     {% if user.is_authenticated %}
                     <span class="nav-link">Welcome, {{ user.first_name }}</span>
-                    <a href ="#us_section"><span class="nav-link">About us</span></a>
+                    {% comment %} <a href ="#us_section"><span class="nav-link">About us</span></a> {% endcomment %}
 
                     {% endif %}
                 </a>

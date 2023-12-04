@@ -274,9 +274,9 @@
                             {% if request.pay_status %}
                                 <p class="product-status paid-status">Payment Status: <span class="approved-text"  >Paid</span></p>
                                 <a href="{% url 'invoice' request.id %}" class="btn btn-primary" target="_blank">View Receipt</a>
-                                <button type="button" class="btn btn-secondary track-order-btn" data-toggle="modal" >
+                                {% comment %} <button type="button" class="btn btn-secondary track-order-btn" data-toggle="modal" >
                                     Track Order
-                                </button> 
+                                </button>  {% endcomment %}
                                 {% else %}
                                 <button type="submit" class="btn btn-primary payment-button">
                                     <a href="{% url 'payment1' order_id=request.id price=request.product.price|floatformat:2 %}" class="payment-link">Make payment</a>
