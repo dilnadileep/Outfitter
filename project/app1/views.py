@@ -813,7 +813,7 @@ def invoice_view(request, order_id):
     return render(request, 'payment_reciept.html', context)
 
 
-
+from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Payment, Order, OrderStatus
 
@@ -857,3 +857,47 @@ def t_order(request):
         orders_data.append(order_details)
 
     return render(request, 't_order.html', {'orders_data': orders_data})
+
+import pandas as pd
+
+
+def download_orders_as_excel(request):
+    successful_payments = Payment.objects.filter(payment_status='Successful')
+    orders_data = []
+
+    for payment in successful_payments:
+        order = payment.order
+        if order:
+            customer_name = order.customer.first_name if order.customer else "N/A"
+            product_name = order.product.pro_category if order.product else "N/A"
+
+            # You can add more fields or related data from the Order model or related models
+            # For instance, if OrderStatus is related to the Order model, fetch its status
+            order_status = "N/A"
+            try:
+                order_status_obj = OrderStatus.objects.get(order=order)
+                order_status = order_status_obj.status
+            except OrderStatus.DoesNotExist:
+                pass  # Handle the case when OrderStatus doesn't exist
+
+            # Collect necessary order details along with updated status
+            order_details = {
+                'Order ID': order.id,
+                'Customer Name': customer_name,
+                'Product Name': product_name,
+                'Payment Amount': payment.payment_amount,
+                'Order Status': order_status,
+                # Add other details you want to display
+            }
+            orders_data.append(order_details)
+
+    # Convert orders_data to a Pandas DataFrame
+    df = pd.DataFrame(orders_data)
+
+    # Create an Excel writer object using Pandas
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="orders_data.xlsx"'
+    with pd.ExcelWriter(response, engine='openpyxl') as writer:
+        df.to_excel(writer, index=False)
+
+    return response

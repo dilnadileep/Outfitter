@@ -37,6 +37,7 @@ urlpatterns = [
    path('invoice/<int:order_id>/', views.invoice_view, name='invoice'),
 
    path('t_order/', views.t_order, name='t_order'),
+   path('download-orders-excel/', views.download_orders_as_excel, name='download_orders_excel'),
 
    
    
