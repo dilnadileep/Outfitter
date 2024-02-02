@@ -591,10 +591,10 @@ def order_request(request):
             # Send an email to the customer
             if order.customer.email and order.is_active:
                 subject = 'Outfitter : Your Order is Approved '
-                message = 'Your order is now approved from tailor. Thank you for your order.'
+                message = 'Your order is now approved from tailor. Thank you for your order.You can now make payment to confirm your order from our site..'
                 from_email = 'dilnadileep2024a@mca.ajce.in'  # Change to your email
                 recipient_list = [order.customer.email]
-                send_mail(subject, message, from_email, recipient_list)
+                send_mail(subject, message, from_email, recipient_list, fail_silently=False)
                 
             # You can add a success message or other logic here if needed
         except Order.DoesNotExist:
