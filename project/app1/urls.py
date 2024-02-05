@@ -5,9 +5,6 @@ from django.contrib.auth import views as auth_views
 from . import views
 from django.conf import settings
 
-
-
-
 urlpatterns = [
    path('', views.index, name="index"),
    path('signup/', views.signup, name="signup"),
@@ -39,7 +36,8 @@ urlpatterns = [
    path('t_order/', views.t_order, name='t_order'),
    path('download-orders-excel/', views.download_orders_as_excel, name='download_orders_excel'),
 
-   
+   path('messages_page/', views.messages_page, name='messages_page'),
+
    
    
    path('toggle_user_status/<int:user_id>/', views.toggle_user_status, name='toggle_user_status'),

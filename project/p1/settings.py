@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app1',
+    'channels',
     
 ]
 
@@ -69,7 +70,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'p1.wsgi.application'
+
+ASGI_APPLICATION = 'p1.asgi.application'
 
 
 # Database
@@ -143,9 +145,16 @@ RAZOR_KEY_SECRET = "PhXWHu2Ea90HLi5mPVnjhEuR"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+        
+    }
+}
+
 LOGIN_URL = 'signin'
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_URL ='logout'
 LOGOUT_REDIRECT_URL = 'index'
-
 

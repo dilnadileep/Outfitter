@@ -901,3 +901,15 @@ def download_orders_as_excel(request):
         df.to_excel(writer, index=False)
 
     return response
+
+
+
+from app1.models import Thread
+
+@login_required
+def messages_page(request):
+    threads = Thread.objects.by_user(user=request.user).prefetch_related('chatmessage_thread').order_by('timestamp')
+    context = {
+        'Threads': threads
+    }
+    return render(request, 'messages.html', context)
