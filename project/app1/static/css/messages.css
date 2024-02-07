@@ -2,9 +2,9 @@ body,
 html {
   height: 100%;
   margin: 0;
-  background: #7f7fd5;
-  background: -webkit-linear-gradient(to right, #91eae4, #86a8e7, #7f7fd5);
-  background: linear-gradient(to right, #91eae4, #86a8e7, #7f7fd5);
+  background: #ccccf1;
+  background: #01360e;
+  background: #ccccf1;
 }
 
 .chat {
@@ -95,8 +95,8 @@ html {
   background-color: rgba(0, 0, 0, 0.3);
 }
 .user_img {
-  height: 70px;
-  width: 70px;
+  height: 50px;
+  width: 50px;
   border: 1.5px solid #f5f6fa;
 }
 .user_img_msg {
@@ -115,12 +115,12 @@ html {
 }
 .online_icon {
   position: absolute;
-  height: 15px;
-  width: 15px;
+  height: 12px;
+  width: 12px;
   background-color: #4cd137;
   border-radius: 50%;
-  bottom: 0.2em;
-  right: 0.4em;
+  bottom: 1.4em;
+  right: 1.1em;
   border: 1.5px solid white;
 }
 .offline {
@@ -154,7 +154,7 @@ html {
   margin-bottom: auto;
   margin-left: 10px;
   border-radius: 25px;
-  background-color: #82ccdd;
+  background-color: #a0e1f0;
   padding: 10px;
   position: relative;
   min-width: 70px;
