@@ -16,21 +16,23 @@ var socket = new WebSocket(endpoint)
 socket.onopen = async function(e){
     console.log('open', e)
     send_message_form.on('submit', function (e){
-        e.preventDefault()
-        let message = input_message.val()
-        let send_to = get_active_other_user_id()
-        let thread_id = get_active_thread_id()
-
+        e.preventDefault();
+        let message = input_message.val();
+        let mediaFile = $('#media-upload-input')[0].files[0]; // Get selected media file
+        let send_to = get_active_other_user_id();
+        let thread_id = get_active_thread_id();
+    
         let data = {
             'message': message,
             'sent_by': USER_ID,
             'send_to': send_to,
-            'thread_id': thread_id
-        }
-        data = JSON.stringify(data)
-        socket.send(data)
-        $(this)[0].reset()
-    })
+            'thread_id': thread_id,
+            'media': mediaFile  // Attach media file to the data object
+        };
+        socket.send(JSON.stringify(data));  // Send data through WebSocket
+        $(this)[0].reset();
+    });
+    
 }
 
 socket.onmessage = async function(e){

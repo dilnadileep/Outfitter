@@ -37,6 +37,13 @@ urlpatterns = [
    path('download-orders-excel/', views.download_orders_as_excel, name='download_orders_excel'),
 
    path('messages_page/', views.messages_page, name='messages_page'),
+   
+   path('r_index/', views.r_index, name='r_index'),
+
+   path('c_add_garment/', views.c_add_garment, name='c_add_garment'),
+   path('toggle_product_status/<int:product_id>/', views.toggle_product_status, name='toggle_product_status'),
+   path('c_edit_product/<int:product_id>/', views.c_edit_product, name='c_edit_product'),
+   
 
    
    

@@ -139,6 +139,7 @@ class Thread(models.Model):
     first_person = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name='thread_first_person')
     second_person = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name='thread_second_person')
     updated = models.DateTimeField(auto_now=True)
+    media = models.FileField(upload_to='media/', blank=True, null=True)  # Field to store media
     timestamp = models.DateTimeField(auto_now_add=True)
 
     objects = ThreadManager()
@@ -150,4 +151,19 @@ class ChatMessage(models.Model):
     thread = models.ForeignKey(Thread, null=True, blank=True, on_delete=models.CASCADE, related_name='chatmessage_thread')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     message = models.TextField()
+    media = models.FileField(upload_to='media/', blank=True, null=True)  # Field to store media
     timestamp = models.DateTimeField(auto_now_add=True)
+    
+    
+    
+    
+    
+class c_Product(models.Model):
+    c_category = models.CharField(max_length=50, blank=True,null=True)
+    description = models.CharField(max_length=255, blank=True,null=True)
+    image = models.ImageField(upload_to='c_products/', blank=True, null=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
+    delivery_time = models.CharField(max_length=20, blank=True,null=True)  # Add this field for time period
+    is_active = models.BooleanField(default=True,null=True)  # Add this field to track product status
+    #tailor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='tailored_products', null=True, blank=True)

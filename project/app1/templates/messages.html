@@ -211,8 +211,6 @@
                                             {% else %}
                                                 <span>{{ thread.first_person.first_name }}</span>
                                             {% endif %}
-
-{#                                            <p>Kalid is online</p>#}
                                         </div>
                                     </div>
                                 </li>
@@ -297,8 +295,14 @@
                                 <form id="send-message-form">
                                     <div class="input-group">
                                         <div class="input-group-append">
-                                            <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+                                            <span class="input-group-text attach_btn">
+                                                <i class="fas fa-paperclip"></i>
+                                            </span>
+                                            <!-- Input field for media file upload -->
+                                            <input type="file" id="media-upload-input" style="display: none;">
                                         </div>
+                                        
+                                        
                                         <input type="text" name="" id="input-message" class="form-control type_msg" placeholder="Type your message...">
                                         <div class="input-group-append">
                                             <button class="btn btn-secondary" type="submit">
@@ -315,7 +319,6 @@
 				</div>
 			</div>
 		</div>
-
         <script src="{% static 'js/messages.js' %}"></script>
 
 	</body>

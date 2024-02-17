@@ -263,6 +263,7 @@
                 <div class="request-details">
                     <div class="product-details">
                         <p>Product: {{ request.product.pro_category }}</p>
+                        <p>Order id: {{ request.id }}</p>
                         <p>Order Date & Time: {{ request.order_date }}</p>
                         <p>Measurement Details:
                             <button class="btn btn-primary details-button" data-bs-toggle="modal" data-bs-target="#measurement_details" data-request-id="{{ request.id }}">Details</button>
@@ -270,6 +271,7 @@
                         <p>Price: Rs.{{ request.product.price }}/-</p>
                         {% if request.is_active %}
                         <p class="product-status approved-status">Status: <span class="approved-text">Approved</span></p>
+
                         {% else %}
                         <p class="product-status pending-status">Status: <span class="pending-text">Pending</span></p>
                         {% endif %}
@@ -283,7 +285,9 @@
                         {% csrf_token %}
                         <input type="hidden" name="order_id" value="{{ request.id }}">
                         {% if request.is_active %}
-                        <button type="submit" class="approved-button" disabled>Approved</button>
+                        <button type="submit" class="approved-button" disabled>Approved</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="{% url 'messages_page' %}" class="btn btn-primary" target="_blank">Connect with them</a>
+
                         {% else %}
                         <button type="submit" class="approve-button">Approve</button>
                         {% endif %}

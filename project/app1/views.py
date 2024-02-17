@@ -913,3 +913,100 @@ def messages_page(request):
         'Threads': threads
     }
     return render(request, 'messages.html', context)
+
+def r_index(request):
+        return render(request, 'r_index.html')
+
+
+
+
+
+# celebrity coutre main project 
+
+
+from .models import c_Product
+
+from django.shortcuts import render, redirect, get_object_or_404
+
+def c_add_garment(request):
+    if request.user.is_authenticated:
+        # Filter products by the currently logged-in user
+        c_products = c_Product.objects.filter(user=request.user)
+
+        if request.method == "POST":
+            c_category1 = request.POST.get("category")
+            description = request.POST.get("description")
+            time = request.POST.get("time")
+            image = request.FILES.get("image")
+            price = request.POST.get("price")
+
+            # Create and save the product with the currently logged-in user
+            c_product = c_Product(c_category=c_category1, description=description, delivery_time=time,image=image, price=price, user=request.user)
+            c_product.save()
+
+            return redirect('c_add_garment')  # Redirect to the product list page
+
+        return render(request, 'c_add_garment.html', {'c_products': c_products})
+
+    else:
+        return redirect('signin')  # Redirect to the sign-in page if the user is not authenticated
+
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt  # Add this decorator to disable CSRF protection for this view temporarily.
+def toggle_product_status(request, product_id):
+    if request.method == 'POST':
+        # Get the product based on product_id
+        c_product = c_Product.objects.get(id=product_id)
+
+        # Toggle the product's status
+        c_product.is_active = not c_product.is_active
+        c_product.save()
+
+        # Return the updated status as JSON response
+        return JsonResponse({'status': 'active' if c_product.is_active else 'inactive'})
+
+
+
+
+from django.http import JsonResponse
+
+def c_edit_product(request, product_id):
+    c_product = get_object_or_404(c_Product, pk=product_id)
+
+    if request.method == "POST":
+        c_category1 = request.POST.get("category")
+        description = request.POST.get("description")
+        time1 = request.POST.get("delivery_time")
+        price = request.POST.get("price")
+        new_image = request.FILES.get("new_image")
+        print(new_image)
+
+        # Update the product's details
+        c_product.c_category = c_category1
+        c_product.description = description
+        c_product.price = price
+        c_product.delivery_time = time1
+
+
+        if new_image:
+            if c_product.image:
+                # Delete the old image to save space
+                c_product.image.delete()
+            c_product.image = new_image
+        c_product.save()
+
+        return JsonResponse({'message': 'Product updated successfully'})
+
+    # For GET requests, return product details as JSON
+    product_data = {
+        'category': c_product.c_category,
+        'description': c_product.description,
+        'price': c_product.price,
+        'delivery_time': c_product.delivery_time,
+        'image_url': c_product.image.url if c_product.image else None,
+    }
+
+    return JsonResponse(product_data)

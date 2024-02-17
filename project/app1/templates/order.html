@@ -265,22 +265,24 @@
                     <div class="product-details">
                         <h3>{{ request.product.pro_category }}</h3>
                         <p>Price: Rs.{{ request.product.price }}/-</p>
+                        <p>Order id : {{ request.id }}</p>
                         <p>Order Date & Time: {{ request.order_date }}</p>
                         <p>Tailor contact detail: {{ request.product.user }}</p>
 
         
                         {% if request.is_active %}
                             <p class="product-status approved-status">Status: <span class="approved-text">Approved</span></p>
+
                             {% if request.pay_status %}
                                 <p class="product-status paid-status">Payment Status: <span class="approved-text"  >Paid</span></p>
                                 <a href="{% url 'invoice' request.id %}" class="btn btn-primary" target="_blank">View Receipt</a>
-                                {% comment %} <button type="button" class="btn btn-secondary track-order-btn" data-toggle="modal" >
-                                    Track Order
-                                </button>  {% endcomment %}
+                               
                                 {% else %}
                                 <button type="submit" class="btn btn-primary payment-button">
                                     <a href="{% url 'payment1' order_id=request.id price=request.product.price|floatformat:2 %}" class="payment-link">Make payment</a>
-                                </button>
+                                </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="{% url 'messages_page' %}" class="btn btn-primary" target="_blank">Connect with tailor</a>
+
                             {% endif %}
                         {% else %}
                             <p class="product-status pending-status">Status: <span class="pending-text">Pending</span></p>

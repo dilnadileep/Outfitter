@@ -1,0 +1,760 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>product add</title>
+    <link href="https://fonts.googleapis.com/css?family=Your+Cursive+Font" rel="stylesheet">
+
+    <style>
+        .green-button {
+            background-color: #4CAF50;
+            /* Green color */
+            color: white;
+            /* Text color */
+            padding: 10px 20px;
+            /* Padding around text */
+            border: none;
+            /* No border */
+            border-radius: 5px;
+            /* Rounded corners */
+            cursor: pointer;
+            /* Cursor style on hover */
+        }
+
+        .modal-lg {
+            max-width: 80%;
+            /* Adjust the value as needed */
+        }
+        section {
+            padding: 20px; /* Adjust the value as needed */
+        }
+        th{
+            color: white;
+        }
+        .green-button {
+            background-color: #4CAF50;
+            /* Green color */
+            color: white;
+            /* Text color */
+            padding: 10px 20px;
+            /* Padding around text */
+            border: none;
+            /* No border */
+            border-radius: 5px;
+            /* Rounded corners */
+            cursor: pointer;
+            /* Cursor style on hover */
+        }
+
+        .modal-lg {
+            max-width: 80%;
+            /* Adjust the value as needed */
+        }
+        section {
+            padding: 20px; /* Adjust the value as needed */
+        }
+        th{
+            color: white;
+        }
+       
+        .instagram-button {
+            background: transparent;
+            padding: 5px 8px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+            margin-right: 10px;
+            border: none; /* Set the border to none */
+        }
+        
+        
+        .instagram-button:hover {
+            background-color: #000;
+            color: #fff;
+            text-decoration: none;
+        }
+        .navbar-nav .nav-link {
+          color: #fff; /* Set the text color of nav items to white */
+        }
+        
+        .navbar-nav .nav-link:hover {
+          color: #ffffff; /* Change text color on hover if desired */
+        }
+        h2 {
+    font-family: 'Pacifico', cursive; /* Replace 'Pacifico' with your chosen cursive font */
+    color: #0f0c0c; /* Change the color to your desired color (e.g., red) */
+}
+
+
+        /* Style for the header section */
+        .header_section {
+            background-color: rgb(239, 207, 89);
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000; /* Ensures the header appears on top of other content */
+        }
+
+        .navbar-brand img {
+            max-width: 50px; /* Adjust the image width as needed */
+        }
+
+    
+        </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <header class="header_section">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg custom_nav-container">
+                <a class="navbar-brand">
+                    <img src="{% static 'images/logo1.jpg' %}" alt />
+                    <span>OUTFITTER</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto"> <!-- Use ml-auto to push items to the right -->
+                       
+                       <li class="nav-item">
+                            <button class="instagram-button">
+                                <a href="{% url "admindashboard" %}" class="nav-link">Home</a>
+                            </button>
+                        </li>  
+                       
+                       <li class="nav-item">
+                            <button class="instagram-button">
+                                <a href="{% url 'loggout' %}" class="nav-link">Logout</a>
+                            </button>
+                        </li> 
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+   <section style="background-color: rgba(199, 182, 198, 0.776);">
+        <div class="container py-5">
+            {% comment %} <div class="row">
+                <div class="col">
+                    <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item">
+                                {% if user.is_customer %}
+                                <a href="{% url "index" %}">Home</a>
+                            </li>
+
+                            {% elif user.is_tailor %}
+                            <a href="{% url "t_index" %}">Home</a></li>
+                            
+
+                            {% endif %} 
+                            <li class="breadcrumb-item active" aria-current="page">Add Garment</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div> {% endcomment %}
+
+
+        </div>
+        <section>
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Product List</h2>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">Add New</button>
+            </div>
+            
+            
+            <hr>
+            <table class="table table-striped table-bordered ">
+                <thead class="bg-secondary">
+                    <tr>
+                        <th>Celebrity</th>
+                        <th>Description</th>
+                        <th>Time period</th>
+                        <th>Price</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="table-light">
+                    {% for product in c_products %}
+                    <tr>
+                        <td>{{ product.pro_category }}</td>
+                        <td>{{ product.description }}</td>
+                        <td>{{ product.delivery_time }}</td>
+                        <td>{{ product.price }}/-</td>
+                        <td>
+                            {% if product.image %}
+                            <img src="{{ product.image.url }}" width="100" height="100" alt="{{ product.name }}" />
+                            {% else %}
+                            Image not available
+                            {% endif %}
+                        </td>
+                        <td>
+                            <button class="btn btn-secondary editbtn" data-bs-toggle="modal" data-bs-target="#editProductModal" data-product-id="{{ product.id }}">Edit</button>
+
+                            <a href="#" class="status-toggle" data-product-id="{{ product.id }}"
+                                data-status="{% if product.is_active %}active{% else %}inactive{% endif %}">
+                                {% if product.is_active %}
+                                <button class="btn btn-danger btn-sm">Inactive</button>
+                                {% else %}
+                                <button class="btn btn-success btn-sm">Activate</button>
+                                {% endif %}
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+
+
+        </section>
+    </section> 
+
+    <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <center>
+                        <h5 class="modal-title" id="addProductModalLabel">Add a New Product</h5>
+                    </center>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <section id="test_id">
+                        <form method="POST" enctype="multipart/form-data" action="" id="form">
+                            {% csrf_token %}
+                            <div class="card-body">
+                                <div class="row">
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <label class="mb-0" for="category">Celebrity</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <select id="category" class="form-control form-control-lg" name="category" required>
+                                                <option value="Alia Bhatt">Alia Bhatt</option>
+                                                <option value="Deepika Padukone">Deepika Padukone</option>
+                                                <option value="Priyanka Chopra">Priyanka Chopra</option>
+
+                                                <span id="categoryspan" style="font-size: 12px;"></span>
+                                            </select>
+                                            <br>
+                                        </div>
+                                    </div>
+                                    <hr>
+
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0" for="description">Product Description</p>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" id="description" class="form-control form-control-lg"
+                                                name="description" size="50" />
+                                            <span id="descriptionspan" style="font-size: 12px;"></span>
+                                            <br>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0" for="time">Time period </p>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <select id="time" class="form-control form-control-lg" name="time">
+                                                <option value="3_Days">3 Days</option>
+                                                <option value="5_Days">5 Days</option>
+                                                <option value="9_Days">9 Days</option>
+                                                <option value="12_Days">12 Days</option>
+                                            </select>
+                                            <span id="timespan" style="font-size: 12px;"></span>
+                                            <br>
+                                        </div>
+                                    </div>
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0" for="image">Product Image</p>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="file" id="image" class="form-control form-control-lg" name="image" accept="image/*" />
+                                            <span id="imagespan" style="font-size: 12px;"></span>
+                                            <br>
+                                        </div>
+                                    </div>
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0" for="price">Price</p>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" id="price" class="form-control form-control-lg" name="price" />
+                                            <span id="pricespan" style="font-size: 12px;"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                    </section>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="savebtn" name="savebtn">Save Product</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+
+            const fields = [
+
+                { id: "#description", validate: validatedescription },
+                { id: "#image", validate: validateimage },
+                { id: "#price", validate: validateprice }
+            ];
+
+            fields.forEach(field => {
+                $(field.id).keyup(function () {
+                    field.validate();
+                });
+
+                validateFieldOnBlur(field.id, field.validate);
+            });
+            function checkFormValidity() {
+                const isValid = fields.every(field => {
+                    const $field = $(field.id);
+                    const $errorSpan = $(`${field.id}span`);
+
+                    return $field.val().trim() !== "" && $errorSpan.html() === "";
+                });
+
+                $("#savebtn").prop("disabled", !isValid);
+            }
+
+
+
+            function validateFieldOnBlur(fieldId, validationFunction) {
+                $(fieldId).blur(function () {
+                    validationFunction();
+                    checkFormValidity();
+                });
+            }
+
+            // Form submission
+            $("#form").submit(function (event) {
+                if (!$("#savebtn").prop("disabled")) {
+                    // Form is valid, allow submission
+                    return true;
+                } else {
+                    // Form is not valid, prevent submission
+                    event.preventDefault();
+                    return false;
+                }
+            });
+
+            // Initial check for form validity
+            checkFormValidity();
+
+            
+            
+
+            function validatedescription() {
+                const name = $("#description").val();
+                const lettersWithSpaces = /^[a-zA-Z0-9\s.,'"!?-]*$/;
+                if (name.trim() === "") {
+                    $("#descriptionspan").html("Enter the description").css("color", "red");
+                } else if (!lettersWithSpaces.test(name)) {
+                    $("#descriptionspan").html("please input a description with alphabets, numbers, punctuation and special characters").css("color", "red");
+                } else {
+                    $("#descriptionspan").html("");
+                }
+            }
+
+        
+            function validateimage() {
+                const imageInput = $('#image');
+                const imageError = $('#imagespan');
+                const selectedFile = imageInput[0].files[0];
+
+                if (!selectedFile) {
+                    imageError.text('No image selected.');
+                    imageError.css('color', 'red');
+                } else if (!/^image\//.test(selectedFile.type)) {
+                    imageError.text('Please select an image file.');
+                    imageError.css('color', 'red');
+                } else {
+                    imageError.text('');
+                }
+            }
+            
+
+
+            function validateprice() {
+                const name = $("#price").val();
+                const lettersWithSpaces = /^(?:[1-9]\d{0,4}|100000)$/;
+                if (name.trim() === "") {
+                    $("#pricespan").html("Enter the Price").css("color", "red");
+                } else if (!lettersWithSpaces.test(name)) {
+                    $("#pricespan").html("The price should range from 1 - 1000000").css("color", "red");
+                } else {
+                    $("#pricespan").html("");
+                }
+            }
+
+
+        });
+
+    </script>
+
+
+    {% comment %} edit product modal {% endcomment %}
+    <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <center>
+                        <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
+                    </center>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <section>
+                        <form method="POST" enctype="multipart/form-data" action="" id="edit-form">
+                            {% csrf_token %}
+                            <div class="card-body">
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0" for="category">Category</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <select id="category" class="form-control form-control-lg" name="category">
+                                            <option value="Alia Bhatt" {% if product.category == 'Alia Bhatt' %} selected {% endif %}>Alia Bhatt</option>
+                                            <option value="Deepika Padukone" {% if product.category == 'Deepika Padukone' %} selected {% endif %}>Deepika Padukone</option>
+                                            <option value="Priyanka Chopra" {% if product.category == 'Priyanka Chopra' %} selected {% endif %}>Priyanka Chopra</option>
+
+                                        </select>
+                                    </div>
+                                    
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0" for="description">Product Description</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="editdescription" class="form-control form-control-lg" name="description" size="50" value="{{ product.description }}" />
+                                        <span id="editdescriptionspan" style="font-size: 12px;"></span>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0" for="delivery_time">Duration</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <select id="delivery_time" class="form-control form-control-lg" name="delivery_time">
+                                            <option value="3_Days" {% if product.delivery_time == '3 Days' %} selected {% endif %}>3 Days</option>
+                                            <option value="5_Days" {% if product.delivery_time == '5 Days' %} selected {% endif %}>5 Days</option>
+                                            <option value="7_Days" {% if product.delivery_time == '7 Days' %} selected {% endif %}>7 Days</option>
+                                            <option value="12_Days" {% if product.delivery_time == '12 Days' %} selected {% endif %}>12 Days</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0" for="price">Price</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="editprice" class="form-control form-control-lg" name="price"
+                                            value="{{ product.price }}" />
+                                        <span id="editpricespan" style="font-size: 12px;"></span>
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0" for="new_image"><label for="new_image">Product Image</label></p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <!-- Display the current product image -->
+                                        <img src="{{ product.image.url }}" id="productimg" width="100" height="100"
+                                            alt="{{ product.name }}" />
+                                        <!-- Allow users to upload a new image if needed -->
+                                        <input type="file" id="new_image" class="form-control" name="new_image"
+                                            accept="image/*">
+                                        <span id="new_imagespan" style="font-size: 12px;"></span>
+                                    </div>
+
+                                </div>
+                                
+                            </div>
+                            
+                    </section>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="savebtn-edit" name="savebtn-edit" class="btn btn-primary">Save
+                        Changes</button>
+                </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            const fields = [
+                { id: "#editdescription", validate: validateEditDescription },
+                { id: "#new_image", validate: validateEditImage },
+                { id: "#editprice", validate: validateEditPrice },
+            ];
+        
+            // Initialize an object to store the initial field values
+            const initialFieldValues = {};
+        
+            fields.forEach(field => {
+                const $field = $(field.id);
+        
+                // Store the initial value of each field
+                initialFieldValues[field.id] = $field.val();
+        
+                // Add a keyup event listener to text fields to check for changes
+                if ($field.is(":text")) {
+                    $field.keyup(function () {
+                        field.validate();
+                    });
+                }
+            });
+        
+            // Handle image field validation when a new image is selected
+            $("#new_image").change(function () {
+                validateEditImage();
+            });
+        
+            function checkFormValidity() {
+                const isAnyFieldChanged = fields
+                    .filter(field => !$(field.id).is("#new_image"))
+                    .some(field => {
+                        const $field = $(field.id);
+                        return $field.val() !== initialFieldValues[field.id];
+                    });
+        
+                const isValid = fields.every(field => {
+                    const $field = $(field.id);
+                    const $errorSpan = $(`${field.id}span`);
+                    const errorText = $errorSpan.html();
+        
+                    return $field.val().trim() !== "" && errorText === "";
+                });
+        
+                // Enable the "Save Changes" button if changes have been made and the form is valid
+                $("#savebtn-edit").prop("disabled", !(isAnyFieldChanged && isValid));
+            }
+        
+            function validateEditDescription() {
+                const name = $("#editdescription").val();
+                console.log("Validating description:", name);
+                const lettersWithSpaces = /^[a-zA-Z0-9\s.,'"!?-]*$/;
+                if (name.trim() === "") {
+                    $("#editdescriptionspan").html("Enter the description").css("color", "red");
+                } else if (!lettersWithSpaces.test(name)) {
+                    $("#editdescriptionspan").html("Please input a description with alphabets, numbers, punctuation, and special characters").css("color", "red");
+                } else {
+                    $("#editdescriptionspan").html("");
+                    checkFormValidity(); // Call to update the button's status
+                }
+            }
+        
+            function validateEditImage() {
+                const imageInput = $('#new_image');
+                const imageError = $('#new_imagespan');
+                const selectedFile = imageInput[0].files[0];
+        
+                if (selectedFile) {
+                    if (!/^image\//.test(selectedFile.type)) {
+                        imageError.text('Please select an image file.');
+                        imageError.css('color', 'red');
+                    } else {
+                        imageError.text('');
+                        checkFormValidity(); // Call to update the button's status
+                    }
+                } else {
+                    // No file selected, clear the error message
+                    imageError.text('');
+                    checkFormValidity(); // Call to update the button's status
+                }
+            }
+        
+            function validateEditPrice() {
+                const name = $("#editprice").val();
+                const lettersWithSpaces = /^(?:[1-9]\d{0,4}|100000)$/;
+                if (name.trim() === "") {
+                    $("#editpricespan").html("Enter the Price").css("color", "red");
+                } else if (!lettersWithSpaces.test(name)) {
+                    $("#editpricespan").html("The price should range from 1 - 1000000").css("color", "red");
+                } else {
+                    $("#editpricespan").html("");
+                    checkFormValidity(); // Call to update the button's status
+                }
+            }
+        });
+        
+        
+    </script>    
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            // Function to open the edit modal
+            function openEditModal(productId) {
+                $.ajax({
+                    url: `/c_edit_product/${productId}/`,
+                    type: 'GET',
+                    success: function (data) {
+                        $('#editProductModal #name').val(data.name);
+                        $('#editProductModal #category').val(data.category);
+                        $('#editProductModal #editdescription').val(data.description);                       
+                        $('#editProductModal #editprice').val(data.price);
+                        $('#editProductModal #delivery_time').val(data.delivery_time);
+                        if (data.image_url) {
+                            $('#editProductModal img').attr('src', data.image_url); // Update the image source
+                        } else {
+                            $('#editProductModal img').attr('src', '');
+                        }
+
+                        // Set the product_id as a data attribute on the form
+                        $('#edit-form').data('product-id', productId);
+
+                        $('#editProductModal').modal('show');
+                    }
+                });
+            }
+
+            // Handle form submission within the edit modal
+            $('#edit-form').on('submit', function (e) {
+                e.preventDefault();
+                var productId = $(this).data('product-id');
+
+                // Create a FormData object to send the form data
+                var formData = new FormData(this);
+
+                // Append the current productId to the FormData
+                formData.append('product_id', productId);
+
+                $.ajax({
+                    url: `/c_edit_product/${productId}/`,
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,  // Set content type to false to let jQuery handle it
+                    success: function (response) {
+                        alert(response.message);
+                        $('#editProductModal').modal('hide');
+                        location.reload();
+                    }
+                });
+            });
+
+
+            // Add a click event to trigger the edit modal
+            $('.editbtn').click(function () {
+                var productId = $(this).data('product-id');
+                openEditModal(productId);
+            });
+        
+
+        });
+
+    </script>
+
+
+
+    <script>
+        // JavaScript code to handle status toggling
+        document.querySelectorAll('.status-toggle').forEach(function (element) {
+            element.addEventListener('click', function (event) {
+                event.preventDefault();
+                const productId = element.getAttribute('data-product-id');
+                const currentStatus = element.getAttribute('data-status');
+        
+                // Send an AJAX request to toggle the product status in the backend
+                fetch(`/toggle_product_status/${productId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}', // Include the CSRF token
+                    },
+                    body: JSON.stringify({ currentStatus: currentStatus }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Update the status in the UI
+                    element.innerHTML = data.status === 'active' ? 'Inactive' : 'Active';
+                    element.setAttribute('data-status', data.status);
+                    
+                    const button = element.querySelector('.logout-button');
+                    if (data.status === 'active') {
+                        button.classList.remove('btn-danger');
+                        button.classList.add('btn-success');
+                        button.textContent = 'Activate';
+                    } else {
+                        button.classList.remove('btn-success');
+                        button.classList.add('btn-danger');
+                        button.textContent = 'Inactive';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+                location.reload()
+            });
+        });
+        
+        
+
+    </script>
+
+</body>
+
+</html>
