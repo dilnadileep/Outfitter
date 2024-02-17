@@ -935,13 +935,14 @@ def c_add_garment(request):
 
         if request.method == "POST":
             c_category1 = request.POST.get("category")
+            c_category2 = request.POST.get("category2")
             description = request.POST.get("description")
             time = request.POST.get("time")
             image = request.FILES.get("image")
             price = request.POST.get("price")
 
             # Create and save the product with the currently logged-in user
-            c_product = c_Product(c_category=c_category1, description=description, delivery_time=time,image=image, price=price, user=request.user)
+            c_product = c_Product(c_category=c_category1,t_category=c_category2 , description=description, delivery_time=time,image=image, price=price, user=request.user)
             c_product.save()
 
             return redirect('c_add_garment')  # Redirect to the product list page
@@ -978,6 +979,7 @@ def c_edit_product(request, product_id):
 
     if request.method == "POST":
         c_category1 = request.POST.get("category")
+        c_category2 = request.POST.get("category2")    
         description = request.POST.get("description")
         time1 = request.POST.get("delivery_time")
         price = request.POST.get("price")
@@ -986,6 +988,7 @@ def c_edit_product(request, product_id):
 
         # Update the product's details
         c_product.c_category = c_category1
+        c_product.t_category = c_category2
         c_product.description = description
         c_product.price = price
         c_product.delivery_time = time1
@@ -1003,6 +1006,7 @@ def c_edit_product(request, product_id):
     # For GET requests, return product details as JSON
     product_data = {
         'category': c_product.c_category,
+        'category2': c_product.t_category,        
         'description': c_product.description,
         'price': c_product.price,
         'delivery_time': c_product.delivery_time,

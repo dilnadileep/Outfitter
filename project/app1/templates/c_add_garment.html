@@ -91,7 +91,7 @@
 
         /* Style for the header section */
         .header_section {
-            background-color: rgb(239, 207, 89);
+            background-color: rgb(84, 146, 245);
             width: 100%;
             position: fixed;
             top: 0;
@@ -190,7 +190,8 @@
                 <tbody class="table-light">
                     {% for product in c_products %}
                     <tr>
-                        <td>{{ product.pro_category }}</td>
+                        <td>{{ product.c_category }}</td>
+                        <td>{{ product.t_category }}</td>
                         <td>{{ product.description }}</td>
                         <td>{{ product.delivery_time }}</td>
                         <td>{{ product.price }}/-</td>
@@ -257,7 +258,22 @@
                                         </div>
                                     </div>
                                     <hr>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <label class="mb-0" for="category2">Category</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <select id="category2" class="form-control form-control-lg" name="category2" required>
+                                                <option value="Lehanga">Lehanga</option>
+                                                <option value="Gown">DGown</option>
+                                                <option value="Anarkali Suit">Anarkali Suit</option>
 
+                                                <span id="category2span" style="font-size: 12px;"></span>
+                                            </select>
+                                            <br>
+                                        </div>
+                                    </div>
+                                    <hr>
 
                                     <div class="row">
                                         <div class="col-sm-3">
@@ -452,6 +468,21 @@
                                             <option value="Alia Bhatt" {% if product.category == 'Alia Bhatt' %} selected {% endif %}>Alia Bhatt</option>
                                             <option value="Deepika Padukone" {% if product.category == 'Deepika Padukone' %} selected {% endif %}>Deepika Padukone</option>
                                             <option value="Priyanka Chopra" {% if product.category == 'Priyanka Chopra' %} selected {% endif %}>Priyanka Chopra</option>
+
+                                        </select>
+                                    </div>
+                                    
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0" for="category2">Category</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <select id="category2" class="form-control form-control-lg" name="category2">
+                                            <option value="Lehanga" {% if product.category2 == 'Lehanga' %} selected {% endif %}>Lehanga</option>
+                                            <option value="Gown" {% if product.category2 == 'Gown' %} selected {% endif %}>Gown</option>
+                                            <option value="Anarkali Suit" {% if product.category2 == 'Anarkali Suit' %} selected {% endif %}>Anarkali Suit</option>
 
                                         </select>
                                     </div>
@@ -655,6 +686,7 @@
                     success: function (data) {
                         $('#editProductModal #name').val(data.name);
                         $('#editProductModal #category').val(data.category);
+                        $('#editProductModal #category2').val(data.category2);
                         $('#editProductModal #editdescription').val(data.description);                       
                         $('#editProductModal #editprice').val(data.price);
                         $('#editProductModal #delivery_time').val(data.delivery_time);

@@ -160,6 +160,7 @@ class ChatMessage(models.Model):
     
 class c_Product(models.Model):
     c_category = models.CharField(max_length=50, blank=True,null=True)
+    t_category = models.CharField(max_length=50, blank=True,null=True)    
     description = models.CharField(max_length=255, blank=True,null=True)
     image = models.ImageField(upload_to='c_products/', blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
