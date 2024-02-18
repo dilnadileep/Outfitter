@@ -107,6 +107,30 @@ if ($('#anarkaliSuitsCarousel').length > 0) {
     })
 }
 
+if ($('#bestSellerCarousel').length > 0) {
+    $('#bestSellerCarousel').owlCarousel({
+        loop: true,
+        margin: 30,
+        nav: true,
+        navText: ["<i class='ti-angle-left'></i>", "<i class='ti-angle-right'></i>"],
+        dots: false,
+        responsive: {
+            0: {
+                items: 1
+            },
+            600: {
+                items: 2
+            },
+            900: {
+                items: 3
+            },
+            1130: {
+                items: 4
+            }
+        }
+    })
+}
+
   //------- single product area carousel -------//
   $(".s_Product_carousel").owlCarousel({
     items:1,
@@ -166,3 +190,5 @@ if ($('#anarkaliSuitsCarousel').length > 0) {
   }
   
 });
+
+

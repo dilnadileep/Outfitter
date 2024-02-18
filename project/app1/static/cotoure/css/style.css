@@ -4828,3 +4828,14 @@ a {
         padding-bottom: 115px !important
     }
 }
+
+.same-size-img {
+    width: 300px; /* Set the width to your desired value */
+    height: 500px; /* Set the height to your desired value */
+}
+
+
+.same-size-img2 {
+    width: 250px; /* Set the width to your desired value */
+    height: 300px; /* Set the height to your desired value */
+}

@@ -14,6 +14,76 @@
   <link rel="stylesheet" href="{% static 'cotoure/vendors/owl-carousel/owl.theme.default.min.css' %}">
   <link rel="stylesheet" href="{% static 'cotoure/vendors/owl-carousel/owl.carousel.min.css' %}">
 
+<style>
+  .section-intro {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-intro p {
+    font-size: 18px;
+    color: #888;
+}
+
+.section-intro h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.section-intro select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.section-intro button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.section-intro button:hover {
+    background-color: #555;
+}
+.model-selection {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.model-option {
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 10px;
+  transition: border-color 0.3s;
+}
+
+.model-option img {
+  display: block;
+  width: 100px; /* Adjust the size of the image */
+  height: 100px; /* Adjust the size of the image */
+  border-radius: 50%; /* Make the image oval */
+  transition: transform 0.3s;
+}
+
+.model-option:hover {
+  border-color: #333; /* Change border color on hover */
+}
+
+.model-option:hover img {
+  transform: scale(1.1); /* Scale the image on hover */
+}
+</style>
+
   <link rel="stylesheet" href="{% static 'cotoure/css/style.css' %}">
 </head>
 <body>
@@ -32,7 +102,7 @@
           <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
             <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
               <li class="nav-item active"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
-              <li class="nav-item submenu dropdown">
+              {% comment %} <li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false">Shop</a>
                 <ul class="dropdown-menu">
@@ -42,16 +112,16 @@
                   <li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>
                   <li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
                 </ul>
-							</li>
-              <li class="nav-item submenu dropdown">
+							</li> {% endcomment %}
+              {% comment %} <li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false">Blog</a>
                 <ul class="dropdown-menu">
                   <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
                   <li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
                 </ul>
-							</li>
-							<li class="nav-item submenu dropdown">
+							</li> {% endcomment %}
+							{% comment %} <li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false">Pages</a>
                 <ul class="dropdown-menu">
@@ -59,14 +129,16 @@
                   <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
                   <li class="nav-item"><a class="nav-link" href="tracking-order.html">Tracking</a></li>
                 </ul>
-              </li>
+              </li> {% endcomment %}
+              <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
+
               <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
             </ul>
 
             <ul class="nav-shop">
-              <li class="nav-item"><button><i class="ti-search"></i></button></li>
-              <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li>
-              <li class="nav-item"><a class="button button-header" href="#">Buy Now</a></li>
+              {% comment %} <li class="nav-item"><button><i class="ti-search"></i></button></li>
+              <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li> {% endcomment %}
+              <li class="nav-item"><a href="{% url 'loggout' %}" class="nav-link">Logout</a></li>
             </ul>
           </div>
         </div>
@@ -103,22 +175,22 @@
     <section class="section-margin mt-0">
       <div class="owl-carousel owl-theme hero-carousel">
         <div class="hero-carousel__slide">
-          <img src="{% static 'cotoure/img/home/hero-slide1.jpg' %}" alt="" class="img-fluid">
-          <a href="#" class="hero-carousel__slideOverlay">
+          <img src="{% static 'cotoure/img/home/hero-slide1.jpg' %}" alt="" class="img-fluid same-size-img">
+          <a href="#lehangasSection" class="hero-carousel__slideOverlay" >
             <h3>Lehanga</h3>
             <p>Accessories Item</p>
           </a>
         </div>
         <div class="hero-carousel__slide">
-          <img src="{% static 'cotoure/img/home/hero-slide2.png' %}" alt="" class="img-fluid">
-          <a href="#" class="hero-carousel__slideOverlay">
+          <img src="{% static 'cotoure/img/home/hero-slide2.png' %}" alt="" class="img-fluid same-size-img">
+          <a href="#gownsSection" class="hero-carousel__slideOverlay">
             <h3>Gown</h3>
             <p>Accessories Item</p>
           </a>
         </div>
         <div class="hero-carousel__slide">
-          <img src="{% static 'cotoure/img/home/hero-slide3.jpg' %}" alt="" class="img-fluid">
-          <a href="#" class="hero-carousel__slideOverlay">
+          <img src="{% static 'cotoure/img/home/hero-slide3.jpg' %}" alt="" class="img-fluid same-size-img">
+          <a href="#anarkaliSection" class="hero-carousel__slideOverlay">
             <h3>Anarkali Suit</h3>
             <p>Accessories Item</p>
           </a>
@@ -132,7 +204,7 @@
         <!-- ================ lehanga  section  ================= -->  
 
       {% if lehangas %}
-    <section class="section-margin calc-60px">
+    <section id="lehangasSection" class="section-margin calc-60px">
         <div class="container">
             <div class="section-intro pb-60px">
                 <p>Popular Item in the market</p>
@@ -142,7 +214,7 @@
               {% for product in lehangas %}
                 <div class="card text-center card-product">
                     <div class="card-product__img">
-                        <img class="img-fluid" src="{{ product.image.url }}" alt="">
+                        <img class="img-fluid same-size-img2" src="{{ product.image.url }}" alt="">
                         <ul class="card-product__imgOverlay">
                             <li><button><i class="ti-search"></i></button></li>
                             <li><button><i class="ti-shopping-cart"></i></button></li>
@@ -162,7 +234,7 @@
     {% endif %}
     <!-- ================ gown section start ================= -->  
     {% if gowns %}
-    <section class="section-margin calc-60px">
+    <section id="gownsSection" class="section-margin calc-60px">
         <div class="container">
             <div class="section-intro pb-60px">
                 <p>Popular Item in the market</p>
@@ -172,7 +244,7 @@
               {% for product in gowns %}
                 <div class="card text-center card-product">
                     <div class="card-product__img">
-                        <img class="img-fluid" src="{{ product.image.url }}" alt="">
+                        <img class="img-fluid same-size-img2" src="{{ product.image.url }}" alt="">
                         <ul class="card-product__imgOverlay">
                             <li><button><i class="ti-search"></i></button></li>
                             <li><button><i class="ti-shopping-cart"></i></button></li>
@@ -182,7 +254,7 @@
                     <div class="card-body">
                         <p>{{ product.c_category }}</p>
                         <h4 class="card-product__title"><a href="#">{{ product.description }}</a></h4>
-                        <p class="card-product__price">${{ product.price }}</p>
+                        <p class="card-product__price">{{ product.price }}/-</p>
                     </div>
                 </div>
                 {% endfor %}
@@ -192,7 +264,7 @@
     {% endif %}
         <!-- ================ anarkali_suits section start ================= -->  
         {% if anarkali_suits %}
-        <section class="section-margin calc-60px">
+        <section id="anarkaliSection" class="section-margin calc-60px">
             <div class="container">
                 <div class="section-intro pb-60px">
                     <p>Popular Item in the market</p>
@@ -202,7 +274,7 @@
                   {% for product in anarkali_suits %}
                     <div class="card text-center card-product">
                         <div class="card-product__img">
-                            <img class="img-fluid" src="{{ product.image.url }}" alt="">
+                            <img class="img-fluid same-size-img2" src="{{ product.image.url }}" alt="">
                             <ul class="card-product__imgOverlay">
                                 <li><button><i class="ti-search"></i></button></li>
                                 <li><button><i class="ti-shopping-cart"></i></button></li>
@@ -212,7 +284,7 @@
                         <div class="card-body">
                             <p>{{ product.c_category }}</p>
                             <h4 class="card-product__title"><a href="#">{{ product.description }}</a></h4>
-                            <p class="card-product__price">${{ product.price }}</p>
+                            <p class="card-product__price">{{ product.price }}/-</p>
                         </div>
                     </div>
                     {% endfor %}
@@ -244,145 +316,72 @@
       </div>
     </section>
     <!-- ================ offer section end ================= --> 
-
-    <!-- ================ Best Selling item  carousel ================= --> 
-    <section class="section-margin calc-60px">
+<section class="section-margin calc-60px">
       <div class="container">
-        <div class="section-intro pb-60px">
           <p>Popular Item in the market</p>
-          <h2>Best <span class="section-intro__style">Sellers</span></h2>
-        </div>
-        <div class="owl-carousel owl-theme" id="bestSellerCarousel">
-          <div class="card text-center card-product">
-            <div class="card-product__img">
-              <img class="img-fluid" src="{% static 'cotoure/img/product/product1.png' %}" alt="">
-              <ul class="card-product__imgOverlay">
-                <li><button><i class="ti-search"></i></button></li>
-                <li><button><i class="ti-shopping-cart"></i></button></li>
-                <li><button><i class="ti-heart"></i></button></li>
-              </ul>
-            </div>
-            <div class="card-body">
-              <p>Accessories</p>
-              <h4 class="card-product__title"><a href="single-product.html">Quartz Belt Watch</a></h4>
-              <p class="card-product__price">$150.00</p>
-            </div>
+          <h2>Products by Model</h2>
+          <div class="d-flex justify-content-center">
+              <div class="model-selection">
+                  <div class="model-option" data-model="Alia Bhatt">
+                      <img src="{% static 'cotoure/img/models/alia_bhatt.png' %}" alt="Alia Bhatt">
+                  </div>
+                  <div class="model-option" data-model="Deepika Padukone">
+                      <img src="{% static 'cotoure/img/models/deepika_padukone.jpg' %}" alt="Deepika Padukone">
+                  </div>
+                  <div class="model-option" data-model="Priyanka Chopra">
+                      <img src="{% static 'cotoure/img/models/priyanka_chopra.png' %}" alt="Priyanka Chopra">
+                  </div>
+              </div>
           </div>
+  
+          <div class="row" id="product-display">
+              <!-- Products will be dynamically inserted here -->
+          </div>
+  <script>
+    function selectModel(modelName) {
+        fetch(`/r_index/filtered-products/?model=${modelName}`)
+            .then(response => response.json())
+            .then(data => {
+                const productDisplay = document.getElementById('product-display');
+                productDisplay.innerHTML = '';
+                data.products.forEach(product => {
+                    const productCard = `
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="card text-center card-product">
+                            <div class="card-product__img">
+                                <img class="img-fluid same-size-img" src="${product.image}" alt="">
+                                <ul class="card-product__imgOverlay">
+                                    <li><button><i class="ti-search"></i></button></li>
+                                    <li><button><i class="ti-shopping-cart"></i></button></li>
+                                    <li><button><i class="ti-heart"></i></button></li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <p>${product.c_category}</p>
+                                <h4 class="card-product__title"><a href="#">${product.description}</a></h4>
+                                <p class="card-product__price">${product.price}/-</p>
+                            </div>
+                        </div>
+                    </div>`;
+                    productDisplay.innerHTML += productCard;
+                });
+            });
+    }
 
-          <div class="card text-center card-product">
-            <div class="card-product__img">
-              <img class="img-fluid" src="{% static 'cotoure/img/product/product2.png' %}" alt="">
-              <ul class="card-product__imgOverlay">
-                <li><button><i class="ti-search"></i></button></li>
-                <li><button><i class="ti-shopping-cart"></i></button></li>
-                <li><button><i class="ti-heart"></i></button></li>
-              </ul>
-            </div>
-            <div class="card-body">
-              <p>Beauty</p>
-              <h4 class="card-product__title"><a href="single-product.html">Women Freshwash</a></h4>
-              <p class="card-product__price">$150.00</p>
-            </div>
-          </div>
+    document.addEventListener('DOMContentLoaded', function() {
+      const modelButtons = document.querySelectorAll('.model-option');
+      modelButtons.forEach(button => {
+          button.addEventListener('click', function() {
+              const modelName = button.dataset.model;
+              selectModel(modelName);
+          });
+      });
+  });
+</script>
 
-          <div class="card text-center card-product">
-            <div class="card-product__img">
-              <img class="img-fluid" src="{% static 'cotoure/img/product/product3.png' %}" alt="">
-              <ul class="card-product__imgOverlay">
-                <li><button><i class="ti-search"></i></button></li>
-                <li><button><i class="ti-shopping-cart"></i></button></li>
-                <li><button><i class="ti-heart"></i></button></li>
-              </ul>
-            </div>
-            <div class="card-body">
-              <p>Decor</p>
-              <h4 class="card-product__title"><a href="single-product.html">Room Flash Light</a></h4>
-              <p class="card-product__price">$150.00</p>
-            </div>
-          </div>
-
-          <div class="card text-center card-product">
-            <div class="card-product__img">
-              <img class="img-fluid" src="{% static 'cotoure/img/product/product4.png' %}" alt="">
-              <ul class="card-product__imgOverlay">
-                <li><button><i class="ti-search"></i></button></li>
-                <li><button><i class="ti-shopping-cart"></i></button></li>
-                <li><button><i class="ti-heart"></i></button></li>
-              </ul>
-            </div>
-            <div class="card-body">
-              <p>Decor</p>
-              <h4 class="card-product__title"><a href="#">Room Flash Light</a></h4>
-              <p class="card-product__price">$150.00</p>
-            </div>
-          </div>
-
-          <div class="card text-center card-product">
-            <div class="card-product__img">
-              <img class="img-fluid" src="{% static 'cotoure/img/product/product1.png' %}" alt="">
-              <ul class="card-product__imgOverlay">
-                <li><button><i class="ti-search"></i></button></li>
-                <li><button><i class="ti-shopping-cart"></i></button></li>
-                <li><button><i class="ti-heart"></i></button></li>
-              </ul>
-            </div>
-            <div class="card-body">
-              <p>Accessories</p>
-              <h4 class="card-product__title"><a href="#">Quartz Belt Watch</a></h4>
-              <p class="card-product__price">$150.00</p>
-            </div>
-          </div>
-
-          <div class="card text-center card-product">
-            <div class="card-product__img">
-              <img class="img-fluid" src="{% static 'cotoure/img/product/product2.png' %}" alt="">
-              <ul class="card-product__imgOverlay">
-                <li><button><i class="ti-search"></i></button></li>
-                <li><button><i class="ti-shopping-cart"></i></button></li>
-                <li><button><i class="ti-heart"></i></button></li>
-              </ul>
-            </div>
-            <div class="card-body">
-              <p>Beauty</p>
-              <h4 class="card-product__title"><a href="#">Women Freshwash</a></h4>
-              <p class="card-product__price">$150.00</p>
-            </div>
-          </div>
-
-          <div class="card text-center card-product">
-            <div class="card-product__img">
-              <img class="img-fluid" src="{% static 'cotoure/img/product/product3.png' %}" alt="">
-              <ul class="card-product__imgOverlay">
-                <li><button><i class="ti-search"></i></button></li>
-                <li><button><i class="ti-shopping-cart"></i></button></li>
-                <li><button><i class="ti-heart"></i></button></li>
-              </ul>
-            </div>
-            <div class="card-body">
-              <p>Decor</p>
-              <h4 class="card-product__title"><a href="#">Room Flash Light</a></h4>
-              <p class="card-product__price">$150.00</p>
-            </div>
-          </div>
-
-          <div class="card text-center card-product">
-            <div class="card-product__img">
-              <img class="img-fluid" src="{% static 'cotoure/img/product/product4.png' %}" alt="">
-              <ul class="card-product__imgOverlay">
-                <li><button><i class="ti-search"></i></button></li>
-                <li><button><i class="ti-shopping-cart"></i></button></li>
-                <li><button><i class="ti-heart"></i></button></li>
-              </ul>
-            </div>
-            <div class="card-body">
-              <p>Decor</p>
-              <h4 class="card-product__title"><a href="#">Room Flash Light</a></h4>
-              <p class="card-product__price">$150.00</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+</div>
+</section>
+  
     <!-- ================ Best Selling item  carousel end ================= --> 
 
     <!-- ================ Blog section start ================= -->  

@@ -39,6 +39,10 @@ urlpatterns = [
    path('messages_page/', views.messages_page, name='messages_page'),
    
    path('r_index/', views.r_index, name='r_index'),
+   path('r_index/filtered-products/', views.filtered_products, name='filtered_products'),
+
+   
+   
 
    path('c_add_garment/', views.c_add_garment, name='c_add_garment'),
    path('toggle_product_status/<int:product_id>/', views.toggle_product_status, name='toggle_product_status'),
@@ -53,8 +57,6 @@ urlpatterns = [
    path('reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(),name='password_reset_confirm'),
    path('reset/done/',auth_views.PasswordResetCompleteView.as_view(),name='password_reset_complete'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-from django.conf import settings
-from django.conf.urls.static import static
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

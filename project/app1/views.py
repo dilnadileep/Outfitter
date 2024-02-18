@@ -1027,3 +1027,12 @@ def r_index(request):
     }
     
     return render(request, 'r_index.html', context)
+
+
+from django.http import JsonResponse
+from .models import c_Product
+
+def filtered_products(request):
+    model_name = request.GET.get('model')
+    products = c_Product.objects.filter(c_category=model_name, is_active=True).values('image', 'c_category', 'description', 'price')
+    return JsonResponse({'products': list(products)})
