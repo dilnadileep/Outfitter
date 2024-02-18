@@ -914,9 +914,6 @@ def messages_page(request):
     }
     return render(request, 'messages.html', context)
 
-def r_index(request):
-        return render(request, 'r_index.html')
-
 
 
 
@@ -1014,3 +1011,19 @@ def c_edit_product(request, product_id):
     }
 
     return JsonResponse(product_data)
+
+
+
+
+def r_index(request):
+    lehangas = c_Product.objects.filter(t_category='Lehanga', is_active=True)
+    anarkali_suits = c_Product.objects.filter(t_category='Anarkali Suit', is_active=True)
+    gowns = c_Product.objects.filter(t_category='Gown', is_active=True)
+    
+    context = {
+        'lehangas': lehangas,
+        'anarkali_suits': anarkali_suits,
+        'gowns': gowns,
+    }
+    
+    return render(request, 'r_index.html', context)

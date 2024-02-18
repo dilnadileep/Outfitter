@@ -32,29 +32,80 @@ $(function() {
   });
 
   //------- Best Seller Carousel -------//
-  if($('.owl-carousel').length > 0){
-    $('#bestSellerCarousel').owlCarousel({
-      loop:true,
-      margin:30,
-      nav:true,
-      navText: ["<i class='ti-arrow-left'></i>","<i class='ti-arrow-right'></i>"],
-      dots: false,
-      responsive:{
-        0:{
-          items:1
-        },
-        600:{
-          items: 2
-        },
-        900:{
-          items:3
-        },
-        1130:{
-          items:4
+ // Lehangas Carousel
+if ($('#lehangasCarousel').length > 0) {
+    $('#lehangasCarousel').owlCarousel({
+        loop: true,
+        margin: 30,
+        nav: true,
+        navText: ["<i class='ti-angle-left'></i>", "<i class='ti-angle-right'></i>"],
+        dots: false,
+        responsive: {
+            0: {
+                items: 1
+            },
+            600: {
+                items: 2
+            },
+            900: {
+                items: 3
+            },
+            1130: {
+                items: 4
+            }
         }
-      }
     })
-  }
+}
+
+// Gowns Carousel
+if ($('#gownsCarousel').length > 0) {
+    $('#gownsCarousel').owlCarousel({
+        loop: true,
+        margin: 30,
+        nav: true,
+        navText: ["<i class='ti-angle-left'></i>", "<i class='ti-angle-right'></i>"],
+        dots: false,
+        responsive: {
+            0: {
+                items: 1
+            },
+            600: {
+                items: 2
+            },
+            900: {
+                items: 3
+            },
+            1130: {
+                items: 4
+            }
+        }
+    })
+}
+
+// Anarkali Suits Carousel
+if ($('#anarkaliSuitsCarousel').length > 0) {
+    $('#anarkaliSuitsCarousel').owlCarousel({
+        loop: true,
+        margin: 30,
+        nav: true,
+        navText: ["<i class='ti-angle-left'></i>", "<i class='ti-angle-right'></i>"],
+        dots: false,
+        responsive: {
+            0: {
+                items: 1
+            },
+            600: {
+                items: 2
+            },
+            900: {
+                items: 3
+            },
+            1130: {
+                items: 4
+            }
+        }
+    })
+}
 
   //------- single product area carousel -------//
   $(".s_Product_carousel").owlCarousel({
@@ -115,5 +166,3 @@ $(function() {
   }
   
 });
-
-
