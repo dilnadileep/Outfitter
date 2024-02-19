@@ -137,7 +137,7 @@ Interface
 <li class="nav-item">
     <a class="nav-link" href="{% url 'c_add_garment' %}"> <!-- Update the href attribute -->
         <i class="fas fa-fw fa-table"></i>
-        <span>Celibrity Couture</span>
+        <span>Celebrity Couture</span>
     </a>
 </li>
 <!-- Divider -->
@@ -211,6 +211,10 @@ Addons
                             {% if user.is_authenticated %}
                             <li class="nav-item">
                               <a class="nav-link"> Welcome, {{ user.username }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'messages_page' %}" class="nav-link">Support</a>
+                              </li>
                             </li>
                             <li class="nav-item">
                               <a href="{% url 'loggout' %}" class="nav-link">Logout</a>

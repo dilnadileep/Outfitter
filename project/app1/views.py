@@ -1036,3 +1036,27 @@ def filtered_products(request):
     model_name = request.GET.get('model')
     products = c_Product.objects.filter(c_category=model_name, is_active=True).values('image', 'c_category', 'description', 'price')
     return JsonResponse({'products': list(products)})
+
+
+
+def product_details(request, product_id):
+    product = c_Product.objects.get(id=product_id)
+    related_products = c_Product.objects.filter(t_category=product.t_category).exclude(id=product_id)[:6]
+    context = {
+        'product': product,
+        'related_products': related_products,
+    }
+    return render(request, 'single_product.html', context)
+
+
+from django.http import JsonResponse
+from .models import c_Product
+
+def get_product_details(request, product_id):
+    product = c_Product.objects.get(id=product_id)
+    data = {
+        'description': product.description,
+        'image_url': product.image.url,
+        'price': product.price,
+    }
+    return JsonResponse(data)

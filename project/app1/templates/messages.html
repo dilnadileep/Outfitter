@@ -207,10 +207,23 @@
                                         </div>
                                         <div class="user_info">
                                             {% if thread.first_person == user %}
-                                                <span>{{ thread.second_person.first_name }}</span>
-                                            {% else %}
-                                                <span>{{ thread.first_person.first_name }}</span>
-                                            {% endif %}
+    {% if thread.second_person.is_customer %}
+        <span>{{ thread.second_person.first_name }} (Customer)</span>
+    {% elif thread.second_person.is_tailor %}
+        <span>{{ thread.second_person.first_name }} (Tailor)</span>
+    {% else %}
+        <span>Customer support</span>
+    {% endif %}
+{% else %}
+    {% if thread.first_person.is_customer %}
+        <span>{{ thread.first_person.first_name }} (Customer)</span>
+    {% elif thread.first_person.is_tailor %}
+        <span>{{ thread.first_person.first_name }} (Tailor)</span>
+    {% else %}
+        <span>Customer support</span>
+    {% endif %}
+{% endif %}
+
                                         </div>
                                     </div>
                                 </li>
@@ -237,10 +250,23 @@
                                         </div>
                                         <div class="user_info">
                                             {% if thread.first_person == user %}
-                                                    <span>Chat with {{ thread.second_person.first_name }}</span>
+                                            {% if thread.second_person.is_customer %}
+                                                <span>Chat with {{ thread.second_person.first_name }} (Customer)</span>
+                                            {% elif thread.second_person.is_tailor %}
+                                                <span>Chat with {{ thread.second_person.first_name }} (Tailor)</span>
                                             {% else %}
-                                                <span>Chat with {{ thread.first_person.first_name }}</span>
+                                                <span>Customer support</span>
                                             {% endif %}
+                                        {% else %}
+                                            {% if thread.first_person.is_customer %}
+                                                <span>Chat with {{ thread.first_person.first_name }} (Customer)</span>
+                                            {% elif thread.first_person.is_tailor %}
+                                                <span>Chat with {{ thread.first_person.first_name }} (Tailor)</span>
+                                            {% else %}
+                                                <span>Customer support</span>
+                                            {% endif %}
+                                        {% endif %}
+                                        
 
                                             <p>{{ thread.chatmessage_thread.all.count }} messages</p>
                                         </div>

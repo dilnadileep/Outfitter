@@ -132,7 +132,7 @@
               </li> {% endcomment %}
               <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
 
-              <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'messages_page' %}">Contact</a></li>
             </ul>
 
             <ul class="nav-shop">
@@ -216,9 +216,9 @@
                     <div class="card-product__img">
                         <img class="img-fluid same-size-img2" src="{{ product.image.url }}" alt="">
                         <ul class="card-product__imgOverlay">
-                            <li><button><i class="ti-search"></i></button></li>
-                            <li><button><i class="ti-shopping-cart"></i></button></li>
-                            <li><button><i class="ti-heart"></i></button></li>
+                            {% comment %} <li><button><i class="ti-search"></i></button></li> {% endcomment %}
+                            <li><button><a href="{% url 'product_details' product.id %}"><i class="ti-shopping-cart"></i></a></button></li>
+                            {% comment %} <li><button><i class="ti-heart"></i></button></li> {% endcomment %}
                         </ul>
                     </div>
                     <div class="card-body">
@@ -246,9 +246,9 @@
                     <div class="card-product__img">
                         <img class="img-fluid same-size-img2" src="{{ product.image.url }}" alt="">
                         <ul class="card-product__imgOverlay">
-                            <li><button><i class="ti-search"></i></button></li>
-                            <li><button><i class="ti-shopping-cart"></i></button></li>
-                            <li><button><i class="ti-heart"></i></button></li>
+                            {% comment %} <li><button><i class="ti-search"></i></button></li> {% endcomment %}
+                            <li><button><a href="{% url 'product_details' product.id %}"><i class="ti-shopping-cart"></i></a></button></li>
+                            {% comment %} <li><button><i class="ti-heart"></i></button></li> {% endcomment %}
                         </ul>
                     </div>
                     <div class="card-body">
@@ -276,9 +276,9 @@
                         <div class="card-product__img">
                             <img class="img-fluid same-size-img2" src="{{ product.image.url }}" alt="">
                             <ul class="card-product__imgOverlay">
-                                <li><button><i class="ti-search"></i></button></li>
-                                <li><button><i class="ti-shopping-cart"></i></button></li>
-                                <li><button><i class="ti-heart"></i></button></li>
+                                {% comment %} <li><button><i class="ti-search"></i></button></li> {% endcomment %}
+                                <li><button><a href="{% url 'product_details' product.id %}"><i class="ti-shopping-cart"></i></a></button></li>
+                                {% comment %} <li><button><i class="ti-heart"></i></button></li> {% endcomment %}
                             </ul>
                         </div>
                         <div class="card-body">
@@ -306,10 +306,10 @@
         <div class="row">
           <div class="col-xl-5">
             <div class="offer__content text-center">
-              <h3>Up To 50% Off</h3>
-              <h4>Winter Sale</h4>
-              <p>Him she'd let them sixth saw light</p>
-              <a class="button button--active mt-3 mt-xl-4" href="#">Shop Now</a>
+              <h3>Customize Here</h3>
+              <h4>Explore our range of custom-tailored outfits for every occasion</h4>
+              {% comment %} <p>Him she'd let them sixth saw light</p> {% endcomment %}
+              <a class="button button--active mt-3 mt-xl-4" href="{% url 'productview' %}">Shop Now</a>
             </div>
           </div>
         </div>

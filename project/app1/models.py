@@ -167,3 +167,6 @@ class c_Product(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name='products')
     delivery_time = models.CharField(max_length=20, blank=True, null=True)
     is_active = models.BooleanField(default=True)  # No need for null=True here
+
+
+
