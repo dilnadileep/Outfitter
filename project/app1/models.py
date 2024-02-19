@@ -156,8 +156,6 @@ class ChatMessage(models.Model):
     
     
     
-    
-    
 class c_Product(models.Model):
     c_category = models.CharField(max_length=50, blank=True, null=True)
     t_category = models.CharField(max_length=50, blank=True, null=True)    
@@ -166,7 +164,22 @@ class c_Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name='products')
     delivery_time = models.CharField(max_length=20, blank=True, null=True)
-    is_active = models.BooleanField(default=True)  # No need for null=True here
+    is_active = models.BooleanField(default=True)  
+
+
+class Cart(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='cart')
+    product = models.ForeignKey(c_Product, on_delete=models.CASCADE)
+    size = models.CharField(max_length=2, choices=[('XS', 'XS'), ('S', 'S'), ('M', 'M'), ('L', 'L')], default='M')
+    tailor = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='tailor_cart', blank=True, null=True)
+    quantity = models.IntegerField(default=1)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2,blank=True, null=True)
+
+
+    def __str__(self):
+        return f"{self.user.username}'s Cart Item: {self.product.description}"
+
+
 
 
 

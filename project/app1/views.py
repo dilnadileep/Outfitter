@@ -1035,6 +1035,7 @@ from .models import c_Product
 def filtered_products(request):
     model_name = request.GET.get('model')
     products = c_Product.objects.filter(c_category=model_name, is_active=True).values('image', 'c_category', 'description', 'price')
+    print(products)
     return JsonResponse({'products': list(products)})
 
 
@@ -1060,3 +1061,34 @@ def get_product_details(request, product_id):
         'price': product.price,
     }
     return JsonResponse(data)
+
+
+from django.shortcuts import render, redirect
+from .models import Cart
+from django.contrib import messages
+
+def add_to_cart(request):
+    if request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        size = request.POST.get('size')
+
+        # Assuming you have a function to get the product by ID
+        product = c_Product.objects.get(id=product_id)
+
+        # Create a new cart item
+        cart_item = Cart(user=request.user, product=product, size=size, quantity=1)
+        cart_item.save()
+
+        messages.success(request, 'Product added to cart successfully!')
+        return redirect('cart')  # Redirect to the cart page or any other page
+
+def cart(request):
+    cart_items = Cart.objects.filter(user=request.user)
+    for item in cart_items:
+        item.total = item.product.price * item.quantity
+    subtotal = sum(item.total for item in cart_items)
+    context = {
+        'cart_items': cart_items,
+        'subtotal': subtotal
+    }
+    return render(request, 'cart.html', context)

@@ -15,7 +15,38 @@
   <link rel="stylesheet" href="{% static 'cotoure/vendors/nice-select/nice-select.css' %}">
   <link rel="stylesheet" href="{% static 'cotoure/vendors/owl-carousel/owl.theme.default.min.css' %}">
   <link rel="stylesheet" href="{% static 'cotoure/vendors/owl-carousel/owl.carousel.min.css' %}">
-
+<style>
+	.size_selection {
+		margin-top: 20px;
+	}
+	
+	
+	.size_circle {
+		display: inline-block;
+		width: 40px;
+		height: 40px;
+		line-height: 40px;
+		text-align: center;
+		border-radius: 50%;
+		border: 2px solid #ccc;
+		cursor: pointer;
+		transition: all 0.3s ease;
+	}
+	
+	.size_circle:hover {
+		background-color: #ccc;
+	}
+	
+	.size_circle.selected {
+		background-color: #ff6f61;
+		color: white;
+		border-color: #ff6f61;
+	}
+	.size_options {
+		display: flex;
+		gap: 20px; /* Adjust the gap value as needed */
+	}	
+</style>
   <link rel="stylesheet" href={% static 'cotoure/css/style.css' %}>
 </head>
 <body>
@@ -76,7 +107,7 @@
 			</div>
 		  </nav>
 		</div>
-	  </header>
+	</header>
 	<!--================ End Header Menu Area =================-->
 	
 	<!-- ================ start banner area ================= -->	
@@ -118,21 +149,24 @@
                         <!-- Add more details as needed -->
                     </ul>
                     <p>{{ product.description }}</p>
-                    <!-- Add more product details as needed -->
-
-                    <!-- Add to Cart button -->
-                    <form method="post" >
-                        {% csrf_token %}
-                        {% comment %} <div class="product_count">
-                            <label for="qty">Quantity:</label>
-                            <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                class="increase items-count" type="button"><i class="ti-angle-left"></i></button>
-                            <input type="text" name="qty" id="sst" size="2" maxlength="12" value="1" title="Quantity:" class="input-text qty">
-                            <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                class="reduced items-count" type="button"><i class="ti-angle-right"></i></button>
-                        </div> {% endcomment %}
-                        <button type="submit" class="button primary-btn">Add to Bag</button>
-                    </form>
+                    <div class="size_selection">
+						<form method="post" action="{% url 'add_to_cart' %}">
+							{% csrf_token %}
+							<input type="hidden" name="product_id" value="{{ product.id }}">
+							<label for="size">Size:</label>
+							<div class="size_options">
+								<input type="radio" id="size_xs" name="size" value="XS" checked>
+								<label for="size_xs" class="size_circle">XS</label>
+								<input type="radio" id="size_s" name="size" value="S">
+								<label for="size_s" class="size_circle">S</label>
+								<input type="radio" id="size_m" name="size" value="M">
+								<label for="size_m" class="size_circle">M</label>
+								<input type="radio" id="size_l" name="size" value="L">
+								<label for="size_l" class="size_circle">L</label>
+							</div>
+							<button type="submit" class="button primary-btn">Add to Bag</button>
+						</form>
+						
                 </div>
             </div>
         </div>
