@@ -39,7 +39,7 @@ urlpatterns = [
    path('messages_page/', views.messages_page, name='messages_page'),
    
    path('r_index/', views.r_index, name='r_index'),
-   path('r_index/filtered-products/', views.filtered_products, name='filtered_products'),
+   path('get_products/', views.get_products, name='get_products'),
    # path('single_product/', views.single_product, name='single_product'),
    path('product/<int:product_id>/', views.product_details, name='product_details'),
    path('get_product_details/<int:product_id>/', views.get_product_details, name='get_product_details'),

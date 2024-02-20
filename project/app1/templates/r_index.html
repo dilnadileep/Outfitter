@@ -83,6 +83,7 @@
   transform: scale(1.1); /* Scale the image on hover */
 }
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
   <link rel="stylesheet" href="{% static 'cotoure/css/style.css' %}">
 </head>
@@ -334,47 +335,51 @@
           <div class="row" id="product-display">
               <!-- Products will be dynamically inserted here -->
           </div>
-  <script>
-    function selectModel(modelName) {
-        fetch(`/r_index/filtered-products/?model=${modelName}`)
-            .then(response => response.json())
-            .then(data => {
-                const productDisplay = document.getElementById('product-display');
-                productDisplay.innerHTML = '';
-                data.products.forEach(product => {
-                    const productCard = `
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                        <div class="card text-center card-product">
-                            <div class="card-product__img">
-                                <img class="img-fluid same-size-img" src="${product.image}" alt="">
-                                <ul class="card-product__imgOverlay">
-                                    <li><button><i class="ti-search"></i></button></li>
-                                    <li><button><i class="ti-shopping-cart"></i></button></li>
-                                    <li><button><i class="ti-heart"></i></button></li>
-                                </ul>
-                            </div>
-                            <div class="card-body">
-                                <p>${product.c_category}</p>
-                                <h4 class="card-product__title"><a href="#">${product.description}</a></h4>
-                                <p class="card-product__price">${product.price}/-</p>
-                            </div>
-                        </div>
-                    </div>`;
-                    productDisplay.innerHTML += productCard;
+          <script>
+            $(document).ready(function() {
+                  $('.model-option').click(function() {
+                    var modelName = $(this).data('model');
+                        // Make AJAX request
+                        $.ajax({
+                            url: '/get_products/',  // URL to your Django view
+                            method: 'GET',
+                            data: {
+                                model: modelName
+                            },
+                            success: function(response) {
+                              var productsHtml = '';
+                              response.products.forEach(function(product) {
+                                  if (product.image) {  // Check if image is not None
+                                      productsHtml += `
+                                          <div class="col-md-6 col-lg-4 col-xl-3">
+                                              <div class="card text-center card-product">
+                                                  <div class="card-product__img">
+                                                      <img class="img-fluid same-size-img" style="width: 100%; height: 300px; object-fit: cover;" src="${product.image.startsWith('/media/') ? product.image : '/media/' + product.image}" alt="${product.description}">
+                                                      {% comment %} <ul class="card-product__imgOverlay">
+                                                          <li><button><i class="ti-search"></i></button></li>
+                                                          <li><button><i class="ti-shopping-cart"></i></button></li>
+                                                          <li><button><i class="ti-heart"></i></button></li>
+                                                      </ul> {% endcomment %}
+                                                  </div>
+                                                  <div class="card-body">
+                                                      <h4 class="card-product__title"><a href="#allproducts">${product.description}</a></h4>
+                                                      <p class="card-product__price">${product.price}/-</p>
+                                                  </div>
+                                              </div>
+                                          </div>`;
+                                  }
+                              });
+                              $('#product-display').html(productsHtml);
+                          },
+                    
+                          error: function(xhr, status, error) {
+                              console.error(error);
+                          }
+                      });
                 });
-            });
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-      const modelButtons = document.querySelectorAll('.model-option');
-      modelButtons.forEach(button => {
-          button.addEventListener('click', function() {
-              const modelName = button.dataset.model;
-              selectModel(modelName);
-          });
-      });
-  });
-</script>
+              });
+          
+          </script>
 
 </div>
 </section>

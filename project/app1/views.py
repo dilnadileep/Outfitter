@@ -1032,11 +1032,13 @@ def r_index(request):
 from django.http import JsonResponse
 from .models import c_Product
 
-def filtered_products(request):
-    model_name = request.GET.get('model')
-    products = c_Product.objects.filter(c_category=model_name, is_active=True).values('image', 'c_category', 'description', 'price')
-    print(products)
-    return JsonResponse({'products': list(products)})
+def get_products(request):
+    if request.method == 'GET':
+        model_name = request.GET.get('model')
+        products = c_Product.objects.filter(c_category=model_name).values('description', 'image', 'price')
+        return JsonResponse({'products': list(products)})
+    else:
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 
 
