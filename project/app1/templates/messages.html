@@ -190,10 +190,10 @@
                     <div class="card mb-sm-3 mb-md-0 contacts_card">
 					<div class="card-header">
 						<div class="input-group">
-							<input type="text" placeholder="Search..." name="" class="form-control search">
-							<div class="input-group-prepend">
+							{% comment %} <input type="text" placeholder="Search..." name="" class="form-control search"> {% endcomment %}
+							{% comment %} <div class="input-group-prepend">
 								<span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
-							</div>
+							</div> {% endcomment %}
 						</div>
 					</div>
 					<div class="card-body contacts_body">
@@ -207,22 +207,22 @@
                                         </div>
                                         <div class="user_info">
                                             {% if thread.first_person == user %}
-    {% if thread.second_person.is_customer %}
-        <span>{{ thread.second_person.first_name }} (Customer)</span>
-    {% elif thread.second_person.is_tailor %}
-        <span>{{ thread.second_person.first_name }} (Tailor)</span>
-    {% else %}
-        <span>Customer support</span>
-    {% endif %}
-{% else %}
-    {% if thread.first_person.is_customer %}
-        <span>{{ thread.first_person.first_name }} (Customer)</span>
-    {% elif thread.first_person.is_tailor %}
-        <span>{{ thread.first_person.first_name }} (Tailor)</span>
-    {% else %}
-        <span>Customer support</span>
-    {% endif %}
-{% endif %}
+                                                    {% if thread.second_person.is_customer %}
+                                                        <span>{{ thread.second_person.first_name }} (Customer)</span>
+                                                    {% elif thread.second_person.is_tailor %}
+                                                        <span>{{ thread.second_person.first_name }} (Tailor)</span>
+                                                    {% else %}
+                                                        <span>Customer support</span>
+                                                    {% endif %}
+                                                {% else %}
+                                                    {% if thread.first_person.is_customer %}
+                                                        <span>{{ thread.first_person.first_name }} (Customer)</span>
+                                                    {% elif thread.first_person.is_tailor %}
+                                                        <span>{{ thread.first_person.first_name }} (Tailor)</span>
+                                                    {% else %}
+                                                        <span>Customer support</span>
+                                                    {% endif %}
+                                                {% endif %}
 
                                         </div>
                                     </div>
@@ -231,7 +231,8 @@
 						</ui>
 					</div>
 					<div class="card-footer"></div>
-				</div></div>
+				</div>
+</div>
 				<div class="col-md-8 col-xl-6 chat h-100 mt-4">
 					<div class="card">
                         {% for thread in Threads %}
@@ -270,12 +271,12 @@
 
                                             <p>{{ thread.chatmessage_thread.all.count }} messages</p>
                                         </div>
-                                        <div class="video_cam">
+                                        {% comment %} <div class="video_cam">
                                             <span><i class="fas fa-video"></i></span>
                                             <span><i class="fas fa-phone"></i></span>
-                                        </div>
+                                        </div> {% endcomment %}
                                     </div>
-                                    <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
+                                    {% comment %} <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span> {% endcomment %}
                                     <div class="action_menu">
                                         <ul>
                                             <li><i class="fas fa-user-circle"></i> View profile</li>
@@ -320,13 +321,13 @@
                         <div class="card-footer">
                                 <form id="send-message-form">
                                     <div class="input-group">
-                                        <div class="input-group-append">
+                                        {% comment %} <div class="input-group-append">
                                             <span class="input-group-text attach_btn">
                                                 <i class="fas fa-paperclip"></i>
                                             </span>
                                             <!-- Input field for media file upload -->
                                             <input type="file" id="media-upload-input" style="display: none;">
-                                        </div>
+                                        </div> {% endcomment %}
                                         
                                         
                                         <input type="text" name="" id="input-message" class="form-control type_msg" placeholder="Type your message...">
