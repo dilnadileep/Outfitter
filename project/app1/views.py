@@ -1094,3 +1094,31 @@ def cart(request):
         'subtotal': subtotal
     }
     return render(request, 'cart.html', context)
+
+
+
+from django.shortcuts import render
+from .models import Cart, c_Product
+
+def cart_order(request):
+    cart_items = Cart.objects.all()
+    for item in cart_items:
+        item.product_price = c_Product.objects.get(pk=item.product_id).price
+        item.product_category = c_Product.objects.get(pk=item.product_id).t_category
+        tailors = CustomUser.objects.filter(is_tailor=True)
+
+    context = {
+        'cart_items': cart_items,
+        'tailors' : tailors,
+    }
+    return render(request, 'cart_order.html', context)
+
+
+def update_tailor(request, cart_item_id):
+    if request.method == 'POST':
+        cart_item = Cart.objects.get(pk=cart_item_id)
+        tailor_id = request.POST.get('tailor')
+        tailor = CustomUser.objects.get(pk=tailor_id)
+        cart_item.tailor = tailor
+        cart_item.save()
+    return redirect('cart_order')
