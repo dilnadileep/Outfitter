@@ -210,7 +210,6 @@ def toggle_user_status(request, user_id):
 
 
 
-from django.shortcuts import render, redirect
 
 from django.contrib.auth.decorators import login_required
 
@@ -1122,3 +1121,35 @@ def update_tailor(request, cart_item_id):
         cart_item.tailor = tailor
         cart_item.save()
     return redirect('cart_order')
+
+
+from django.shortcuts import render, redirect
+from .models import Cart
+
+def c_req_tailor(request):
+    # Assuming the logged-in user is a tailor
+    tailor_id = request.user.id
+    tailor_cart_items = Cart.objects.filter(tailor_id=tailor_id)
+    
+    # Fetching additional details for each cart item
+    for cart_item in tailor_cart_items:
+        product = cart_item.product
+        cart_item.price = product.price
+        cart_item.image = product.image.url  # Assuming 'image' is the field name in c_Product model
+
+    context = {
+        'tailor_cart_items': tailor_cart_items
+    }
+    return render(request, 'c_req_tailor.html', context)
+
+def accept_order(request, cart_item_id):
+    cart_item = Cart.objects.get(id=cart_item_id)
+    cart_item.is_active = True
+    cart_item.save()
+    return redirect('c_req_tailor')
+
+def reject_order(request, cart_item_id):
+    cart_item = Cart.objects.get(id=cart_item_id)
+    cart_item.is_rejected = True
+    cart_item.save()
+    return redirect('c_req_tailor')

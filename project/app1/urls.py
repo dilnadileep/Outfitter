@@ -47,6 +47,9 @@ urlpatterns = [
    path('add_to_cart/', views.add_to_cart, name='add_to_cart'),
    path('cart_order/', views.cart_order, name='cart_order'),
    path('update_tailor/<int:cart_item_id>/', views.update_tailor, name='update_tailor'),
+   path('c_req_tailor/', views.c_req_tailor, name='c_req_tailor'),
+   path('accept_order/<int:cart_item_id>/', views.accept_order, name='accept_order'),
+   path('reject_order/<int:cart_item_id>/', views.reject_order, name='reject_order'),
 
 
    

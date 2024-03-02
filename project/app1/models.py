@@ -174,6 +174,9 @@ class Cart(models.Model):
     tailor = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='tailor_cart', blank=True, null=True)
     quantity = models.IntegerField(default=1)
     total_price = models.DecimalField(max_digits=10, decimal_places=2,blank=True, null=True)
+    is_active = models.BooleanField(default=False,null=False)  # Add this field to track product status
+    is_rejected = models.BooleanField(default=False,null=False)  # Add this field to track if the order is rejected by tailor
+
 
 
     def __str__(self):

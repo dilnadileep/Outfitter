@@ -33,10 +33,10 @@
           </button>
           <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
             <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
-              <li class="nav-item active"><a class="nav-link" href="{% url 't_index' %}">Home</a></li>
+              <li class="nav-item active"><a class="nav-link" href="{% url 'admindashboard' %}">Home</a></li>
              
 
-              <li class="nav-item"><a class="nav-link" href="{% url 'messages_page' %}">Contact</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'messages_page' %}">Support</a></li>
             </ul>
 
             <ul class="nav-shop">
@@ -59,61 +59,61 @@
   <!--================Cart Area =================-->
   <section class="cart_area">
     <div class="container">
-        <div class="cart_inner">
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Product</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Assign Tailor</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in cart_items %}
-                        <tr>
-                            <td>
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="{{ item.product.image.url }}" alt="" style="width: 100px; height: auto;">
-                                    </div>
-                                    <div class="media-body">
-                                        <p>{{ item.product.description }}</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <h5>{{ item.product_category }}</h5>
-                            </td>
-                            <td>
-                                <h5>{{ item.product_price }}/-</h5>
-                            </td>
-                            <td>
-                                <div class="product_count" style="margin-top: 10px;">
-                                    <form action="{% url 'update_tailor' item.id %}" method="post">
-                                        {% csrf_token %}
-                                        <select name="tailor" style="margin-right: 10px;">
-                                            {% for tailor in tailors %}
-                                            <option value="{{ tailor.id }}" {% if item.tailor_id == tailor.id %} selected {% endif %}>{{ tailor.username }}</option>
-                                            {% endfor %}
-                                        </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <button type="submit" style="margin-left: 10px;">Update</button>
-                                    </form>
-                                </div>
-                                
-                            </td>
-                            
-                           
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                    
-                    
-                    
-                </table>
-            </div>
-        </div>
+      <div class="row mb-5">
+          {% for item in cart_items %}
+          <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
+              <div class="confirmation-card">
+                  <h3 class="billing-title">{{ item.product.description }}</h3>
+                  <img src="{{ item.product.image.url }}" style="width: 100px; height: auto;" alt="{{ item.product.description }}" class="product-image">
+                  <table class="order-rable">
+                      <tr>
+                          <td>Size</td>
+                          <td>: {{ item.size }}</td>
+                      </tr>
+                      <tr>
+                          <td>Quantity</td>
+                          <td>: {{ item.quantity }}</td>
+                      </tr>
+                      <tr>
+                          <td>Price</td>
+                          <td>: {{ item.product.price }}</td>
+                      </tr>
+                      <tr>
+                          <td>Assign Tailor</td>
+                          <td>:
+                              <div class="product_count" style="margin-top: 10px;">
+                                  <form action="{% url 'update_tailor' item.id %}" method="post">
+                                      {% csrf_token %}
+                                      <select name="tailor" style="margin-right: 10px;">
+                                          {% for tailor in tailors %}
+                                          <option value="{{ tailor.id }}" {% if item.tailor_id == tailor.id %} selected {% endif %}>{{ tailor.first_name }} {{ tailor.last_name }}</option>
+                                          {% endfor %}
+                                      </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                      <button type="submit" style="margin-left: 10px;">Update</button>
+                                  </form>
+                              </div>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Status</td>
+                          <td>:
+                              {% if item.is_active %}
+                              Accepted
+                              {% elif item.is_rejected %}
+                              Rejected
+                              {% else %}
+                              Pending
+                              {% endif %}
+                          </td>
+                      </tr>
+                  </table>
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+  </div>
+  
+    
     </div>
 </section>
 

@@ -143,7 +143,7 @@
             <div class="col-lg-5 offset-lg-1">
                 <div class="s_product_text">
                     <h3>{{ product.description }}</h3>
-                    <h2>{{ product.price }}/-</h2>
+                    <h2>₹{{ product.price }}</h2>
                     <ul class="list">
                         <li><span>Celebrity:</span> {{ product.c_category }}</li>
                         <!-- Add more details as needed -->
@@ -522,7 +522,7 @@
 							<a href="#"><img src="{{ related_product.image.url }}" alt=""></a>
 							<div class="desc">
 								<a href="{% url 'product_details' related_product.id %}" class="title">{{ related_product.description }}</a>
-								<div class="price">${{ related_product.price }}</div>
+								<div class="price">₹{{ related_product.price }}</div>
 							</div>
 						</div>
 					</div>

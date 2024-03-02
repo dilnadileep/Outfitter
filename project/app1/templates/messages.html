@@ -159,10 +159,21 @@
                                     <a href="{% url 'loggout' %}" class="nav-link">Logout</a>
                                 </button>
                             </li>
-                            {% else %}
+                            {% elif user.is_tailor  %}
                             <li class="nav-item">
                                 <button class="instagram-button">
                                     <a href="{% url 't_index' %}" class="nav-link">Home</a>
+                                </button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="instagram-button">
+                                    <a href="{% url 'loggout' %}" class="nav-link">Logout</a>
+                                </button>
+                            </li>
+                            {% else %}
+                            <li class="nav-item">
+                                <button class="instagram-button">
+                                    <a href="{% url 'admindashboard' %}" class="nav-link">Home</a>
                                 </button>
                             </li>
                             <li class="nav-item">
@@ -321,13 +332,13 @@
                         <div class="card-footer">
                                 <form id="send-message-form">
                                     <div class="input-group">
-                                        {% comment %} <div class="input-group-append">
+                                       <div class="input-group-append">
                                             <span class="input-group-text attach_btn">
                                                 <i class="fas fa-paperclip"></i>
                                             </span>
                                             <!-- Input field for media file upload -->
                                             <input type="file" id="media-upload-input" style="display: none;">
-                                        </div> {% endcomment %}
+                                        </div> 
                                         
                                         
                                         <input type="text" name="" id="input-message" class="form-control type_msg" placeholder="Type your message...">
