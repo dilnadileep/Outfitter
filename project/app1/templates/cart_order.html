@@ -79,20 +79,24 @@
                           <td>: {{ item.product.price }}</td>
                       </tr>
                       <tr>
-                          <td>Assign Tailor</td>
-                          <td>:
-                              <div class="product_count" style="margin-top: 10px;">
-                                  <form action="{% url 'update_tailor' item.id %}" method="post">
-                                      {% csrf_token %}
-                                      <select name="tailor" style="margin-right: 10px;">
-                                          {% for tailor in tailors %}
-                                          <option value="{{ tailor.id }}" {% if item.tailor_id == tailor.id %} selected {% endif %}>{{ tailor.first_name }} {{ tailor.last_name }}</option>
-                                          {% endfor %}
-                                      </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                      <button type="submit" style="margin-left: 10px;">Update</button>
-                                  </form>
-                              </div>
-                          </td>
+                        {% if not item.is_active %}
+                        <td>Assign Tailor</td>
+                        <td>:
+                            
+                            <div class="product_count" style="margin-top: 10px;">
+                                <form action="{% url 'update_tailor' item.id %}" method="post">
+                                    {% csrf_token %}
+                                    <select name="tailor" style="margin-right: 10px;">
+                                        {% for tailor in tailors %}
+                                        <option value="{{ tailor.id }}" {% if item.tailor_id == tailor.id %} selected {% endif %}>{{ tailor.first_name }} {{ tailor.last_name }}</option>
+                                        {% endfor %}
+                                    </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <button type="submit" style="margin-left: 10px;">Update</button>
+                                </form>
+                            </div>
+                            {% endif %}
+                        </td>
+                        
                       </tr>
                       <tr>
                           <td>Status</td>

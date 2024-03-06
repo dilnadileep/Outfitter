@@ -156,14 +156,15 @@
                             {% elif cart_item.is_rejected %}
                             Rejected
                             {% else %}
-                            <form action="{% url 'accept_order' cart_item.id %}" method="post">
-                                {% csrf_token %}
-                                <button type="submit" style="margin-right: 10px;">Accept</button>
-                            </form>
-                            <form action="{% url 'reject_order' cart_item.id %}" method="post">
-                                {% csrf_token %}
-                                <button type="submit">Reject</button>
-                            </form>
+							<form action="{% url 'accept_order' cart_item.id %}" method="post" style="display: inline-block;">
+								{% csrf_token %}
+								<button type="submit" class="btn btn-success" style="margin-right: 10px;">Accept</button>
+							</form>
+							<form action="{% url 'reject_order' cart_item.id %}" method="post" style="display: inline-block;">
+								{% csrf_token %}
+								<button type="submit" class="btn btn-danger">Reject</button>
+							</form>
+							
                             {% endif %}
                         </td>
                     </tr>
