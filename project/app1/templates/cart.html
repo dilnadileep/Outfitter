@@ -15,7 +15,14 @@
   <link rel="stylesheet" href="{% static 'cotoure/vendors/nice-select/nice-select.css' %}">
   <link rel="stylesheet" href="{% static 'cotoure/vendors/owl-carousel/owl.theme.default.min.css' %}">
   <link rel="stylesheet" href="{% static 'cotoure/vendors/owl-carousel/owl.carousel.min.css' %}">
+<style>
+  .checkout-btn {
+    display: inline-block;
+    margin-top: 10px; /* Adjust as needed */
+    border-radius: 5px;
+}
 
+</style>
   <link rel="stylesheet" href={% static 'cotoure/css/style.css' %}>
 </head>
 <body>
@@ -70,19 +77,18 @@
 
   <!--================Cart Area =================-->
   <section class="cart_area">
-      <div class="container">
-          <div class="cart_inner">
-              <div class="table-responsive">
+    <div class="container">
+        <div class="cart_inner">
+            <div class="table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
                             <th scope="col">Product</th>
                             <th scope="col">Model</th>
-
                             <th scope="col">Category</th>
-
                             <th scope="col">Size</th>
                             <th scope="col">Total</th>
+                            <th scope="col">Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -99,7 +105,7 @@
                                 </div>
                             </td>
                             <td>
-                                    <p>{{ item.product.c_category }}</p>
+                                <p>{{ item.product.c_category }}</p>
                             </td>
                             <td>
                                 <h5>{{ item.product.t_category }}</h5>
@@ -107,46 +113,36 @@
                             <td>
                                 <h5>{{ item.size }}</h5>
                             </td>
-                            
                             <td>
                                 <h5>₹{{ item.total }}</h5>
+                            </td>
+                            <td>
+                              {% if item.is_active %}
+                              <button class="btn btn-primary checkout-btn">Proceed to Checkout</button>
+                              {% else %}
+                              Pending
+                          {% endif %}
+                          
                             </td>
                         </tr>
                         {% endfor %}
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td><h5>Subtotal</h5></td>
-                            <td><h5>₹{{ subtotal }}</h5></td>
+                            <td colspan="6">
+                                <div class="checkout_btn_inner d-flex align-items-center">
+                                    <a class="gray_btn" href="{% url 'r_index' %}">Continue Shopping</a>
+                                </div>
+                            </td>
                         </tr>
-                   
-                
-                   
-                
-                         
-                          <tr class="out_button_area">
-                              <td class="d-none-l">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
 
-                              </td>
-                              <td class="">
 
-                              </td>
-                              <td>
 
-                              </td>
-                              <td>
-                                  <div class="checkout_btn_inner d-flex align-items-center">
-                                      <a class="gray_btn" href="{% url 'r_index' %}">Continue Shopping</a>
-                                      <a class="primary-btn ml-2" href="#">Proceed to checkout</a>
-                                  </div>
-                              </td>
-                          </tr>
-                      </tbody>
-                  </table>
-              </div>
-          </div>
-      </div>
-  </section>
+
   <!--================End Cart Area =================-->
 
 
