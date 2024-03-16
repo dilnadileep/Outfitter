@@ -12,7 +12,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .models import UserProfile
 from django.http import JsonResponse
-
+from .models import cart_design
+from .models import Cart
 
 
 def index(request):
@@ -1083,17 +1084,21 @@ def add_to_cart(request):
         messages.success(request, 'Product added to cart successfully!')
         return redirect('cart')  # Redirect to the cart page or any other page
 
+from django.shortcuts import render
+from .models import Cart, cart_design
+
 def cart(request):
     cart_items = Cart.objects.filter(user=request.user)
     for item in cart_items:
         item.total = item.product.price * item.quantity
+        cart_designs = cart_design.objects.all()
     subtotal = sum(item.total for item in cart_items)
     context = {
         'cart_items': cart_items,
-        'subtotal': subtotal
+        'subtotal': subtotal,
+        'cart_designs':cart_designs,
     }
     return render(request, 'cart.html', context)
-
 
 
 from django.shortcuts import render
@@ -1123,8 +1128,7 @@ def update_tailor(request, cart_item_id):
     return redirect('cart_order')
 
 
-from django.shortcuts import render, redirect
-from .models import Cart
+
 
 def c_req_tailor(request):
     # Assuming the logged-in user is a tailor
@@ -1153,3 +1157,33 @@ def reject_order(request, cart_item_id):
     cart_item.is_rejected = True
     cart_item.save()
     return redirect('c_req_tailor')
+
+
+
+
+def c_design(request, cart_id):
+    cart_item = Cart.objects.get(pk=cart_id)
+    if request.method == 'POST':
+        cart_item.is_customized = True
+        cart_item.save()
+        # Create a new cart_design instance with the form data
+        neck_design = request.POST.get('neck_design')
+        back_design = request.POST.get('back_design')
+        sleev_design = request.POST.get('sleev_design')
+        lining_design = request.POST.get('lining_design')
+        additional_info = request.POST.get('additional_info')
+        
+        # Create a new cart_design instance with the form data
+        design = cart_design(
+            order=cart_item,
+            neck_design=neck_design,
+            back_design=back_design,
+            sleev_design=sleev_design,
+            lining_design=lining_design,
+            additional_info=additional_info
+        )
+        design.save()
+        return redirect('cart')  # Redirect to the cart page after submitting
+
+    return render(request, 'c_design.html', {'cart_item': cart_item})
+

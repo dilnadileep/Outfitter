@@ -1,0 +1,614 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Measurement Entry</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        .container {
+            max-width: 900px;
+        }
+
+        .measurement-guide {
+            float: right;
+            width: 30%;
+            margin-left: 20px;
+        }
+
+        .fabric-details-section, .measurement-section {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .fabric-details-section h3, .measurement-section h3 {
+            color: #333;
+        }
+
+        .form-label {
+            width: 30%;
+            display: inline-block;
+            text-align: right;
+            margin-right: 10px;
+        }
+
+        .form-control {
+            width: 60%;
+            display: inline-block;
+        }
+        /* CSS for the boutique-style heading */
+.boutique-heading {
+    font-family: 'cursive', sans-serif;
+    color: #d30346;
+    font-size: 36px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 20px;
+    border-bottom: 2px solid #d30346;
+    padding-bottom: 10px;
+}
+/* CSS for the boutique-style subheading */
+.sub-heading {
+    font-family: 'cursive', sans-serif;
+    color: #333;
+    font-size: 24px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 20px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+}
+
+
+.scrollable-images {
+    display: flex;
+    flex-wrap: wrap; /* Allow images to wrap to the next row */
+}
+
+.image-option {
+    width: calc(33.33% - 20px); /* Set a width for three images in a row with some spacing */
+    margin: 10px; /* Add some margin for spacing between images */
+    display: inline-block; /* Display images in a block */
+    cursor: pointer; /* Add a pointer cursor to indicate interactivity */
+    transition: border 0.3s; /* Add a smooth transition for the border */
+    border: 1px solid #ddd; /* Add a border for the image cards */
+    padding: 10px; /* Add padding for each image card */
+}
+
+.image-option.selected {
+    border: 2px solid #007bff; /* Highlight the selected image with a blue border */
+}
+
+.image-option img {
+    max-width: 50%; /* Set the image width to fit within the card */
+    height: auto; /* Maintain aspect ratio */
+}
+/* Style the selected-designs container */
+.selected-designs {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Style each selected-design container */
+.selected-design {
+    text-align: center;
+}
+
+/* Style the selected design images */
+.selected-design img {
+    max-width: 100px;
+    max-height: 150px;
+    border: 1px solid #ddd;
+    padding: 5px;
+}
+/* Style the Selected Front Neck Design heading */
+.selected-design h4 {
+    font-size: 16px; /* Reduce the font size */
+    color: #333; /* Change the text color to a neutral color, e.g., dark gray */
+    margin: 10px 0; /* Add some margin for spacing */
+    text-transform: uppercase; /* Uppercase text for emphasis */
+    font-weight: bold; /* Make the text bold */
+    text-align: center; /* Center the text */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add a subtle text shadow */
+}
+/* Style for the form labels */
+.form-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+/* Apply standard CSS to align the labels to the leftmost side */
+label[for="neck_design"],
+label[for="back_design"],
+label[for="sleev_design"] {
+
+    width: 100%;
+    display: block;
+    text-align: left;
+}
+body {
+    font-family: Arial, sans-serif;
+    background-color: #eee; /* Match the form's background color */
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.description-box {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff; /* Match the form's background color */
+}
+
+.description-box textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: vertical;
+}
+
+.description-box label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+    </style>
+    <link rel="stylesheet" href={% static 'cotoure/css/style.css' %}>
+</head>
+<body>
+    <header class="header_area">
+        <div class="main_menu">
+          <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+              <a class="navbar-brand logo_h" href="r_index.html"><img src="{% static 'cotoure/img/logo.png' %}" alt=""></a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+                  <li class="nav-item active"><a class="nav-link" href="{% url 'r_index' %}">Home</a></li>
+                 
+                  <li class="nav-item"><a class="nav-link" href="{% url 'cart' %}">Cart</a></li>
+    
+                </ul>
+    
+                <ul class="nav-shop">
+                  <li class="nav-item"><a href="{% url 'loggout' %}" class="nav-link">Logout</a></li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </div>
+    </header>
+    <section style="background-color: #eee;">
+        <div class="container py-5">
+           
+            <div class="row">
+                <div class="col">
+                    <div class="container">
+                        <form method="POST"  enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <br>   
+                            <div class="design-section">
+                                <h3 class="sub-heading">Design Selection</h3>
+                                <!-- Neck Design Selection -->
+
+                                <div class="mb-6">
+                                    <div class="custom-select">
+                                        <label for="neck_design" class="form-label">Front Neck Design:</label>
+                                        <div class="scrollable-images">
+                                            <!-- Add more image options as needed -->
+                                            <div class="image-option neck_design" data-value="neck_design_1">
+                                                <img src="{% static "images/neck/boat_neck.jpg" %}" alt="Design 1">
+                                                <p class="image-name">Boat Neck Design</p>
+
+                                            </div>
+                                            <!-- Add more image options here -->
+                                            <div class="image-option neck_design" data-value="neck_design_2">
+                                                <img src="{% static "images/neck/pointed_neck.jpg" %}" alt="Design 2">
+                                                <p class="image-name">Pointed Neck Design</p>
+
+                                            </div>
+                                            <div class="image-option neck_design" data-value="neck_design_3">
+                                                <img src="{% static "images/neck/round_neck.jpg" %}" alt="Design 3">
+                                                <p class="image-name">Round Neck Design</p>
+
+                                            </div>
+                                            <div class="image-option neck_design" data-value="neck_design_4">
+                                                <img src="{% static "images/neck/square_neck.jpg" %}" alt="Design 4">
+                                                <p class="image-name">Square Neck Design</p>
+
+                                            </div>
+                                            <div class="image-option neck_design" data-value="neck_design_5">
+                                                <img src="{% static "images/neck/v_neck.jpg" %}" alt="Design 5">
+                                                <p class="image-name">V Neck Design</p>
+
+                                            </div>
+                                            <div class="image-option neck_design" data-value="neck_design_6">
+                                                <img src="{% static "images/neck/semi_neck.jpg" %}" alt="Design 6">
+                                                <p class="image-name">Semisweetheart Neck Design</p>
+
+                                            </div>
+                                        </div>
+                                        <input type="hidden" id="selected-neck-design" name="neck_design" value="">
+                                   <!-- Add this HTML section below your image options -->
+                                <div class="selected-designs">
+                                    <div class="selected-design">
+                                         <h4>Selected Front Neck Design</h4>
+                                                 <img id="selected-neck-design-image" src="" alt="">
+                                                 <p class="selected-design-name"></p> <!-- Add this element to display the name -->
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                    <!--back neck design -->
+                                    <div class="mb-6">
+                                        <div class="custom-select">
+                                            <label for="back_design" class="form-label">Back Neck Design:</label>
+                                            <div class="scrollable-images">
+                                            <!-- Add more image options as needed -->
+                                            <div class="image-option back_design" data-value="back_design_1">
+                                                <img src="{% static "images/back/arrow_back.jpg" %}" alt="Design 7">
+                                                <p class="image-name">Arrow Backneck Design</p> <!-- Add the name of the image -->
+
+                                            </div>
+                                           
+                                            <div class="image-option back_design" data-value="back_design_2">
+                                                <img src="{% static "images/back/overlap_back.jpg" %}" alt="Design 8">
+                                                <p class="image-name">Overlapping Backneck Design</p> <!-- Add the name of the image -->
+
+                                            </div>
+                                            <div class="image-option back_design" data-value="back_design_3">
+                                                <img src="{% static "images/back/glass_back.jpg" %}" alt="Design 9">
+                                                <p class="image-name">Glass Backneck Design</p> <!-- Add the name of the image -->
+
+                                            </div>
+                                            <div class="image-option back_design" data-value="back_design_4">
+                                                <img src="{% static "images/back/boat2_back.jpg" %}" alt="Design 10">
+                                                <p class="image-name">Boat Backneck Design</p> <!-- Add the name of the image -->
+
+                                            </div>
+                                            <div class="image-option back_design" data-value="back_design_5">
+                                                <img src="{% static "images/back/deep_back.jpg" %}" alt="Design 11">
+                                                <p class="image-name">Deep Backneck Design</p> <!-- Add the name of the image -->
+
+                                            </div>
+                                            <div class="image-option back_design" data-value="back_design_6">
+                                                <img src="{% static "images/back/sweetheart_back.jpg" %}" alt="Design 12">
+                                                <p class="image-name">Sweetheart Backneck Design</p> <!-- Add the name of the image -->
+
+                                            </div>
+                                        </div>
+                                        <input type="hidden" id="selected-back-design" name="back_design" value="">
+                                        <div class="selected-design">
+                                            <h4>Selected Back Neck Design</h4>
+                                            <img id="selected-back-design-image" src="" alt="">
+                                            <p class="selected-back-design-name"></p> <!-- Add this element to display the name -->
+
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- sleev design-->
+                                    <hr>
+                                    <div class="mb-6">
+                                        <div class="custom-select">
+                                            <label for="sleev_design" class="form-label">Sleeve Design:</label>
+                                            <div class="scrollable-images">
+                                            <!-- Add more image options as needed -->
+                                            <div class="image-option sleev_design" data-value="sleev_design_1">
+                                                <img src="{% static "images/sleev/cap_sleev.jpg" %}" alt="Design 13">
+                                                <p class="image-name">Cap Sleeve Design</p> <!-- Add the name of the image -->
+
+                                            </div>
+                                           
+                                            <div class="image-option sleev_design" data-value="sleev_design_2">
+                                                <img src="{% static "images/sleev/paded_sleev.jpg" %}" alt="Design 14">
+                                                <p class="image-name">Padded Sleeve Design</p> <!-- Add the name of the image -->
+
+                                            </div>
+                                            <div class="image-option sleev_design" data-value="sleev_design_3">
+                                                <img src="{% static "images/sleev/frill_sleev.jpg" %}" alt="Design 15">
+                                                <p class="image-name">Frill Sleeve Design</p> <!-- Add the name of the image -->
+
+                                            </div>
+                                            <div class="image-option sleev_design" data-value="sleev_design_4">
+                                                <img src="{% static "images/sleev/churidaar_sleev.jpg" %}" alt="Design 16">
+                                                <p class="image-name">Churidhar Sleeve Design</p> <!-- Add the name of the image -->
+
+                                            </div>
+                                            <div class="image-option sleev_design" data-value="sleev_design_5">
+                                                <img src="{% static "images/sleev/cold_sleev.jpg" %}" alt="Design 17">
+                                                <p class="image-name">Cold Sleeve Design</p> <!-- Add the name of the image -->
+
+                                            </div>
+                                            <div class="image-option sleev_design" data-value="sleev_design_6">
+                                                <img src="{% static "images/sleev/sleeveless.jpg" %}" alt="Design 18">
+                                                <p class="image-name">Sleeveless Design</p> <!-- Add the name of the image -->
+
+                                            </div>
+                                        </div>
+                                        <input type="hidden" id="selected-sleev-design" name="sleev_design" value="">
+                                        <div class="selected-design">
+                                            <h4>Selected Sleeve Design</h4>
+                                            <img id="selected-sleev-design-image" src="" alt="">
+                                            <p class="selected-sleev-design-name"></p> <!-- Add this element to display the name -->
+
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="mb-6">
+                                        <div class="custom-select">
+                                            <label for="lining_design" class="form-label">Lining:</label>
+                                            <div class="scrollable-images">
+                                            <!-- Add more image options as needed -->
+                                            <div class="image-option lining_design" data-value="lining_design_1">
+                                                <img src="{% static "images/lining/cotton.jpg" %}" alt="Design 19">
+                                                <p class="image-name">Lining Cotton</p> <!-- Add the name of the image -->
+
+                                            </div>
+                                           
+                                            <div class="image-option lining_design" data-value="lining_design_2">
+                                                <img src="{% static "images/lining/crepe.jpg" %}" alt="Design 20">
+                                                <p class="image-name">Lining crepe</p> <!-- Add the name of the image -->
+
+                                            </div>
+                                            <div class="image-option lining_design" data-value="lining_design_3">
+                                                <img src="{% static "images/lining/satin.jpg" %}" alt="Design 21">
+                                                <p class="image-name">Lining satin</p> <!-- Add the name of the image -->
+
+                                            </div>
+                                            <div class="image-option lining_design" data-value="lining_design_4">
+                                                <img src="{% static "images/lining/nolining.jpg" %}" alt="Design 22">
+                                                <p class="image-name">No Lining</p> <!-- Add the name of the image -->
+
+                                            </div>
+                                            
+                                        </div>
+                                        <input type="hidden" id="selected-lining-design" name="lining_design" value="">
+                                        <div class="selected-design">
+                                            <h4>Selected Lining</h4>
+                                            <img id="selected-lining-design-image" src="" alt="">
+                                            <p class="selected-lining-design-name"></p> <!-- Add this element to display the name -->
+
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="description-box">
+                                        <label for="additional_info" class="form-label">Additional Information:</label>
+                                        <textarea id="additional_info" name="additional_info" placeholder="Add any additional information here" ></textarea>
+                                    </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            <!-- Confirm Button -->
+                            <button type="submit" class="btn btn-primary">Submit Details</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-Correct-Integrity-Hash-Goes-Here" crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-abcdef123456" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <script>
+        // Get all image options
+        const imageOptions = document.querySelectorAll('.image-option');
+    
+        // Handle image option click event
+        imageOptions.forEach((option) => {
+            option.addEventListener('click', () => {
+                // Remove the 'selected' class from all options
+                imageOptions.forEach((opt) => opt.classList.remove('selected'));
+    
+                // Add the 'selected' class to the clicked option
+                option.classList.add('selected');
+    
+                // Set the selected value in the hidden input field
+                const selectedValue = option.getAttribute('data-value');
+                document.getElementById('selected-value').value = selectedValue;
+            });
+        });
+
+            
+</script>
+    
+<script>
+    // Get all image options for both neck and back design
+    const designOptions = document.querySelectorAll('.image-option');
+
+    // Handle design option click event
+    designOptions.forEach((option) => {
+        option.addEventListener('click', () => {
+            // Remove the 'selected' class from all design options
+            designOptions.forEach((opt) => opt.classList.remove('selected'));
+
+            // Add the 'selected' class to the clicked design option
+            option.classList.add('selected');
+
+            // Set the selected design value in the hidden input field
+            const selectedValue = option.getAttribute('data-value');
+            const inputFieldId = option.parentElement.parentElement.querySelector('input[type="hidden"]').id;
+            document.getElementById(inputFieldId).value = selectedValue;
+        });
+    });
+</script>
+<script>
+    // Update the selected front neck design image
+// Update the selected front neck design image and name
+const selectedNeckDesignImage = document.getElementById('selected-neck-design-image');
+const selectedNeckDesignName = document.querySelector('.selected-design-name'); // Get the name element
+const neckDesignOptions = document.querySelectorAll('.image-option.neck_design');
+
+neckDesignOptions.forEach((option) => {
+    option.addEventListener('click', () => {
+        const selectedValue = option.getAttribute('data-value');
+        const selectedName = option.querySelector('.image-name').textContent; // Get the name of the selected image
+        selectedNeckDesignImage.src = option.querySelector('img').src;
+        selectedNeckDesignName.textContent = selectedName; // Populate the name
+    });
+});
+
+
+// Update the selected back neck design image
+// Update the selected back neck design image and name
+const selectedBackDesignImage = document.getElementById('selected-back-design-image');
+const selectedBackDesignName = document.querySelector('.selected-back-design-name'); // Get the name element
+const backDesignOptions = document.querySelectorAll('.image-option.back_design');
+
+backDesignOptions.forEach((option) => {
+    option.addEventListener('click', () => {
+        const selectedValue = option.getAttribute('data-value');
+        const selectedName = option.querySelector('.image-name').textContent; // Get the name of the selected image
+        selectedBackDesignImage.src = option.querySelector('img').src;
+        selectedBackDesignName.textContent = selectedName; // Populate the name
+    });
+});
+
+
+const selectedSleevDesignImage = document.getElementById('selected-sleev-design-image');
+const selectedSleevDesignName = document.querySelector('.selected-sleev-design-name'); // Get the name element
+const sleevDesignOptions = document.querySelectorAll('.image-option.sleev_design');
+
+sleevDesignOptions.forEach((option) => {
+    option.addEventListener('click', () => {
+        const selectedValue = option.getAttribute('data-value');
+        const selectedName = option.querySelector('.image-name').textContent; // Get the name of the selected image
+        selectedSleevDesignImage.src = option.querySelector('img').src;
+        selectedSleevDesignName.textContent = selectedName; // Populate the name
+    });
+});
+
+// Update the selected lining design image and name
+const selectedLiningDesignImage = document.getElementById('selected-lining-design-image');
+const selectedLiningDesignName = document.querySelector('.selected-lining-design-name'); // Get the name element
+const liningDesignOptions = document.querySelectorAll('.image-option.lining_design');
+
+liningDesignOptions.forEach((option) => {
+    option.addEventListener('click', () => {
+        const selectedValue = option.getAttribute('data-value');
+        const selectedName = option.querySelector('.image-name').textContent; // Get the name of the selected image
+        selectedLiningDesignImage.src = option.querySelector('img').src;
+        selectedLiningDesignName.textContent = selectedName; // Populate the name
+    });
+});
+
+
+// Update the selected work design image and name
+const selectedWorkDesignImage = document.getElementById('selected-work-design-image');
+const selectedWorkDesignName = document.querySelector('.selected-work-design-name'); // Get the name element
+const workDesignOptions = document.querySelectorAll('.image-option.work_design');
+
+workDesignOptions.forEach((option) => {
+    option.addEventListener('click', () => {
+        const selectedValue = option.getAttribute('data-value');
+        const selectedName = option.querySelector('.image-name').textContent; // Get the name of the selected image
+        selectedWorkDesignImage.src = option.querySelector('img').src;
+        selectedWorkDesignName.textContent = selectedName; // Populate the name
+    });
+});
+
+</script>
+<script>
+    $(document).ready(function () {
+        const fields = [
+            { id: "#bust", validate: validateMeasurementField },
+            { id: "#waist", validate: validateMeasurementField },
+            { id: "#hips", validate: validateMeasurementField },
+            { id: "#length", validate: validateMeasurementField },
+            { id: "#shoulderWidth", validate: validateMeasurementField },
+            { id: "#sleeveLength", validate: validateMeasurementField },
+        ];
+
+        fields.forEach(field => {
+            $(field.id).keyup(function () {
+                field.validate($(this));
+            });
+
+            validateFieldOnBlur(field.id, field.validate);
+        });
+
+        function checkFormValidity() {
+            const isValid = fields.every(field => {
+                const $field = $(field.id);
+                const $errorSpan = $field.nextAll("span");
+                return $field.val().trim() !== "" && $errorSpan.html() === "";
+            });
+
+            $("#submit-button").prop("disabled", !isValid);
+        }
+
+        function validateFieldOnBlur(fieldId, validationFunction) {
+            $(fieldId).blur(function () {
+                validationFunction($(this));
+                checkFormValidity();
+            });
+        }
+
+        // Form submission
+        $("#measurement-form").submit(function (event) {
+            if (!$("#submit-button").prop("disabled")) {
+                // Form is valid, allow submission
+                return true;
+            } else {
+                // Form is not valid, prevent submission
+                event.preventDefault();
+                return false;
+            }
+        });
+
+        // Initial check for form validity
+        checkFormValidity();
+
+        function validateMeasurementField($field) {
+            const $errorSpan = $field.nextAll("span");
+            const measurementValue = $field.val().trim();
+
+            if (measurementValue === "") {
+                $errorSpan.html("Enter the measurement").css("color", "red");
+            } else if (!/^\d+(\.\d{1,2})?$/.test(measurementValue)) {
+                $errorSpan.html("Enter a valid measurement in inches").css("color", "red");
+            } else if (parseFloat(measurementValue) > 200) {
+                $errorSpan.html("Enter a valid measurement").css("color", "red");
+            } else {
+                $errorSpan.html("");
+            }
+
+            checkFormValidity(); // Validate form after each field validation
+        }
+    });
+</script>
+
+</body>
+</html>

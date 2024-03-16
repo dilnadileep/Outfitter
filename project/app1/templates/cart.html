@@ -27,7 +27,7 @@
 </head>
 <body>
   <!--================ Start Header Menu Area =================-->
-<<header class="header_area">
+<header class="header_area">
     <div class="main_menu">
       <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
@@ -97,7 +97,7 @@
                             <td>
                                 <div class="media">
                                     <div class="d-flex">
-                                        <img src="{{ item.product.image.url }}" alt="{{ item.product.description }}" style="width: 150px; height: 200;">
+                                        <img src="{{ item.product.image.url }}" alt="{{ item.product.description }}" style="width: 150px; height: auto;">
                                     </div>
                                     <div class="media-body">
                                         <p>{{ item.product.description }}</p>
@@ -118,7 +118,21 @@
                             </td>
                             <td>
                               {% if item.is_active %}
+                              {% if not item.is_customized %}
+                              <center><a href="{% url 'c_design' cart_id=item.id %}" class="btn btn-primary" style="margin-left: 10px;">Customize</a><br><br>OR</center>
+                              {% else %}   
+
+                              <button type="button" class="btn btn-primary view-designs-btn" data-toggle="modal" data-target="#designModal{{ item.id }}">
+                                View Selected Designs
+                            </button>
+                            
+                            
+                                {% endif %} 
+                                
+                          
+                                                   
                               <button class="btn btn-primary checkout-btn">Proceed to Checkout</button>
+
                               {% else %}
                               Pending
                           {% endif %}
@@ -140,13 +154,7 @@
     </div>
 </section>
 
-
-
-
-  <!--================End Cart Area =================-->
-
-
-
+ 
   <!--================ Start footer Area  =================-->	
 	<footer>
 		<div class="footer-area footer-only">

@@ -176,6 +176,7 @@ class Cart(models.Model):
     total_price = models.DecimalField(max_digits=10, decimal_places=2,blank=True, null=True)
     is_active = models.BooleanField(default=False,null=False)  # Add this field to track product status
     is_rejected = models.BooleanField(default=False,null=False)  # Add this field to track if the order is rejected by tailor
+    is_customized = models.BooleanField(default=False,null=False)  # Add this field to track if the order is rejected by tailor
 
 
 
@@ -183,6 +184,14 @@ class Cart(models.Model):
         return f"{self.user.username}'s Cart Item: {self.product.description}"
 
 
+class cart_design(models.Model):
+    order = models.ForeignKey(Cart, on_delete=models.CASCADE, null=True, blank=True,related_name='designs')    
+    neck_design = models.CharField(max_length=255, null=True, blank=True)
+    back_design = models.CharField(max_length=255, null=True, blank=True)
+    sleev_design = models.CharField(max_length=255, null=True, blank=True)
+    lining_design = models.CharField(max_length=255, null=True, blank=True)
+    additional_info = models.TextField(verbose_name="Additional Information",blank=True, null=True, help_text="Add any additional information here.")
 
+    
 
 

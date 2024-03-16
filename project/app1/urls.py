@@ -58,7 +58,8 @@ urlpatterns = [
    path('c_add_garment/', views.c_add_garment, name='c_add_garment'),
    path('toggle_product_status/<int:product_id>/', views.toggle_product_status, name='toggle_product_status'),
    path('c_edit_product/<int:product_id>/', views.c_edit_product, name='c_edit_product'),
-   
+   path('c_design/<int:cart_id>/', views.c_design, name='c_design'),
+
 
    
    
@@ -68,6 +69,7 @@ urlpatterns = [
    path('reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(),name='password_reset_confirm'),
    path('reset/done/',auth_views.PasswordResetCompleteView.as_view(),name='password_reset_complete'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
