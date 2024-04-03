@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 from .models import UserProfile
 from django.http import JsonResponse
 from .models import cart_design
-from .models import Cart
+from .models import Cart,Payment2
 
 
 def index(request):
@@ -795,6 +795,8 @@ def paymenthandler(request, order_id, amount):
     
     
     
+ 
+    
 
 from django.shortcuts import render, get_object_or_404
 from .models import Order, Payment
@@ -1087,16 +1089,17 @@ def add_to_cart(request):
 from django.shortcuts import render
 from .models import Cart, cart_design
 
+
 def cart(request):
     cart_items = Cart.objects.filter(user=request.user)
     for item in cart_items:
         item.total = item.product.price * item.quantity
-        cart_designs = cart_design.objects.all()
+        # Fetch the corresponding design for the item
+        item.design = cart_design.objects.filter(order=item).first()
     subtotal = sum(item.total for item in cart_items)
     context = {
         'cart_items': cart_items,
         'subtotal': subtotal,
-        'cart_designs':cart_designs,
     }
     return render(request, 'cart.html', context)
 
@@ -1130,8 +1133,8 @@ def update_tailor(request, cart_item_id):
 
 
 
+
 def c_req_tailor(request):
-    # Assuming the logged-in user is a tailor
     tailor_id = request.user.id
     tailor_cart_items = Cart.objects.filter(tailor_id=tailor_id)
     
@@ -1140,6 +1143,8 @@ def c_req_tailor(request):
         product = cart_item.product
         cart_item.price = product.price
         cart_item.image = product.image.url  # Assuming 'image' is the field name in c_Product model
+        # Fetch the corresponding design for the item
+        cart_item.design = cart_design.objects.filter(order=cart_item).first()
 
     context = {
         'tailor_cart_items': tailor_cart_items
@@ -1187,3 +1192,91 @@ def c_design(request, cart_id):
 
     return render(request, 'c_design.html', {'cart_item': cart_item})
 
+
+def payment2(request, cart_id, price):
+    currency = 'INR'
+    amount_in_rupees = Decimal(price)
+    amount_in_paise = int(amount_in_rupees * 100)
+
+    try:
+        # Assuming Cart object has a 'cart' attribute containing the required information
+        razorpay_order = razorpay_client.order.create(dict(amount=amount_in_paise, currency=currency, payment_capture='0'))
+        razorpay_order_id = razorpay_order['id']
+        callback_url = f'http://127.0.0.1:8000/paymenthandler2/{cart_id}/{price}/'
+
+        context = {
+            'razorpay_order_id': razorpay_order_id,
+            'razorpay_merchant_key': settings.RAZOR_KEY_ID,
+            'razorpay_amount': amount_in_paise,
+            'currency': currency,
+            'callback_url': callback_url,
+        }
+
+        return render(request, 'payment2.html', context=context)
+    except BadRequestError as e:
+        print(f"Error creating Razorpay order: {str(e)}")
+        return HttpResponseBadRequest()
+import logging
+
+logger = logging.getLogger(__name__)
+
+@csrf_exempt
+def paymenthandler2(request, cart_id, amount):
+    # only accept POST requests.
+    if request.method == "POST":
+        try:
+            # get the required parameters from the POST request.
+            payment_id = request.POST.get('razorpay_payment_id', '')
+            razorpay_order_id = request.POST.get('razorpay_order_id', '')
+            signature = request.POST.get('razorpay_signature', '')
+            params_dict = {
+                'razorpay_order_id': razorpay_order_id,
+                'razorpay_payment_id': payment_id,
+                'razorpay_signature': signature
+            }
+            
+            # verify the payment signature.
+            result = razorpay_client.utility.verify_payment_signature(params_dict)
+            if result is not None:
+                # convert the amount to paise (multiply by 100)
+                amount_in_paise = int(float(amount) * 100)
+
+                try:
+                    # capture the payment with the correct amount in paise
+                    razorpay_client.payment2.capture(payment_id, amount_in_paise)
+
+                    # create a Payment instance and save it to the database
+                    payment = Payment2(
+                        order_id=cart_id,
+                        payment_amount=float(amount),
+                        payment_datetime=datetime.now(),
+                        payee=request.user  # Assuming CustomUser is your User model
+                    )
+                    payment.save()
+
+                    # Retrieve the corresponding Order and update pay_status
+                    order = get_object_or_404(Cart, id=cart_id)
+                    order.pay_status = True
+                    order.save()
+                    
+                    payment.payment_status = 'Successful'
+                    payment.save()
+
+                    logger.info("Payment successful. Redirecting to paymentsuccess.html.")
+                    return render(request, "paymentsuccess2.html")
+                except Exception as e:
+                    # If there's an error capturing the payment
+                    logger.error(f"Error capturing payment: {str(e)}")
+                    logger.error("Error capturing payment. Redirecting to paymentfail.html.")
+                    return render(request, "paymentfail.html")
+            else:
+                logger.error("Signature verification failed. Redirecting to paymentfail.html.")
+                return render(request, "paymentfail.html")
+        except Exception as e:
+            # if there's an error processing POST data
+            logger.error(f"Error processing POST data: {str(e)}")
+            logger.error("Error processing POST data. Returning HttpResponseBadRequest.")
+            return HttpResponseBadRequest()
+    else:
+        # if other than POST request is made.
+        return HttpResponseBadRequest()

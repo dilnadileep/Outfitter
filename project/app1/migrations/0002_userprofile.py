@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('state', models.CharField(blank=True, max_length=100)),
                 ('district', models.CharField(blank=True, max_length=100)),
                 ('gender', models.CharField(blank=True, max_length=10)),
-                ('age', models.IntegerField(blank=True, null=True)),
+                ('age', models.DateField(blank=True, null=True)),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),

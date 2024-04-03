@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser,UserProfile,Product,Measurement,Order,c_Product
+from .models import CustomUser,UserProfile,Product,Measurement,Order,c_Product,Cart
 # Register your models here.
 
 
@@ -9,6 +9,7 @@ admin.site.register(Product)
 admin.site.register(Measurement)
 admin.site.register(Order)
 admin.site.register(c_Product)
+admin.site.register(Cart)
 
 
 from django import forms

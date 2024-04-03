@@ -20,3 +20,17 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mydatabase',
+        'PASSWORD': 'mypassword',
+        'HOST': 'db',
+        'USER': 'mydatabaseuser',
+        'PORT': 5432
+        
+    }
+}

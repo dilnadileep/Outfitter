@@ -59,7 +59,8 @@ urlpatterns = [
    path('toggle_product_status/<int:product_id>/', views.toggle_product_status, name='toggle_product_status'),
    path('c_edit_product/<int:product_id>/', views.c_edit_product, name='c_edit_product'),
    path('c_design/<int:cart_id>/', views.c_design, name='c_design'),
-
+   path('paymenthandler2/<int:cart_id>/<str:amount>/', views.paymenthandler2, name='paymenthandler2'),
+   path('payment2/<int:cart_id>/<str:price>/', views.payment2, name='payment2'),
 
    
    

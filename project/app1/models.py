@@ -177,6 +177,7 @@ class Cart(models.Model):
     is_active = models.BooleanField(default=False,null=False)  # Add this field to track product status
     is_rejected = models.BooleanField(default=False,null=False)  # Add this field to track if the order is rejected by tailor
     is_customized = models.BooleanField(default=False,null=False)  # Add this field to track if the order is rejected by tailor
+    pay_status = models.BooleanField(default=False,null=True)  # Add this field to track product status
 
 
 
@@ -195,3 +196,15 @@ class cart_design(models.Model):
     
 
 
+class Payment2(models.Model):
+    order = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    payment_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_datetime = models.DateTimeField(default=datetime.now, blank=True)
+    payee = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    payment_status = models.CharField(max_length=20, choices=(
+        ('Pending', 'Pending'),
+        ('Successful', 'Successful'),
+        ('Failed', 'Failed'),
+    ), default='Pending')
+   
+   

@@ -121,18 +121,17 @@
                               {% if not item.is_customized %}
                               <center><a href="{% url 'c_design' cart_id=item.id %}" class="btn btn-primary" style="margin-left: 10px;">Customize</a><br><br>OR</center>
                               {% else %}   
-
-                              <button type="button" class="btn btn-primary view-designs-btn" data-toggle="modal" data-target="#designModal{{ item.id }}">
-                                View Selected Designs
-                            </button>
-                            
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#designModal{{ item.id }}">
+                                    View Design
+                                </button><br><br>
                             
                                 {% endif %} 
-                                
-                          
-                                                   
-                              <button class="btn btn-primary checkout-btn">Proceed to Checkout</button>
+                                <button type="submit" class="btn btn-primary payment-button">
 
+                                  <a href="{% url 'payment2' cart_id=item.id price=item.total|floatformat:2 %}" class="payment-link"  style="color: white;">Proceed to checkout</a>
+                              </button>
+                              
+                              
                               {% else %}
                               Pending
                           {% endif %}
@@ -153,8 +152,34 @@
         </div>
     </div>
 </section>
+{% for item in cart_items %}
 
- 
+        {% if item.is_customized %}
+  <div class="modal fade" id="designModal{{ item.id }}" tabindex="-1" role="dialog" aria-labelledby="designModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="designModalLabel">Recorded Design</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Display recorded design details here -->
+                        <p>Neck Design: {{ item.design.neck_design }}</p>
+                        <p>Back Design: {{ item.design.back_design }}</p>
+                        <p>Sleeve Design: {{ item.design.sleev_design }}</p>
+                        <p>Lining Design: {{ item.design.lining_design }}</p>
+                        <p>Additional Info: {{ item.design.additional_info }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
   <!--================ Start footer Area  =================-->	
 	<footer>
 		<div class="footer-area footer-only">
