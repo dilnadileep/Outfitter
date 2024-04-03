@@ -61,6 +61,8 @@ urlpatterns = [
    path('c_design/<int:cart_id>/', views.c_design, name='c_design'),
    path('paymenthandler2/<int:cart_id>/<str:amount>/', views.paymenthandler2, name='paymenthandler2'),
    path('payment2/<int:cart_id>/<str:price>/', views.payment2, name='payment2'),
+   path('c_order_customer/', views.c_order_customer, name='c_order_customer'),
+   path('invoice2/<int:cart_id>/', views.invoice2, name='invoice2'),
 
    
    

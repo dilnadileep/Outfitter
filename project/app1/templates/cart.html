@@ -43,6 +43,7 @@
               <li class="nav-item active"><a class="nav-link" href="{% url 'r_index' %}">Home</a></li>
              
               <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'c_order_customer' %}">Orders</a></li>
 
               <li class="nav-item"><a class="nav-link" href="{% url 'messages_page' %}">Contact</a></li>
             </ul>
@@ -93,6 +94,8 @@
                     </thead>
                     <tbody>
                         {% for item in cart_items %}
+                        {% if not item.pay_status %}
+
                         <tr>
                             <td>
                                 <div class="media">
@@ -138,6 +141,8 @@
                           
                             </td>
                         </tr>
+                        {% endif %}
+
                         {% endfor %}
                         <tr>
                             <td colspan="6">

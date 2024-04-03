@@ -15,122 +15,130 @@
   <link rel="stylesheet" href="{% static 'cotoure/vendors/nice-select/nice-select.css' %}">
   <link rel="stylesheet" href="{% static 'cotoure/vendors/owl-carousel/owl.theme.default.min.css' %}">
   <link rel="stylesheet" href="{% static 'cotoure/vendors/owl-carousel/owl.carousel.min.css' %}">
-<style>
-	.size_selection {
-		margin-top: 20px;
-	}
-	
-	
-	.size_circle {
-		display: inline-block;
-		width: 40px;
-		height: 40px;
-		line-height: 40px;
-		text-align: center;
-		border-radius: 50%;
-		border: 2px solid #ccc;
-		cursor: pointer;
-		transition: all 0.3s ease;
-	}
-	
-	.size_circle:hover {
-		background-color: #ccc;
-	}
-	
-	.size_circle.selected {
-		background-color: #ff6f61;
-		color: white;
-		border-color: #ff6f61;
-	}
-	.size_options {
-		display: flex;
-		gap: 20px; /* Adjust the gap value as needed */
-	}	
-</style>
+
   <link rel="stylesheet" href={% static 'cotoure/css/style.css' %}>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-	<!--================ Start Header Menu Area =================-->
+  <!--================ Start Header Menu Area =================-->
 	<header class="header_area">
-		<div class="main_menu">
-		  <nav class="navbar navbar-expand-lg navbar-light">
-			<div class="container">
-			  <a class="navbar-brand logo_h" href="r_index.html"><img src="{% static 'cotoure/img/logo.png' %}" alt=""></a>
-			  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			  </button>
-			  <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-				<ul class="nav navbar-nav menu_nav ml-auto mr-auto">
-				  <li class="nav-item active"><a class="nav-link" href="{% url 'r_index' %}">Home</a></li>
-				 <li class="nav-item submenu dropdown">
-					<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-					  aria-expanded="false">Shop</a>
-					
-								</li> 
-				  {% comment %} <li class="nav-item submenu dropdown">
-					<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-					  aria-expanded="false">Blog</a>
-					<ul class="dropdown-menu">
-					  <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-					  <li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
-					</ul>
-								</li> {% endcomment %}
-								{% comment %} <li class="nav-item submenu dropdown">
-					<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-					  aria-expanded="false">Pages</a>
-					<ul class="dropdown-menu">
-					  <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-					  <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
-					  <li class="nav-item"><a class="nav-link" href="tracking-order.html">Tracking</a></li>
-					</ul>
-				  </li> {% endcomment %}
-				  <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
-	
-				</ul>
-	
-				<ul class="nav-shop">
-				  {% comment %} <li class="nav-item"><button><i class="ti-search"></i></button></li>
-				  <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li> {% endcomment %}
-				  <li class="nav-item"><a href="{% url 'loggout' %}" class="nav-link">Logout</a></li>
-				</ul>
-			  </div>
-			</div>
-		  </nav>
-		</div>
-	</header>
-	<!--================ End Header Menu Area =================-->
-  
-	<!-- ================ start banner area ================= -->	
-	
+    <div class="main_menu">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <a class="navbar-brand logo_h" href="r_index.html"><img src="{% static 'cotoure/img/logo.png' %}" alt=""></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+            <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+              <li class="nav-item active"><a class="nav-link" href="{% url 'r_index' %}">Home</a></li>
+             
+              <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'cart' %}">Cart</a></li>
 
-		    <!-- order details -->
+              <li class="nav-item"><a class="nav-link" href="{% url 'messages_page' %}">Contact</a></li>
+            </ul>
 
-      <div class="order_details_table">
-        <h2>Order Details</h2>
-        <div class="table-responsive">
-          
+            <ul class="nav-shop">
+              <li class="nav-item"><a href="{% url 'loggout' %}" class="nav-link">Logout</a></li>
+            </ul>
+          </div>
         </div>
+      </nav>
+    </div>
+</header>
+	<!--================ End Header Menu Area =================-->
+
+	<!-- ================ start banner area ================= -->	
+	<section class="blog-banner-area" id="category">
+		<div class="container h-100">
+			<div class="blog-banner">
+				<div class="text-center">
+					<h1>Your Orders</h1>
+					<nav aria-label="breadcrumb" class="banner-breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Your Orders</li>
+            </ol>
+          </nav>
+				</div>
+			</div>
+    </div>
+	</section>
+	<!-- ================ end banner area ================= -->
+
+
+	<!-- ================ category section start ================= -->		  
+<!-- Display the cart items -->
+<section class="related-product-area">
+  <div class="container">
+      <div class="section-intro pb-60px">
+          <p>Your Orders</p>
+          <h2>Ordered Products</h2>
+      </div>
+      <div class="row mt-30">
+          {% for cart_item in cart_items %}
+          <div class="col-sm-6 col-xl-4 mb-4 mb-xl-0"> <!-- Increased the column size to col-xl-4 -->
+              <div class="single-search-product-wrapper custom-card"> <!-- Added custom-card class -->
+                  <div class="single-search-product d-flex">
+                      <a href="#"><img src="{{ cart_item.product.image.url }}" alt=""></a>
+                      <div class="desc">
+                          <a href="#" class="title">{{ cart_item.product.description }}</a>
+                          <div class="price">₹{{ cart_item.product.price }}</div>
+                      </div>
+                  </div>
+                  <div class="product-details">
+                      <p>Size: {{ cart_item.size }}</p>
+                      <p>Quantity: {{ cart_item.quantity }}</p>
+                  </div>
+                  <p class="product-status paid-status">Payment Status: <span class="approved-text"  >Paid</span></p>
+                  <a href="{% url 'invoice2' cart_item.id %}" class="btn btn-primary" target="_blank">View Receipt</a>
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+  </div>
+</section>
+
+
+
+	<!-- ================ top product area end ================= -->		
+
+	<!-- ================ Subscribe section start ================= -->		  
+  <section class="subscribe-position">
+    <div class="container">
+      <div class="subscribe text-center">
+        <h3 class="subscribe__title">Get Update From Anywhere</h3>
+        <p>Bearing Void gathering light light his eavening unto dont afraid</p>
+        <div id="mc_embed_signup">
+          <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscribe-form form-inline mt-5 pt-1">
+            <div class="form-group ml-sm-auto">
+              <input class="form-control mb-1" type="email" name="EMAIL" placeholder="Enter your email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Email Address '" >
+              <div class="info"></div>
+            </div>
+            <button class="button button-subscribe mr-auto mb-1" type="submit">Subscribe Now</button>
+            <div style="position: absolute; left: -5000px;">
+              <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
+            </div>
+
+          </form>
+        </div>
+        
       </div>
     </div>
   </section>
-  <!--================End Order Details Area =================-->
-
+	<!-- ================ Subscribe section end ================= -->		  
 
 
   <!--================ Start footer Area  =================-->	
 	<footer>
-		<div class="footer-area footer-only">
+		<div class="footer-area">
 			<div class="container">
 				<div class="row section_gap">
 					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="single-footer-widget tp_widgets ">
+						<div class="single-footer-widget tp_widgets">
 							<h4 class="footer_title large_title">Our Mission</h4>
 							<p>
 								So seed seed green that winged cattle in. Gathering thing made fly you're no 
@@ -213,7 +221,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 		</div>
 	</footer>
 	<!--================ End footer Area  =================-->
-
 
   <script src="{% static 'cotoure/vendors/jquery/jquery-3.2.1.min.js' %}"></script>
   <script src="{% static 'cotoure/vendors/bootstrap/bootstrap.bundle.min.js' %}"></script>

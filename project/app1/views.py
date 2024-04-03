@@ -1212,6 +1212,7 @@ def payment2(request, cart_id, price):
             'callback_url': callback_url,
         }
 
+
         return render(request, 'payment2.html', context=context)
     except BadRequestError as e:
         print(f"Error creating Razorpay order: {str(e)}")
@@ -1234,7 +1235,6 @@ def paymenthandler2(request, cart_id, amount):
                 'razorpay_payment_id': payment_id,
                 'razorpay_signature': signature
             }
-            
             # verify the payment signature.
             result = razorpay_client.utility.verify_payment_signature(params_dict)
             if result is not None:
@@ -1243,7 +1243,7 @@ def paymenthandler2(request, cart_id, amount):
 
                 try:
                     # capture the payment with the correct amount in paise
-                    razorpay_client.payment2.capture(payment_id, amount_in_paise)
+                    razorpay_client.payment.capture(payment_id, amount_in_paise)
 
                     # create a Payment instance and save it to the database
                     payment = Payment2(
@@ -1262,7 +1262,7 @@ def paymenthandler2(request, cart_id, amount):
                     payment.payment_status = 'Successful'
                     payment.save()
 
-                    logger.info("Payment successful. Redirecting to paymentsuccess.html.")
+                    logger.info("Payment successful. Redirecting to paymentsuccess2.html.")
                     return render(request, "paymentsuccess2.html")
                 except Exception as e:
                     # If there's an error capturing the payment
@@ -1280,3 +1280,29 @@ def paymenthandler2(request, cart_id, amount):
     else:
         # if other than POST request is made.
         return HttpResponseBadRequest()
+
+
+def c_order_customer(request):
+    cart_items = Cart.objects.filter(user=request.user, pay_status=True)
+
+    context = {
+        'cart_items': cart_items
+    }
+    return render(request, 'c_order_customer.html', context)
+
+
+def invoice2(request, cart_id):
+    order = get_object_or_404(Cart, id=cart_id)
+    # Use filter instead of get to handle MultipleObjectsReturned
+    payments = Payment2.objects.filter(order=order)
+    user_orders = Cart.objects.filter(user=request.user)
+
+    payment = payments.first()
+
+    context = {
+        'order': order,
+        'payment': payment,
+        'user_orders':user_orders,
+    }
+
+    return render(request, 'payment_reciept2.html', context)
