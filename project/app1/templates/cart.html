@@ -117,8 +117,14 @@
                                 <h5>{{ item.size }}</h5>
                             </td>
                             <td>
-                                <h5>₹{{ item.total }}</h5>
-                            </td>
+                              {% if item.customization_added %}
+                              <h5>₹{{ item.total }}</h5>
+                              <p style="color: #999999; font-size: 14px;">(Extra charge of ₹150 for Customization is included.)</p>
+
+                              {% else %}
+                              <h5>₹{{ item.total }}</h5>
+                              {% endif %}
+                          </td>
                             <td>
                               {% if item.is_active %}
                               {% if not item.is_customized %}
@@ -161,7 +167,7 @@
 
         {% if item.is_customized %}
   <div class="modal fade" id="designModal{{ item.id }}" tabindex="-1" role="dialog" aria-labelledby="designModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog" role="document" style="max-width: 800px;">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="designModalLabel">Recorded Design</h5>
@@ -170,20 +176,42 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <!-- Display recorded design details here -->
-                        <p>Neck Design: {{ item.design.neck_design }}</p>
-                        <p>Back Design: {{ item.design.back_design }}</p>
-                        <p>Sleeve Design: {{ item.design.sleev_design }}</p>
-                        <p>Lining Design: {{ item.design.lining_design }}</p>
-                        <p>Additional Info: {{ item.design.additional_info }}</p>
+                      <!-- Display recorded design details here -->
+                      <div class="design-detail" style="display: inline-block;">
+                        <p style="display: inline-block; color: black;"><strong>Neck Design:</strong></p>
+                        <img src="{{ item.design.neck_design }}" alt="Neck Design" style="max-width: 150px; display: inline-block;">
+                    
+                      </div>
+                      <div class="design-detail" style="display: inline-block;">
+                        <p style="display: inline-block; color: black;"><strong>Back Design:</strong></p>
+                        <img src="{{ item.design.back_design }}" alt="Back Design" style="max-width: 150px; display: inline-block;">
+                        </div><br><br>
+                    
+                     
+                    <div class="design-detail" style="display: inline-block; margin-right: 20px;">
+                      <p style="display: inline-block; color: black;"><strong>Sleeve Design:</strong></p>
+                      <img src="{{ item.design.sleev_design }}" alt="Sleeve Design" style="max-width: 150px; display: inline-block;">
+                  </div>
+                  
+                  <div class="design-detail" style="display: inline-block;">
+                      <p style="display: inline-block; color: black;"><strong>Lining Design:</strong></p>
+                      <img src="{{ item.design.lining_design }}" alt="Lining Design" style="max-width: 100px; display: inline-block;">
+                  </div>
+                  
+                      <p><strong style="color: black;">Additional Info:</strong> {{ item.design.additional_info }}</p>
+                   
                     </div>
+                  
+                  
+                  
                 </div>
             </div>
         </div>
       
         {% endif %}
     </td>
-</tr>
+
+  </tr>
 {% endfor %}
   <!--================ Start footer Area  =================-->	
 	<footer>

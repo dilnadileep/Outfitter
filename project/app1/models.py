@@ -178,7 +178,7 @@ class Cart(models.Model):
     is_rejected = models.BooleanField(default=False,null=False)  # Add this field to track if the order is rejected by tailor
     is_customized = models.BooleanField(default=False,null=False)  # Add this field to track if the order is rejected by tailor
     pay_status = models.BooleanField(default=False,null=True)  # Add this field to track product status
-
+    customization_added = models.BooleanField(default=False,null=True)  # Add this field to track product status
 
 
     def __str__(self):
@@ -186,14 +186,15 @@ class Cart(models.Model):
 
 
 class cart_design(models.Model):
-    order = models.ForeignKey(Cart, on_delete=models.CASCADE, null=True, blank=True,related_name='designs')    
-    neck_design = models.CharField(max_length=255, null=True, blank=True)
-    back_design = models.CharField(max_length=255, null=True, blank=True)
-    sleev_design = models.CharField(max_length=255, null=True, blank=True)
-    lining_design = models.CharField(max_length=255, null=True, blank=True)
-    additional_info = models.TextField(verbose_name="Additional Information",blank=True, null=True, help_text="Add any additional information here.")
+    order = models.ForeignKey(Cart, on_delete=models.CASCADE, null=True, blank=True, related_name='designs')
+    neck_design = models.ImageField(upload_to='designs/', null=True, blank=True)
+    back_design = models.ImageField(upload_to='designs/', null=True, blank=True)
+    sleev_design = models.ImageField(upload_to='designs/', null=True, blank=True)
+    lining_design = models.ImageField(upload_to='designs/', null=True, blank=True)
+    additional_info = models.TextField(verbose_name="Additional Information", blank=True, null=True, help_text="Add any additional information here.")
 
-    
+    def __str__(self):
+        return f"Designs for Order #{self.order.id}"
 
 
 class Payment2(models.Model):

@@ -162,7 +162,7 @@
 							</button>
 							<!-- Modal for displaying recorded design -->
 							<div class="modal fade" id="designModal{{ cart_item.id }}" tabindex="-1" role="dialog" aria-labelledby="designModalLabel" aria-hidden="true">
-								<div class="modal-dialog" role="document">
+								<div class="modal-dialog" role="document" style="max-width: 800px;">
 									<div class="modal-content">
 										<div class="modal-header">
 											<h5 class="modal-title" id="designModalLabel">Recorded Design</h5>
@@ -171,13 +171,31 @@
 											</button>
 										</div>
 										<div class="modal-body">
-											<!-- Display recorded design details here -->
-											<p>Neck Design: {{ cart_item.design.neck_design }}</p>
-											<p>Back Design: {{ cart_item.design.back_design }}</p>
-											<p>Sleeve Design: {{ cart_item.design.sleev_design }}</p>
-											<p>Lining Design: {{ cart_item.design.lining_design }}</p>
-											<p>Additional Info: {{ cart_item.design.additional_info }}</p>
-										</div>
+                      <!-- Display recorded design details here -->
+                      <div class="design-detail" style="display: inline-block;">
+                        <p style="display: inline-block; color: black;"><strong>Neck Design:</strong></p>
+                        <img src="{{ cart_item.design.neck_design }}" alt="Neck Design" style="max-width: 150px; display: inline-block;">
+                    
+                      </div>
+                      <div class="design-detail" style="display: inline-block;">
+                        <p style="display: inline-block; color: black;"><strong>Back Design:</strong></p>
+                        <img src="{{ cart_item.design.back_design }}" alt="Back Design" style="max-width: 150px; display: inline-block;">
+                        </div><br><br>
+                    
+                     
+                    <div class="design-detail" style="display: inline-block; margin-right: 20px;">
+                      <p style="display: inline-block; color: black;"><strong>Sleeve Design:</strong></p>
+                      <img src="{{ cart_item.design.sleev_design }}" alt="Sleeve Design" style="max-width: 150px; display: inline-block;">
+                  </div>
+                  
+                  <div class="design-detail" style="display: inline-block;">
+                      <p style="display: inline-block; color: black;"><strong>Lining Design:</strong></p>
+                      <img src="{{ cart_item.design.lining_design }}" alt="Lining Design" style="max-width: 100px; display: inline-block;">
+                  </div>
+                  
+                      <p><strong style="color: black;">Additional Info:</strong> {{ cart_item.design.additional_info }}</p>
+                   
+                    </div>
 									</div>
 								</div>
 							</div>

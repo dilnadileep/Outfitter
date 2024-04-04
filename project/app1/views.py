@@ -1089,20 +1089,25 @@ def add_to_cart(request):
 from django.shortcuts import render
 from .models import Cart, cart_design
 
-
 def cart(request):
     cart_items = Cart.objects.filter(user=request.user)
     for item in cart_items:
         item.total = item.product.price * item.quantity
         # Fetch the corresponding design for the item
         item.design = cart_design.objects.filter(order=item).first()
+        # Check if the order is customized and customization amount has not been added
+        if item.is_customized and not item.customization_added:
+            item.total += 150  # Add 150 rupees for customization
+            item.product.price += 150  # Update product price in the database
+            item.product.save()  # Save the updated product price
+            item.customization_added = True  # Mark customization added
+            item.save()  # Save the item with the updated customization flag
     subtotal = sum(item.total for item in cart_items)
     context = {
         'cart_items': cart_items,
         'subtotal': subtotal,
     }
     return render(request, 'cart.html', context)
-
 
 from django.shortcuts import render
 from .models import Cart, c_Product
@@ -1145,7 +1150,8 @@ def c_req_tailor(request):
         cart_item.image = product.image.url  # Assuming 'image' is the field name in c_Product model
         # Fetch the corresponding design for the item
         cart_item.design = cart_design.objects.filter(order=cart_item).first()
-
+        
+        
     context = {
         'tailor_cart_items': tailor_cart_items
     }
@@ -1155,6 +1161,14 @@ def accept_order(request, cart_item_id):
     cart_item = Cart.objects.get(id=cart_item_id)
     cart_item.is_active = True
     cart_item.save()
+    if cart_item.user.email and cart_item.is_active:        
+        subject = 'Outfitter : Your Order is Approved by the tailor side '
+        message = 'Your order is now approved from tailor now you can proceed with the order for checkout or you can customize. Thank you for your order.You can now make payment to confirm your order from our site..'
+        from_email = 'dilnadileep2024a@mca.ajce.in'  # Change to your email
+        recipient_list = [cart_item.user.email]
+        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+               
+
     return redirect('c_req_tailor')
 
 def reject_order(request, cart_item_id):
@@ -1165,20 +1179,18 @@ def reject_order(request, cart_item_id):
 
 
 
-
 def c_design(request, cart_id):
     cart_item = Cart.objects.get(pk=cart_id)
     if request.method == 'POST':
         cart_item.is_customized = True
         cart_item.save()
-        # Create a new cart_design instance with the form data
-        neck_design = request.POST.get('neck_design')
-        back_design = request.POST.get('back_design')
-        sleev_design = request.POST.get('sleev_design')
-        lining_design = request.POST.get('lining_design')
+        
+        neck_design = request.POST.get('selected_neck_design')
+        back_design = request.POST.get('selected_back_design')
+        sleev_design = request.POST.get('selected_sleev_design')
+        lining_design = request.POST.get('selected_lining_design')
         additional_info = request.POST.get('additional_info')
         
-        # Create a new cart_design instance with the form data
         design = cart_design(
             order=cart_item,
             neck_design=neck_design,
@@ -1191,7 +1203,6 @@ def c_design(request, cart_id):
         return redirect('cart')  # Redirect to the cart page after submitting
 
     return render(request, 'c_design.html', {'cart_item': cart_item})
-
 
 def payment2(request, cart_id, price):
     currency = 'INR'

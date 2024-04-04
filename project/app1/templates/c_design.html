@@ -265,6 +265,8 @@ body {
                                         </div>
                                     </div>
                                 </div>
+                                <input type="hidden" id="selected_neck_design" name="selected_neck_design" value="">
+
                                 <hr>
                                     <!--back neck design -->
                                     <div class="mb-6">
@@ -312,7 +314,8 @@ body {
 
                                         </div>
                                     </div>
-                                    
+                                    <input type="hidden" id="selected_back_design" name="selected_back_design" value="">
+
                                     <!-- sleev design-->
                                     <hr>
                                     <div class="mb-6">
@@ -360,6 +363,8 @@ body {
 
                                         </div>
                                     </div>
+                                    <input type="hidden" id="selected_sleev_design" name="selected_sleev_design" value="">
+
                                     <hr>
                                     <div class="mb-6">
                                         <div class="custom-select">
@@ -397,6 +402,8 @@ body {
 
                                         </div>
                                     </div>
+                                    <input type="hidden" id="selected_lining_design" name="selected_lining_design" value="">
+
                                     <hr>
                                     <div class="description-box">
                                         <label for="additional_info" class="form-label">Additional Information:</label>
@@ -411,6 +418,88 @@ body {
                             <!-- Confirm Button -->
                             <button type="submit" class="btn btn-primary">Submit Details</button>
                         </form>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                document.querySelectorAll('.image-option').forEach(item => {
+                                    item.addEventListener('click', event => {
+                                        let selectedValue = item.getAttribute('data-value');
+                                        let selectedImage = item.querySelector('img').getAttribute('src');
+                                        
+                                        switch(selectedValue) {
+                                            case 'neck_design_1':
+                                                document.getElementById('selected_neck_design').value = selectedImage;
+                                                break;
+                                            case 'neck_design_2':
+                                                document.getElementById('selected_neck_design').value = selectedImage;
+                                                break;  
+                                            case 'neck_design_3':
+                                                document.getElementById('selected_neck_design').value = selectedImage;
+                                                break; 
+                                            case 'neck_design_4':
+                                                document.getElementById('selected_neck_design').value = selectedImage;
+                                                break;  
+                                            case 'neck_design_5':
+                                                document.getElementById('selected_neck_design').value = selectedImage;
+                                                break; 
+                                            case 'neck_design_6':
+                                                document.getElementById('selected_neck_design').value = selectedImage;
+                                                break; 
+                                                             
+                                            case 'back_design_1':
+                                                document.getElementById('selected_back_design').value = selectedImage;
+                                                break;
+                                            case 'back_design_2':
+                                                document.getElementById('selected_back_design').value = selectedImage;
+                                                break; 
+                                            case 'back_design_3':
+                                                document.getElementById('selected_back_design').value = selectedImage;
+                                                break; 
+                                            case 'back_design_4':
+                                                document.getElementById('selected_back_design').value = selectedImage;
+                                                break;  
+                                            case 'back_design_5':
+                                                document.getElementById('selected_back_design').value = selectedImage;
+                                                break;
+                                            case 'back_design_6':
+                                                document.getElementById('selected_back_design').value = selectedImage;
+                                                break;         
+                                            case 'sleev_design_1':
+                                                document.getElementById('selected_sleev_design').value = selectedImage;
+                                                break;
+                                            case 'sleev_design_2':
+                                                document.getElementById('selected_sleev_design').value = selectedImage;
+                                                break;
+                                            case 'sleev_design_3':
+                                                document.getElementById('selected_sleev_design').value = selectedImage;
+                                                break;
+                                            case 'sleev_design_4':
+                                                document.getElementById('selected_sleev_design').value = selectedImage;
+                                                break;
+                                            case 'sleev_design_5':
+                                                document.getElementById('selected_sleev_design').value = selectedImage;
+                                                break;
+                                            case 'sleev_design_6':
+                                                document.getElementById('selected_sleev_design').value = selectedImage;
+                                                break;
+                                            case 'lining_design_1':
+                                                document.getElementById('selected_lining_design').value = selectedImage;
+                                                break;
+                                            case 'lining_design_2':
+                                                document.getElementById('selected_lining_design').value = selectedImage;
+                                                break;
+                                            case 'lining_design_3':
+                                                document.getElementById('selected_lining_design').value = selectedImage;
+                                                break;
+                                            case 'lining_design_4':
+                                                document.getElementById('selected_lining_design').value = selectedImage;
+                                                break;     
+                                            // Add more cases for other designs as needed
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                        
                     </div>
                 </div>
             </div>
