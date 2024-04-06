@@ -2,15 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <style>
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Adjust as per your design */
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 10px 40px 10px 15px; /* Adjust the right padding to make space for the icon and button */
+            border: 1px solid #ccc;
+            border-radius: 20px; /* Rounded corners */
+            font-size: 16px; /* Adjust as needed */
+        }
+        
+        .icon-label, .search-button {
+            position: absolute;
+            right: 40px; /* Adjust to position the icon correctly */
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        
+        .icon-label i, .search-button i {
+            font-size: 20px; /* Adjust the size of the icon */
+            color: #555; /* Adjust the color as needed */
+        }
+        
+        .search-button {
+            right: 10px; /* Position the search button */
+        }
+        
+        
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
     <title>Upload Image for Recommendation</title>
 </head>
 <body>
     <h1>Image Upload for Recommendation</h1>
     <form action="{% url 'upload_and_recommend' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <label for="imageUpload">Choose an image to upload:</label><br>
-        <input type="file" id="imageUpload" name="image" accept="image/*"><br><br>
-        <button type="submit">Upload and Recommend</button>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search for products, brands and more">
+            <label for="imageUpload" class="icon-label">
+                <i class="fa fa-camera"></i>
+                <input type="file" id="imageUpload" name="image" accept="image/*" style="display: none;">
+            </label>
+            <button type="submit" class="search-button"><i class="fa fa-search"></i></button>
+        </div>
+        
     </form>
+    
 </body>
 </html>

@@ -3,6 +3,8 @@ from tensorflow.keras.layers import Dense, Flatten
 from tensorflow.keras.applications import VGG16
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from sklearn.metrics import confusion_matrix, accuracy_score
+import numpy as np
 
 def train_model(dataset_path, save_path):
     # Load the pre-trained VGG16 model
@@ -32,23 +34,47 @@ def train_model(dataset_path, save_path):
         shear_range=0.2,
         zoom_range=0.2,
         horizontal_flip=True,
-        fill_mode='nearest'
+        fill_mode='nearest',
+        validation_split=0.2  # Split the data into 80% training and 20% validation
     )
 
-    # Define the train_generator
+    # Define the train_generator and validation_generator
     train_generator = datagen.flow_from_directory(
         dataset_path,
         target_size=(224, 224),
         batch_size=32,
-        class_mode='categorical',  # Use 'categorical' for one-hot encoded labels
-        classes=['Anarkali_Suit', 'Gown', 'Lehenga'],
+        class_mode='categorical',
+        classes=['Anarkali_Suit', 'Gown', 'Lehanga'],
         shuffle=True,
         interpolation='nearest',
-        seed=42
+        seed=42,
+        subset='training'
+    )
+
+    validation_generator = datagen.flow_from_directory(
+        dataset_path,
+        target_size=(224, 224),
+        batch_size=32,
+        class_mode='categorical',
+        classes=['Anarkali_Suit', 'Gown', 'Lehanga'],
+        shuffle=False,
+        interpolation='nearest',
+        seed=42,
+        subset='validation'
     )
 
     # Train the model
-    model.fit(train_generator, epochs=10)
+    history = model.fit(train_generator, epochs=10, validation_data=validation_generator)
+
+    # Evaluate the model
+    val_predictions = model.predict(validation_generator)
+    val_labels = np.argmax(val_predictions, axis=1)
+    true_labels = validation_generator.classes
+    conf_matrix = confusion_matrix(true_labels, val_labels)
+    accuracy = accuracy_score(true_labels, val_labels)
+
+    print("Confusion Matrix:\n", conf_matrix)
+    print("Accuracy:", accuracy)
 
     # Save the trained model
     model.save(save_path)

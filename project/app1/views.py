@@ -1319,8 +1319,10 @@ def invoice2(request, cart_id):
 
     return render(request, 'payment_reciept2.html', context)
 
+from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
-from .feature_extraction import extract_features  # Import the function from your script
+from .models import c_Product  # Ensure you import your c_Product model
+from .feature_extraction import extract_features
 from tensorflow.keras.models import load_model
 
 def upload_and_recommend(request):
@@ -1337,13 +1339,17 @@ def upload_and_recommend(request):
 
         # Extract features and predict the category
         _, predicted_category_index = extract_features(uploaded_image_url, model)
-        categories = ['Anarkali Suit', 'Gown', 'Lehenga']
+        categories = ['Anarkali Suit', 'Gown', 'Lehanga']
         predicted_category = categories[predicted_category_index]
 
-        # Render the template with the prediction result
+        # Fetch similar products from the database
+        similar_products = c_Product.objects.filter(t_category__iexact=predicted_category)
+
+        # Render the template with the prediction result and similar products
         return render(request, 'similar_products.html', {
             'uploaded_image_url': uploaded_image_url,
-            'predicted_category': predicted_category
+            'predicted_category': predicted_category,
+            'similar_products': similar_products
         })
 
     return render(request, 'upload.html')

@@ -1,19 +1,142 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Similar Product Recommendations</title>
+    <title>Similar Products</title>
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: 'Arial', sans-serif;
+    }
+    
+    .main-container {
+        text-align: center;
+    }
+    /* Existing CSS ... */
+
+.category-and-image-container {
+    position: relative;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.predicted-category-container {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: 10px 0;
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+    z-index: 10; /* Ensure it's above the uploaded image */
+}
+
+.predicted-category {
+    font-size: 1.2em;
+    color: #333;
+    display: inline-block;
+    background: #f8f8f8; /* Light grey background */
+    padding: 5px 15px;
+    border-radius: 15px; /* Rounded pill shape */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Soft shadow for depth */
+}
+
+.uploaded-image-container {
+    display: inline-block;
+    margin-top: 20px; /* Space for category label */
+}
+
+.uploaded-image {
+    width: 120px; /* Adjust the size as needed */
+    border: 2px solid red; /* Style the border as needed */
+    border-radius: 4px; /* Optional rounded corners */
+}
+
+/* ... Rest of the existing CSS */
+
+    
+    .products-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* This will create a responsive grid */
+        gap: 10px; /* Space between cards */
+        padding: 20px; /* Padding around the grid */
+    }
+    
+    .product-card {
+        border: 1px solid #ddd;
+        border-radius: 10px; /* Rounded corners for the card */
+        overflow: hidden; /* Ensures content fits within the border-radius */
+        background-color: #fff; /* White background for the card */
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Soft shadow for the card */
+    }
+    
+    .product-image {
+        width: 100%; /* Image will fill the width of the card */
+        height: auto; /* Maintain aspect ratio */
+    }
+    
+    .product-details {
+        padding: 10px;
+    }
+    
+    .product-name {
+        margin: 10px 0 5px;
+        font-size: 14px; /* Adjust size as needed */
+        color: #333;
+    }
+    
+    .product-price {
+        font-size: 16px;
+        color: #E44D26; /* Adjust the color to match your design */
+        font-weight: bold;
+    }
+
+.purchase-button {
+    background-color: #E44D26; /* A shade of red similar to your price color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px; /* Space from the price */
+    border-radius: 4px; /* Rounded corners for the button */
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    width: 100%; /* Makes the button extend the full width of the product details */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Optional: Adds a subtle shadow to the button */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.purchase-button:hover {
+    background-color: #C53F1A; /* Darker shade for hover effect */
+}
+
+
+</style>
 </head>
 <body>
-    <h1>Recommended Products</h1>
-    <div>
-        <h2>Similar Products</h2>
-        <h2>Recommended Category</h2>
-        <!-- Display the predicted category -->
-        <p>The predicted category for the uploaded image is: {{ predicted_category }}</p>
-
-        <!-- Optionally, display the uploaded image -->
-        <img src="{{ uploaded_image_url }}" alt="Uploaded Image">
+    <div class="main-container">
+        <div class="category-and-image-container">
+            <div class="predicted-category-container">
+                <h2 class="predicted-category">{{ predicted_category }}</h2>
+            </div>
+            <div class="uploaded-image-container">
+                <img src="{{ uploaded_image_url }}" alt="Uploaded Image" class="uploaded-image">
+            </div>
+        </div>
+        <div class="products-container">
+            {% for product in similar_products %}
+                <div class="product-card">
+                    <img src="{{ product.image.url }}" alt="{{ product.description }}" class="product-image">
+                    <div class="product-details">
+                        <h3 class="product-name">{{ product.name }}</h3>
+                        <p class="product-price">₹{{ product.price }}</p>
+                        <button type="button" class="purchase-button"><a href="{% url 'product_details' product.id %}">Purchase</a></button>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No similar products found.</p>
+            {% endfor %}
+        </div>
     </div>
 </body>
 </html>
