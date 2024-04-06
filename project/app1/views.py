@@ -1,4 +1,5 @@
 
+
 from urllib import request
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
@@ -1317,3 +1318,32 @@ def invoice2(request, cart_id):
     }
 
     return render(request, 'payment_reciept2.html', context)
+
+from django.core.files.storage import FileSystemStorage
+from .feature_extraction import extract_features  # Import the function from your script
+from tensorflow.keras.models import load_model
+
+def upload_and_recommend(request):
+    if request.method == 'POST' and request.FILES['image']:
+        # Save the uploaded image
+        image = request.FILES['image']
+        fs = FileSystemStorage()
+        filename = fs.save(image.name, image)
+        uploaded_image_url = fs.url(filename)
+
+        # Load the trained model
+        model_path = 'C:/Users/dilna/OneDrive/Desktop/seminar/dataset/model.h5'
+        model = load_model(model_path)
+
+        # Extract features and predict the category
+        _, predicted_category_index = extract_features(uploaded_image_url, model)
+        categories = ['Anarkali Suit', 'Gown', 'Lehenga']
+        predicted_category = categories[predicted_category_index]
+
+        # Render the template with the prediction result
+        return render(request, 'similar_products.html', {
+            'uploaded_image_url': uploaded_image_url,
+            'predicted_category': predicted_category
+        })
+
+    return render(request, 'upload.html')

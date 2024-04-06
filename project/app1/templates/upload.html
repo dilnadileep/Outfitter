@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Image for Recommendation</title>
+</head>
+<body>
+    <h1>Image Upload for Recommendation</h1>
+    <form action="{% url 'upload_and_recommend' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="imageUpload">Choose an image to upload:</label><br>
+        <input type="file" id="imageUpload" name="image" accept="image/*"><br><br>
+        <button type="submit">Upload and Recommend</button>
+    </form>
+</body>
+</html>
