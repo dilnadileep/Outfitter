@@ -52,32 +52,39 @@
     border-radius: 4px; /* Optional rounded corners */
 }
 
-/* ... Rest of the existing CSS */
 
     
-    .products-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* This will create a responsive grid */
-        gap: 10px; /* Space between cards */
-        padding: 20px; /* Padding around the grid */
-    }
-    
-    .product-card {
-        border: 1px solid #ddd;
-        border-radius: 10px; /* Rounded corners for the card */
-        overflow: hidden; /* Ensures content fits within the border-radius */
-        background-color: #fff; /* White background for the card */
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Soft shadow for the card */
-    }
-    
-    .product-image {
-        width: 100%; /* Image will fill the width of the card */
-        height: auto; /* Maintain aspect ratio */
-    }
-    
-    .product-details {
-        padding: 10px;
-    }
+.products-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust min-width of the cards */
+    gap: 20px; /* Increased space between cards */
+    padding: 20px; /* Padding around the grid */
+    justify-items: center; /* Align grid items centrally */
+}
+
+.product-card {
+    border: 1px solid #ddd;
+    border-radius: 10px; /* Rounded corners for the card */
+    overflow: hidden; /* Ensures content fits within the border-radius */
+    background-color: #fff; /* White background for the card */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Soft shadow for the card */
+    display: flex; /* Use flex layout for card contents */
+    flex-direction: column; /* Stack children vertically */
+}
+
+.product-image {
+    width: 100%; /* Image will fill the width of the card */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Ensures images cover the area well */
+}
+
+.product-details {
+    padding: 10px;
+    flex-grow: 1; /* Allow details to fill available space */
+    display: flex; /* Use flex layout for the details */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: space-between; /* Space out the details and purchase button */
+}
     
     .product-name {
         margin: 10px 0 5px;
@@ -109,11 +116,208 @@
 .purchase-button:hover {
     background-color: #C53F1A; /* Darker shade for hover effect */
 }
-
+.purchase-button a {
+    display: block; /* Make the anchor fill the button for easier clicking */
+    height: 100%;
+    color: white; /* Ensures text inside the link is white */
+    text-decoration: none; /* Remove underline from links */
+}
+.header_area {
+    background: #fff; /* Adjust to match the header background color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow to the header */
+    padding: 10px 0; /* Adjust padding to match the image */
+  }
+  
+  .main_menu .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navbar {
+    padding: 0; /* Removes the default navbar padding */
+  }
+  
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-brand img {
+    max-height: 50px; /* Adjust to your logo's height */
+  }
+  
+  .navbar-toggler {
+    border: none;
+    padding: 0; /* Remove padding if present */
+    font-size: 24px; /* Adjust size as needed */
+  }
+  
+  .navbar-toggler span {
+    display: block;
+    background-color: #333; /* Adjust to match icon color */
+    margin: 5px 0; /* Space between bars */
+    height: 3px; /* Thickness of the hamburger lines */
+    width: 25px; /* Width of the hamburger lines */
+  }
+  
+  .navbar-collapse {
+    justify-content: center;
+  }
+  
+  .menu_nav {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    margin: 0;
+    align-items: center;
+    flex-direction: column; /* Stack the items vertically */
+  }
+  
+  .menu_nav li {
+    width: 100%; /* Full width of the container */
+    text-align: center; /* Center the text */
+  }
+  
+  .menu_nav .nav-link {
+    color: #333; /* Adjust to match the text color */
+    padding: 10px 0; /* Adjust padding to match the image */
+    display: block; /* Make the links take the full width */
+  }
+  
+  .menu_nav .nav-link:hover {
+    background-color: #f8f9fa; /* Slight change on hover, adjust color as needed */
+  }
+  
+  .menu_nav .nav-item.active .nav-link,
+  .menu_nav .nav-link:hover {
+    text-decoration: none; /* Removes the underline on hover */
+  }
+  
+  .nav-shop {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding-left: 0;
+    flex-direction: column; /* Stack the items vertically */
+  }
+  
+  .nav-shop .nav-link {
+    color: #333; /* Adjust to match the text color */
+    padding: 10px 0; /* Adjust padding to match the image */
+    display: block; /* Make the links take the full width */
+  }
+  
+  /* Adjust the breakpoint for responsive design as needed */
+  @media (min-width: 992px) {
+    .menu_nav, .nav-shop {
+      flex-direction: row; /* Align items horizontally on larger screens */
+    }
+  
+    .menu_nav li, .nav-shop li {
+      width: auto; /* Auto width to fit content */
+      padding: 0 15px; /* Spacing between menu items */
+    }
+  }
+  /* Base styles to reset defaults */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Style the navigation bar */
+  .header_area {
+    background-color: #fff; /* Adjust the color to match your header background */
+    border-bottom: 1px solid #ddd; /* Border color can be adjusted */
+    padding: 10px 0; /* Adjust padding to match your header size */
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo_h img {
+    max-height: 50px; /* Adjust logo size */
+  }
+  
+  /* Style the navigation links */
+  .navbar-nav {
+    list-style: none;
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-item {
+    margin: 0 10px; /* Space between nav items */
+  }
+  
+  .nav-link {
+    text-decoration: none;
+    color: #333; /* Color of the text */
+    padding: 5px 10px; /* Padding inside the links */
+    transition: background-color 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    background-color: #f8f8f8; /* Hover background color */
+  }
+  
+  .search-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-input {
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: 1px solid #ddd; /* Border color */
+    border-radius: 5px; /* Rounded corners for the input field */
+  }
+  
+  .icon-label {
+    margin-right: 5px;
+    cursor: pointer;
+  }
+  
+  .search-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+    
 
 </style>
 </head>
 <body>
+    <header class="header_area">
+        <div class="main_menu">
+          <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+              <a class="navbar-brand logo_h" href="r_index.html">
+                <img src="{% static 'cotoure/img/logo.png' %}" alt="">
+              </a>
+<ul class="nav navbar-nav menu_nav">
+                <li class="nav-item active"><a class="nav-link" href="{% url 'r_index' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'messages_page' %}">Contact</a></li>
+                <!-- Removed dropdowns and other links -->
+              </ul>  
+              <a href="{% url 'loggout' %}" class="nav-link">Logout</a>
+            </div>
+          </nav>
+        </div>
+      </header>
+      
     <div class="main-container">
         <div class="category-and-image-container">
             <div class="predicted-category-container">

@@ -1352,4 +1352,3 @@ def upload_and_recommend(request):
             'similar_products': similar_products
         })
 
-    return render(request, 'upload.html')

@@ -82,6 +82,40 @@
 .model-option:hover img {
   transform: scale(1.1); /* Scale the image on hover */
 }
+.search-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px; /* Adjust as per your design */
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 40px 10px 15px; /* Adjust the right padding to make space for the icon and button */
+  border: 1px solid #ccc;
+  border-radius: 20px; /* Rounded corners */
+  font-size: 16px; /* Adjust as needed */
+}
+
+.icon-label, .search-button {
+  position: absolute;
+  right: 40px; /* Adjust to position the icon correctly */
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.icon-label i, .search-button i {
+  font-size: 20px; /* Adjust the size of the icon */
+  color: #555; /* Adjust the color as needed */
+}
+
+.search-button {
+  right: 10px; /* Position the search button */
+}
+
+
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -130,8 +164,21 @@
               <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
 
               <li class="nav-item"><a class="nav-link" href="{% url 'messages_page' %}">Contact</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'upload_and_recommend' %}">Search</a></li>
-
+              {% comment %} <li class="nav-item"><a class="nav-link" href="{% url 'upload_and_recommend' %}">Search</a></li> {% endcomment %}
+              <form action="{% url 'upload_and_recommend' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="search-container">
+                  <br>
+                  <input type="text" class="search-input" placeholder="Visual search" readonly>
+                  <label for="imageUpload" class="icon-label">
+                    <br>
+                        <i class="fa fa-camera"></i>
+                        <input type="file" id="imageUpload" name="image" accept="image/*" style="display: none;">&nbsp;&nbsp;
+                    </label>
+                    <button type="submit" class="search-button"><br><i class="fa fa-search"></i></button>
+                </div>
+                
+            </form>
             </ul>
 
             <ul class="nav-shop">
