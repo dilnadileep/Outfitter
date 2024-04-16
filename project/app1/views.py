@@ -1339,7 +1339,7 @@ def upload_and_recommend(request):
 
         # Extract features and predict the category
         _, predicted_category_index = extract_features(uploaded_image_url, model)
-        categories = ['Anarkali Suit', 'Gown', 'Lehanga']
+        categories = ['Anarkali Suit', 'Gown', 'Lehanga','Not_found', 'No_outfit_detected']
         predicted_category = categories[predicted_category_index]
 
         # Fetch similar products from the database

@@ -27,15 +27,31 @@ class Hosttest(TestCase):
         login.click()
         time.sleep(2)
         email=driver.find_element(By.CSS_SELECTOR,"input#email.form-control.form-control-lg[name='email']")
-        email.send_keys("browny")
+        email.send_keys("dilna20052002@gmail.com")
         password=driver.find_element(By.CSS_SELECTOR,"input#password.form-control.form-control-lg[name='password']")
-        password.send_keys("123")
+        password.send_keys("Dilna@123")
         presubmit=driver.find_element(By.CSS_SELECTOR,"img.img-fluid")
         presubmit.click()
         submit=driver.find_element(By.ID,"LoginBtn")
         submit.click()
         time.sleep(2)
         
+        dash=driver.find_element(By.ID,"sele")
+        dash.click()
+        time.sleep(3)
+        
+        shop_cart=driver.find_element(By.CSS_SELECTOR,"a.nav-link[href='/cart/']")
+        shop_cart.click()
+        time.sleep(2)
+        order=driver.find_element(By.CSS_SELECTOR,"a.nav-link[href='/c_order_customer/']")
+        order.click()
+        time.sleep(2)
+        
+        view_rec=driver.find_element(By.CSS_SELECTOR,"a.btn.btn-primary[href='/invoice2/24/']")
+        view_rec.click()
+        time.sleep(2)
+        print("Invoice downloaded")
+
         
         
         # add_gar=driver.find_element(By.ID,"add_gar1")
