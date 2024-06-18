@@ -108,7 +108,6 @@ def t_signup(request):
 
 
 def signup(request):
-    
     if request.method == "POST":
         username = request.POST.get('email')
         email = request.POST.get('email')
@@ -1352,3 +1351,25 @@ def upload_and_recommend(request):
             'similar_products': similar_products
         })
 
+
+# views.py
+
+from django.shortcuts import render
+from .size_prediction import train_size_prediction_model
+from sklearn.preprocessing import LabelEncoder
+
+def predict_size(request):
+    predicted_size = None
+    if request.method == 'POST':
+        weight = float(request.POST.get('weight'))
+        age = float(request.POST.get('age'))
+        height = float(request.POST.get('height'))
+
+        model = train_size_prediction_model('C:/Users/dilna/OneDrive/Desktop/Outfitter/final_test.csv')
+        prediction = model.predict([[weight, age, height]])
+
+        label_encoder = LabelEncoder()
+        label_encoder.fit(['S','XS', 'XXS', 'M', 'L', 'XL', 'XXL', 'XXXL',])  # Assuming 'S', 'M', 'L' are your original categorical sizes
+        predicted_size = label_encoder.inverse_transform([round(prediction[0])])[0]
+
+    return render(request, 'prediction_form.html', {'predicted_size': predicted_size})

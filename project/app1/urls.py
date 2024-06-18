@@ -64,6 +64,7 @@ urlpatterns = [
    path('c_order_customer/', views.c_order_customer, name='c_order_customer'),
    path('invoice2/<int:cart_id>/', views.invoice2, name='invoice2'),
    path('upload/', views.upload_and_recommend, name='upload_and_recommend'),
+   path('prediction_form/', views.predict_size, name='predict_size'),
 
    
    

@@ -1,0 +1,290 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Aroma Shop - Product Details</title>
+	<link rel="icon" href="{% static 'cotoure/img/Fevicon.png' %}" type="image/png">
+  <link rel="stylesheet" href="{% static 'cotoure/vendors/bootstrap/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'cotoure/vendors/fontawesome/css/all.min.css' %}">
+	<link rel="stylesheet" href="{% static 'cotoure/vendors/themify-icons/themify-icons.css' %}">
+	<link rel="stylesheet" href="{% static 'cotoure/vendors/linericon/style.css' %}">
+  <link rel="stylesheet" href="{% static 'cotoure/vendors/nice-select/nice-select.css' %}">
+  <link rel="stylesheet" href="{% static 'cotoure/vendors/owl-carousel/owl.theme.default.min.css' %}">
+  <link rel="stylesheet" href="{% static 'cotoure/vendors/owl-carousel/owl.carousel.min.css' %}">
+
+  
+  <link rel="stylesheet" href={% static 'cotoure/css/style.css' %}>
+</head>
+<body>
+  <!--================ Start Header Menu Area =================-->
+	<header class="header_area">
+    <div class="main_menu">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <a class="navbar-brand logo_h" href="r_index.html"><img src="{% static 'cotoure/img/logo.png' %}" alt=""></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+            <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+              <li class="nav-item active"><a class="nav-link" href="{% url 'r_index' %}">Home</a></li>
+             
+              <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'cart' %}">Cart</a></li>
+
+              <li class="nav-item"><a class="nav-link" href="{% url 'messages_page' %}">Contact</a></li>
+            </ul>
+
+            <ul class="nav-shop">
+              <li class="nav-item"><a href="{% url 'loggout' %}" class="nav-link">Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+</header>
+	<!--================ End Header Menu Area =================-->
+
+	<!-- ================ start banner area ================= -->	
+	<section class="blog-banner-area" id="category">
+		<div class="container h-100">
+			<div class="blog-banner">
+				<div class="text-center">
+					<h1>Find your Size</h1>
+					<nav aria-label="breadcrumb" class="banner-breadcrumb">
+            <ol class="breadcrumb">
+                <form id="sizeForm" method="post" name="sizeForm">
+                    {% csrf_token %}
+                    <label for="weight">Weight:</label>
+                    <input type="text" id="weight" name="weight" placeholder="* Between 20 to 120 " required>
+                    <span style="color: gray;"> in Kg</span><br>
+                    <span id="weightError" name="weightError" style="color: red;"></span><br>
+                
+                    <label for="age">Age:</label>
+                    <input type="text" id="age" name="age"  placeholder="* 18 to 80" required><br>
+                    <span id="ageError" name="ageError" style="color: red;"></span><br>
+                
+                    <label for="height">Height:</label>
+                    <input type="text" id="height" name="height" placeholder="* 80 to 200 " required>                
+                    <span style="color: gray;"> in cm</span><br>
+                    <span id="heightError" name="heightError" style="color: red;"></span><br>
+                
+                    <button type="submit" name="submitBtn" id="submitBtn">Predict Size</button>
+                </form>
+                
+            </ol>
+          </nav>
+          {% if predicted_size %}
+    <h2>Predicted Size: {{ predicted_size }}</h2>
+    {% endif %}
+				</div>
+       
+			</div>
+           
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function ()
+         {
+    
+            const fields = [
+                { id: "#weight", validate: validatedescription },
+                { id: "#age", validate: validateimage },
+                { id: "#height", validate: validateprice }
+            ];
+    
+            fields.forEach(field => {
+                $(field.id).keyup(function () {
+                    field.validate();
+                });
+    
+                validateFieldOnBlur(field.id, field.validate);
+            });
+    
+            function checkFormValidity() {
+                const isValid = fields.every(field => {
+                    const $field = $(field.id);
+                    const $errorSpan = $(`${field.id}Error`);
+    
+                    return $field.val().trim() !== "" && $errorSpan.html() === "";
+                });
+    
+                $("#submitBtn").prop("disabled", !isValid);
+            }
+    
+            function validateFieldOnBlur(fieldId, validationFunction) {
+                $(fieldId).blur(function () {
+                    validationFunction();
+                    checkFormValidity();
+                });
+          }
+    
+            // Form submission
+            $("#sizeForm").submit(function (event) {
+                if (!$("#submitBtn").prop("disabled")) {
+                    // Form is valid, allow submission
+                    return true;
+                } else {
+                    // Form is not valid, prevent submission
+                    event.preventDefault();
+                    return false;
+                }
+            });
+    
+            // Initial check for form validity
+            checkFormValidity();
+    
+            function validatedescription() {
+                const name = $("#weight").val();
+                const lettersWithSpaces = /^(?:1[0-1]\d|120|[1-9]\d|\d{1})$/;
+                if (name.trim() === "") {
+                    $("#weightError").html("Enter the Weight").css("color", "red");
+                } else if (!lettersWithSpaces.test(name)) {
+                    $("#weightError").html("The weight should range from 20 - 120").css("color", "red");
+                } else {
+                    $("#weightError").html("");
+                }
+              }
+
+        function validateimage() {
+            const name = $("#age").val();
+            const lettersWithSpaces = /^(?:1[8-9]|[2-7]\d|80)$/;
+            if (name.trim() === "") {
+                $("#ageError").html("Enter the Age").css("color", "red");
+            } else if (!lettersWithSpaces.test(name)) {
+                $("#ageError").html("The age should range from 18 - 80").css("color", "red");
+            } else {
+                $("#ageError").html("");
+            }
+        }
+        
+        function validateprice() {
+            const name = $("#height").val();
+            const lettersWithSpaces = /^(?:[8-9]\d|1\d\d|200)$/;
+            if (name.trim() === "") {
+                $("#heightError").html("Enter the Height").css("color", "red");
+            } else if (!lettersWithSpaces.test(name)) {
+                $("#heightError").html("The height should range from 80 - 200").css("color", "red");
+            } else {
+                $("#heightError").html("");
+            }
+          }        
+
+
+      });
+
+  </script>
+	</section>
+	<!-- ================ end banner area ================= -->
+   
+
+    
+
+	<!-- ================ category section start ================= -->		  
+<!-- Display the cart items -->
+
+
+
+
+  <!--================ Start footer Area  =================-->	
+	<footer>
+		<div class="footer-area">
+			<div class="container">
+				<div class="row section_gap">
+					<div class="col-lg-3 col-md-6 col-sm-6">
+						<div class="single-footer-widget tp_widgets">
+							<h4 class="footer_title large_title">Our Mission</h4>
+							<p>
+								So seed seed green that winged cattle in. Gathering thing made fly you're no 
+								divided deep moved us lan Gathering thing us land years living.
+							</p>
+							<p>
+								So seed seed green that winged cattle in. Gathering thing made fly you're no divided deep moved 
+							</p>
+						</div>
+					</div>
+					<div class="offset-lg-1 col-lg-2 col-md-6 col-sm-6">
+						<div class="single-footer-widget tp_widgets">
+							<h4 class="footer_title">Quick Links</h4>
+							<ul class="list">
+								<li><a href="#">Home</a></li>
+								<li><a href="#">Shop</a></li>
+								<li><a href="#">Blog</a></li>
+								<li><a href="#">Product</a></li>
+								<li><a href="#">Brand</a></li>
+								<li><a href="#">Contact</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-lg-2 col-md-6 col-sm-6">
+						<div class="single-footer-widget instafeed">
+							<h4 class="footer_title">Gallery</h4>
+							<ul class="list instafeed d-flex flex-wrap">
+								<li><img src="img/gallery/r1.jpg" alt=""></li>
+								<li><img src="img/gallery/r2.jpg" alt=""></li>
+								<li><img src="img/gallery/r3.jpg" alt=""></li>
+								<li><img src="img/gallery/r5.jpg" alt=""></li>
+								<li><img src="img/gallery/r7.jpg" alt=""></li>
+								<li><img src="img/gallery/r8.jpg" alt=""></li>
+							</ul>
+						</div>
+					</div>
+					<div class="offset-lg-1 col-lg-3 col-md-6 col-sm-6">
+						<div class="single-footer-widget tp_widgets">
+							<h4 class="footer_title">Contact Us</h4>
+							<div class="ml-40">
+								<p class="sm-head">
+									<span class="fa fa-location-arrow"></span>
+									Head Office
+								</p>
+								<p>123, Main Street, Your City</p>
+	
+								<p class="sm-head">
+									<span class="fa fa-phone"></span>
+									Phone Number
+								</p>
+								<p>
+									+123 456 7890 <br>
+									+123 456 7890
+								</p>
+	
+								<p class="sm-head">
+									<span class="fa fa-envelope"></span>
+									Email
+								</p>
+								<p>
+									free@infoexample.com <br>
+									www.infoexample.com
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="footer-bottom">
+			<div class="container">
+				
+			</div>
+		</div>
+	</footer>
+	<!--================ End footer Area  =================-->
+
+  <script src="{% static 'cotoure/vendors/jquery/jquery-3.2.1.min.js' %}"></script>
+  <script src="{% static 'cotoure/vendors/bootstrap/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'cotoure/vendors/skrollr.min.js' %}"></script>
+  <script src="{% static 'cotoure/vendors/owl-carousel/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'cotoure/vendors/nice-select/jquery.nice-select.min.js' %}"></script>
+  <script src="{% static 'cotoure/vendors/jquery.ajaxchimp.min.js' %}"></script>
+  <script src="{% static 'cotoure/vendors/mail-script.js' %}"></script>
+  <script src="{% static 'cotoure/js/main.js' %}"></script>
+</body>
+</html>
